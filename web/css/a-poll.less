@@ -1,0 +1,24 @@
+
+// Buttons in slots
+.a-btn,
+.a-arrow-btn,
+.a-simple-icon
+{
+  @a-button-icons(0px);
+}
+
+.a-btn.alt,
+.a-link,
+.a-btn.lite,
+.a-arrow-btn.alt,
+.a-simple-icon.alt
+{
+  @a-button-icons(-20px);
+}
+
+@a-button-icons(@bgleft: 0;)
+{
+    &.a-poll > .icon { background-position: @bgleft -1560px; }
+}
+
+

@@ -1,0 +1,136 @@
+
+aPollSlot:
+  # Doctrine doesn't produce useful forms with column aggregation inheritance anyway,
+  # and slots often use serialization into the value column... the Doctrine forms are not
+  # of much use here and they clutter the project
+  options:
+    symfony:
+      form:   false
+      filter: false
+
+  columns:
+    poll_id: { type:integer, notnull:true }
+    
+      
+  relations:
+    Poll:
+      class: aPollPoll
+      local: poll_id
+      foreign: id
+      type: one
+      foreignAlias: Slots
+      onDelete: CASCADE
+  #
+  # You can add columns here. However, if you do not need foreign key relationships it is
+  # often easier to store your data in the 'value' column via serialize(). If you do add columns, 
+  # their names must be unique across all slots in your project, so use a unique prefix 
+  # for your company.
+    
+  # This is how we are able to retrieve slots of various types with a single query from
+  # a single table
+  inheritance:
+    extends: aSlot
+    type: column_aggregation
+    keyField: type
+    keyValue: 'aPoll'
+  
+  
+      
+      
+aPollPoll:
+  tableName: a_poll_poll
+  actAs:
+    Timestampable: ~
+    Sluggable: ~
+    
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: 
+      type: string(255)
+      unique: true
+      notnull: true
+    description: clob
+    
+    # see available types in app_aPoll_available_types
+    type: 
+      type: string(255)
+      notnull: true
+    
+    # the user can define when the poll must be published
+    published_from: timestamp
+    published_to: timestamp  
+    
+  relations:
+    Slots:
+      class: aPollSlot
+      local: id
+      foreign: poll_id
+      foreignAlias: Slots
+      type: many
+    Answers:
+      class: aPollAnswer
+      local: id
+      foreign: poll_id
+      foreignAlias: Answers
+      type: many
+    
+    
+aPollAnswer:
+  actAs:
+    Timestampable: ~
+    
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    poll_id: {type: integer, notnull: true}
+    
+    
+  relations:
+    Poll:
+      class: aPollPoll
+      local: poll_id
+      foreign: id
+      foreignAlias: Answers
+      onDelete: CASCADE
+    Fields:
+      class: aPollAnswerField
+      local: id
+      foreign: answer_id
+      foreignAlias: Answer
+      type: many
+      
+      
+aPollAnswerField:
+  actAs:
+    Timestampable: ~
+    
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+      
+    answer_id: {type: integer, notnull: true}
+    poll_id:   {type: integer, notnull: true}
+    
+    name:  {type: string(255), notnull: true}
+    value: {type: clob, notnull: true}
+    
+  relations:
+    Poll:
+      class: aPollPoll
+      local: poll_id
+      foreign: id
+      foreignAlias: AnswerFields
+      onDelete: CASCADE 
+    Answer:
+      class: aPollAnswer
+      local: answer_id
+      foreign: id
+      foreignAlias: Fields
+      onDelete: CASCADE 

@@ -19,6 +19,7 @@ class aPollSlotEditForm extends BaseForm {
             ))));
         $this->setValidators(array('poll' => new sfValidatorDoctrineChoice(array(
                 'model' => 'aPollPoll',
+                'required' => true,
             ))));
 
         // Ensures unique IDs throughout the page. Hyphen between slot and form to please our CSS

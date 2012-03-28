@@ -12,5 +12,6 @@
  */
 abstract class PluginaPollSlot extends BaseaPollSlot
 {
+    protected $editDefault = true;
 
 }

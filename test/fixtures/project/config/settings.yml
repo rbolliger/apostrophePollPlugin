@@ -1,2 +1,2 @@
 all:
-  enabled_modules: [aPollAdmin]
+  enabled_modules: [aPollPollAdmin]

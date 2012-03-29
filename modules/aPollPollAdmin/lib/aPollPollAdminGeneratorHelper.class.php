@@ -1,13 +1,13 @@
 <?php
 
 /**
- * aPollAdmin module helper.
+ * aPollPollAdmin module helper.
  *
  * @package    buddies
- * @subpackage aPollAdmin
+ * @subpackage aPollPollAdmin
  * @author     Buddies SARL
  * @version    SVN: $Id: helper.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class aPollAdminGeneratorHelper extends BaseaPollAdminGeneratorHelper
+class aPollPollAdminGeneratorHelper extends BaseaPollPollAdminGeneratorHelper
 {
 }

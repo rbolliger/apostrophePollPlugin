@@ -2,7 +2,7 @@ generator:
   class: sfDoctrineGenerator
   param:
     model_class:           aPollPoll
-    theme:                 admin
+    theme:                 aAdmin
     non_verbose_templates: true
     with_show:             false
     singular:              ~
@@ -10,12 +10,20 @@ generator:
     route_prefix:          a_poll_poll_admin
     with_doctrine_route:   true
     actions_base_class:    sfActions
+    i18n_catalogue:        apoll
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
-      filter:  ~
+      fields: 
+        published_from: 
+          label: Published from
+        published_to: 
+          label: Published to
+      list:    
+        title:   Polls administration
+        display: [=name, description, type, published_from, published_to]
+      filter:  
+        display: [name, type, published_from, published_to]
       form:    ~
       edit:    ~
       new:     ~

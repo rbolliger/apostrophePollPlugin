@@ -30,7 +30,7 @@ class aPollSlotEditForm extends BaseForm {
         
         
         // setting translation catalogue
-        $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apoll');
+        $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     }
 
 }

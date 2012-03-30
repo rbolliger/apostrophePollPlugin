@@ -26,13 +26,24 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
 
         $available_polls = sfConfig::get('app_aPoll_available_polls');
 
-        $choiches = array();
+        $choices = array();
+        $choices_keys = array();
         foreach ($available_polls as $key => $poll) {
-            $choiches[$key] = isset($poll['name']) ? $poll['name'] : $key;
+            $choices[$key] = isset($poll['name']) ? $poll['name'] : $key;
+            $choices_keys[] = $key;
+            
         }
-
-        $this->widgetSchema['type'] = new sfWidgetFormChoice(array('choices' => $choiches));
-        $this->validatorSchema['type'] = new sfValidatorChoice(array('choices' => $choiches, 'required' => true));
+   
+        $this->widgetSchema['type'] = new sfWidgetFormChoice(array('choices' => $choices));
+        
+        $this->validatorSchema['type'] = new sfValidatorAnd(
+              array(  
+                new sfValidatorChoice(array('choices' => $choices_keys, 'required' => true)),
+                new aPollValidatorPollItem(array('poll_items' => sfConfig::get('app_aPoll_available_polls'))),  
+                  ),
+                array('halt_on_error' => true)
+                );
+        
     }
 
 }

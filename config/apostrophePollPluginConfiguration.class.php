@@ -12,15 +12,35 @@ class apostrophePollPluginConfiguration extends sfPluginConfiguration {
 
     const VERSION = '1.0.0-DEV';
 
+    static $registered = false;
+
     /**
      * @see sfPluginConfiguration
      */
     public function initialize() {
 
-        // Routes for various admin modules
 
-        if (sfConfig::get('app_a_admin_routes_register', true)) {
-            $this->dispatcher->connect('routing.load_configuration', array('aPollRouting', 'listenToRoutingAdminLoadConfigurationEvent'));
+        if (!self::$registered) {
+
+            // Routes for various admin modules
+            if (sfConfig::get('app_a_admin_routes_register', true)) {
+                $this->dispatcher->connect('routing.load_configuration', array('aPollRouting', 'listenToRoutingAdminLoadConfigurationEvent'));
+            }
+
+            // adding global button
+             $this->dispatcher->connect('a.getGlobalButtons', array(get_class($this), 'getGlobalButtons'));
+            
+            self::$registered = true;
+        }
+    }
+
+    static public function getGlobalButtons() {
+        $user = sfContext::getInstance()->getUser();
+
+        if ($user->hasCredential('admin')) {
+            aTools::addGlobalButtons(array(
+                new aGlobalButton('polls', 'Polls', '@a_poll_poll_admin', 'a-poll'),
+            ));
         }
     }
 

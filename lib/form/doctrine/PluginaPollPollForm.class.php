@@ -17,10 +17,10 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         unset(
                 $this['created_at'], $this['updated_at'], $this['slug']
         );
-        
+
 
         // checking that some polls are available
-        if (false === sfConfig::get('app_aPoll_available_polls',false)) {
+        if (false === sfConfig::get('app_aPoll_available_polls', false)) {
             throw new sfException('Cannot find any poll item in app_aPoll_available_polls. Please, define some in app.yml');
         }
 
@@ -31,19 +31,21 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         foreach ($available_polls as $key => $poll) {
             $choices[$key] = isset($poll['name']) ? $poll['name'] : $key;
             $choices_keys[] = $key;
-            
         }
-   
+
         $this->widgetSchema['type'] = new sfWidgetFormChoice(array('choices' => $choices));
-        
+
         $this->validatorSchema['type'] = new sfValidatorAnd(
-              array(  
-                new sfValidatorChoice(array('choices' => $choices_keys, 'required' => true)),
-                new aPollValidatorPollItem(array('poll_items' => sfConfig::get('app_aPoll_available_polls'))),  
-                  ),
-                array('halt_on_error' => true)
-                );
-        
+                        array(
+                            new sfValidatorChoice(array('choices' => $choices_keys, 'required' => true)),
+                            new aPollValidatorPollItem(array('poll_items' => sfConfig::get('app_aPoll_available_polls'))),
+                        ),
+                        array('halt_on_error' => true)
+        );
+
+
+        // setting translation catalogue
+        $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     }
 
 }

@@ -10,7 +10,7 @@ generator:
     route_prefix:          a_poll_poll_admin
     with_doctrine_route:   true
     actions_base_class:    sfActions
-    i18n_catalogue:        apoll
+    i18n_catalogue:        apostrophe
 
     config:
       actions: ~
@@ -26,4 +26,5 @@ generator:
         display: [name, type, published_from, published_to]
       form:    ~
       edit:    ~
-      new:     ~
+      new:     
+        title: New Poll

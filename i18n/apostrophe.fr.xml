@@ -70,6 +70,10 @@
                 <source>Edit Poll</source>
                 <target>Modification du sondage</target>
             </trans-unit>
+             <trans-unit  id="16">
+                <source>Polls</source>
+                <target>Sondages</target>
+            </trans-unit>
 
         </body>
     </file>

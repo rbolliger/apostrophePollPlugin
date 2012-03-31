@@ -66,6 +66,10 @@
                 <source>New Poll</source>
                 <target>Nouveau sondage</target>
             </trans-unit>
+            <trans-unit  id="16">
+                <source>Edit Poll</source>
+                <target>Modification du sondage</target>
+            </trans-unit>
 
         </body>
     </file>

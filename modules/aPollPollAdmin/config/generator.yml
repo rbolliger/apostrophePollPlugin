@@ -25,6 +25,7 @@ generator:
       filter:  
         display: [name, type, published_from, published_to]
       form:    ~
-      edit:    ~
+      edit:    
+        title: Edit Poll
       new:     
         title: New Poll

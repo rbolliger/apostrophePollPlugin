@@ -42,13 +42,15 @@ aPollPoll:
   actAs:
     Timestampable: ~
     Sluggable: ~
+    I18n:
+      fields: [title, description]
     
   columns:
     id:
       type: integer
       primary: true
       autoincrement: true
-    name: 
+    title: 
       type: string(255)
       unique: true
       notnull: true

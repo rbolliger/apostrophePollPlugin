@@ -1,3 +1,6 @@
 all:
   stylesheets:
     - /apostrophePollPlugin/css/a-poll.less: { data-asset-group: global }
+
+  javascripts:
+    - /apostrophePollPlugin/js/aPoll.js: { data-asset-group: global }   

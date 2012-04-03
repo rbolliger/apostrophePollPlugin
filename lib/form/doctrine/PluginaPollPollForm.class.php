@@ -15,8 +15,9 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         parent::setup();
 
         unset(
-                $this['created_at'], $this['updated_at'], $this['slug']
+                $this['created_at'], $this['updated_at']
         );
+           
 
 
         // checking that some polls are available
@@ -46,6 +47,17 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
 
         // setting translation catalogue
         $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+        
+        
+        // embedding i18n fields
+        $culture = sfContext::getInstance()->getUser()->getCulture();
+        $languages = sfCultureInfo::getInstance($culture)->getLanguages(sfConfig::get('app_a_i18n_languages'));
+        
+        
+        $this->embedI18n(array_keys($languages));
+        foreach ($languages as $key => $value) {
+            $this->widgetSchema->setLabel($key, ucfirst($value));
+        }
     }
 
 }

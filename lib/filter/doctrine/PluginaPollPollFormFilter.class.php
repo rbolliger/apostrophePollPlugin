@@ -11,9 +11,9 @@
 abstract class PluginaPollPollFormFilter extends BaseaPollPollFormFilter {
 
     public function setup() {
-        
+
         parent::setup();
-        
+
         // checking that some polls are available
         if (false === sfConfig::get('app_aPoll_available_polls', false)) {
             throw new sfException('Cannot find any poll item in app_aPoll_available_polls. Please, define some in app.yml');
@@ -27,6 +27,11 @@ abstract class PluginaPollPollFormFilter extends BaseaPollPollFormFilter {
         }
 
         $this->widgetSchema['type'] = new sfWidgetFormChoice(array('choices' => $choiches, 'multiple' => true, 'expanded' => true));
+
+        
+        // setting translation catalogue
+        $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
+        
     }
 
 }

@@ -21,9 +21,9 @@ generator:
           label: Published to
       list:    
         title:   Polls administration
-        display: [=name, description, type, published_from, published_to]
+        display: [=slug, title, description, type, published_from, published_to]
       filter:  
-        display: [name, type, published_from, published_to]
+        display: [type, published_from, published_to]
       form:    ~
       edit:    
         title: Edit Poll

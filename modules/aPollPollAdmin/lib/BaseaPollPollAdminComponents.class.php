@@ -12,6 +12,6 @@ abstract class BaseaPollPollAdminComponents extends sfComponents
   
   public function executeNewPoll()
   {
-    $this->form = new aPollPollNewPollForm();
+    $this->form = new aPollPollNewForm();
   }
 }

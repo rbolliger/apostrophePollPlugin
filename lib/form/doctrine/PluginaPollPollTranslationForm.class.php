@@ -17,6 +17,7 @@ abstract class PluginaPollPollTranslationForm extends BaseaPollPollTranslationFo
         $decorator = new sfWidgetFormSchemaFormatterAAdmin($this->widgetSchema);
         $this->widgetSchema->addFormFormatter('aAdmin', $decorator);
         $this->widgetSchema->setFormFormatterName('aAdmin');
+        $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
     }
 
 }

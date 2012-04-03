@@ -17,6 +17,6 @@
   </div>
 </form>
 
-<?php a_js_call('aPollEnableNewForm()') ?>
+<?php //a_js_call('aPollEnableNewForm()') ?>
 <?php a_js_call('apostrophe.menuToggle(?)', array('button' => '.a-poll-new-poll-button', 'classname' => 'a-options-open', 'overlay' => false, 'focus' => '#a_poll_new_poll_title')) ?>	
 <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a_poll_new_poll_title', 'title' => a_('Title'), 'persistentLabel' => true)) ?>

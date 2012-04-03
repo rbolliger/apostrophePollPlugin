@@ -17,7 +17,15 @@ class aPollSlotActions extends aSlotActions
       // directly in 'value'. serialize() and unserialize() are very useful here and much
       // faster than extra columns
       
-      $this->slot->setArrayValue($this->form->getValues());
+      $values =  $this->form->getValues(); 
+      
+      // saving the reference to the poll
+      $this->slot->setPollId($values['poll']);
+      
+      unset($values['poll']);
+      
+      $this->slot->setArrayValue($values);
+      
       return $this->editSave();
     }
     else

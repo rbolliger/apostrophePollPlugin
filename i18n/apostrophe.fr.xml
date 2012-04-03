@@ -74,6 +74,14 @@
                 <source>Polls</source>
                 <target>Sondages</target>
             </trans-unit>
+            <trans-unit  id="17">
+                <source>Some problems have been detected in the poll definition:</source>
+                <target>Des problèmes ont été relevés dans la définition du sondage:</target>
+            </trans-unit>
+            <trans-unit  id="18">
+                <source>Please, review your app.yml definition in order to display this poll.</source>
+                <target>Veuillez corriger le fichier app.yml afin de permettre l'affichage du sondage.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -17,5 +17,18 @@ class aPollSlotComponents extends aSlotComponents
   {
     $this->setup();
     $this->values = $this->slot->getArrayValue();
+    
+    $this->poll = $this->slot->getPoll(); 
+    
+    $this->poll_form = new PluginPollSlotViewForm($this->id);
+    $this->poll_form->bind(array('poll' => $this->poll->getType()));
+    
+
+    
+  
+
+
+    
+    
   }
 }

@@ -29,7 +29,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
 
         $this->addRequiredOption('poll_items');
         
-        $this->addMessage('form_field', 'Field "form" is not defined in %poll%');
+        $this->addMessage('form_field', 'Field "form" is not defined in %poll%.');
         $this->addMessage('form_class', 'Class %form% defined in %poll% does not exist or is not autoloaded. Place it in a lib directory.');
         $this->addMessage('form_extends', 'Class %form% defined in %poll% does not extend aPollBaseForm.');
     

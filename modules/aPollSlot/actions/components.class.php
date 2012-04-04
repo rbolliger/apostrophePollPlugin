@@ -52,7 +52,7 @@ class aPollSlotComponents extends aSlotComponents {
             if (isset($poll_conf['submit_action'])) {
                 $this->submit_action = $poll_conf['submit_action'];
             } else {
-                $this->submit_action = sfConfig::get('app_aPoll_view_default_submit_action',$this->getModuleName().'/submitPollForm');
+                $this->submit_action = sfConfig::get('app_aPoll_view_default_submit_action','@a_poll_slot_submit_form');
             }
             
         }

@@ -21,7 +21,7 @@
             <?php include_stylesheets_for_form($form) ?>
             <?php include_javascripts_for_form($form) ?>
 
-            <?php echo $form->renderFormTag($action, array('id' => 'a-admin-form')); ?>
+            <?php echo $form->renderFormTag(url_for($action), array('id' => 'a-admin-form')); ?>
 
             <?php echo $form; ?>
 

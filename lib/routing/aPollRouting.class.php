@@ -28,11 +28,23 @@ class aPollRouting extends sfPatternRouting {
                         'module' => 'aPollPollAdmin',
                         'action' => 'newComplete',
                             ), array(
-                        
                             ), array(
                         'model' => 'aPollPollNew',
                         'type' => 'object',
                     )));
+        }
+
+        if (isset($enabledModules['aPollSlot'])) {
+
+            $r->prependRoute('a_poll_slot_submit_form', new sfRoute('/admin/polls/submit_form',
+                            array(
+                                'module' => 'aPollSlot',
+                                'action' => 'submitPollForm',
+                            ),
+                            array(
+                                'sf_method' => array('post'),
+                            )
+            ));
         }
     }
 

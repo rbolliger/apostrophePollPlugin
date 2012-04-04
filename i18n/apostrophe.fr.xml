@@ -52,11 +52,11 @@
             </trans-unit>
             <trans-unit>
                 <source>from</source>
-                <target>depuis</target>
+                <target>de</target>
             </trans-unit>
             <trans-unit>
                 <source>to</source>
-                <target>jusqu'à</target>
+                <target>à</target>
             </trans-unit>
             <trans-unit>
                 <source>is empty</source>

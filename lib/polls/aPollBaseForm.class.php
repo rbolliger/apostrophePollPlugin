@@ -10,8 +10,9 @@
  *
  * @author Raffaele Bolliger <raffaele.bolliger at gmail.com>
  */
-class aPollBaseForm extends BaseForm {
-    //put your code here
+class aPollBaseForm extends PluginaPollBaseForm {
+   
+    
+  
+    
 }
-
-?>

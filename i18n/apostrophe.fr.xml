@@ -94,6 +94,10 @@
                 <source>Class %form% defined in %poll% does not extend aPollBaseForm.</source>
                 <target>La classe %form% ddéfinie dans %poll% ne surcharge pas aPollBaseForm.</target>
             </trans-unit>
+            <trans-unit>
+                <source>Submit</source>
+                <target>Soumettre</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

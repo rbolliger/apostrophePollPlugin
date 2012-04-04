@@ -15,6 +15,8 @@ class aPollContactForm extends aPollBaseForm {
 
   public function configure()
   {
+      
+      
     $this->setWidgets(array(
         'author_email' => new sfWidgetFormInputText(),
         'author_name' => new sfWidgetFormInputText(),
@@ -33,6 +35,7 @@ class aPollContactForm extends aPollBaseForm {
         'object' => "Object",
         'message' =>    "Message",
         ));
+    
 
   }
  

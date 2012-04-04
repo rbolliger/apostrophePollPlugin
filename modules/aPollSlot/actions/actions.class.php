@@ -35,5 +35,11 @@ class aPollSlotActions extends aSlotActions
       return $this->editRetry();
     }
   }
+  
+  
+  public function executeSubmitPollForm(sfRequest $request) {
+      
+  }
+  
 }
   

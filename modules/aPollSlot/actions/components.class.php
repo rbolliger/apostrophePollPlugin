@@ -49,7 +49,7 @@ class aPollSlotComponents extends aSlotComponents {
             // - In app_aPoll_view_submit_action, to set an overall action for all polls
             // - In In app_aPoll_available_polls_XXX_submit_action, where XXX 
             //    is the name of this poll, to override the default action
-            if (isset($poll_conf['view_template'])) {
+            if (isset($poll_conf['submit_action'])) {
                 $this->submit_action = $poll_conf['submit_action'];
             } else {
                 $this->submit_action = sfConfig::get('app_aPoll_view_default_submit_action',$this->getModuleName().'/submitPollForm');

@@ -28,8 +28,33 @@ class aPollSlotComponents extends aSlotComponents {
         if ($this->poll_validation->isValid()) {
             
             $conf = sfConfig::get('app_aPoll_available_polls');
+            $poll_conf = $conf[$type];
 
-            $this->poll_form = new $conf[$type]['form']();
+            $this->poll_form = new $poll_conf['form']();
+            
+            
+            // Getting view template partial to display the form.
+            // The template can be defined in two ways:
+            // - In app_aPoll_view_default_template, to set an overall template for all polls
+            // - In In app_aPoll_available_polls_XXX_view_template, where XXX 
+            //    is the name of this poll, to override the default display template
+            if (isset($poll_conf['view_template'])) {
+                $this->form_view_template = $poll_conf['view_template'];
+            } else {
+                $this->form_view_template = sfConfig::get('app_aPoll_view_default_template',$this->getModuleName().'/default_form_view');
+            }
+            
+            // Getting the action treating the form sumbission.
+            // The action can be defined in two ways:
+            // - In app_aPoll_view_submit_action, to set an overall action for all polls
+            // - In In app_aPoll_available_polls_XXX_submit_action, where XXX 
+            //    is the name of this poll, to override the default action
+            if (isset($poll_conf['view_template'])) {
+                $this->submit_action = $poll_conf['submit_action'];
+            } else {
+                $this->submit_action = sfConfig::get('app_aPoll_view_default_submit_action',$this->getModuleName().'/submitPollForm');
+            }
+            
         }
     }
 

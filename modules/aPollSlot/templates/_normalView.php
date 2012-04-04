@@ -31,38 +31,6 @@
 <?php // we display the form ?>
 <?php if ($poll_validation->isValid()) : ?>
 
-    <div class="a-poll-slot-<?php echo $poll->getSlug(); ?>">
-        <div class="a-ui a-poll-slot-container">
+    <?php include_partial($form_view_template, array('poll' => $poll,  'form' => $poll_form, 'action' => $submit_action)); ?> 
 
-            <div class="a-poll-intro">
-                <div class="a-poll-title-bar">
-                    <h2 class="a-poll-title"><?php echo $poll->getTitle() ?></h2>
-                </div>
-
-                <?php if ($poll->getDescription()): ?>
-                    <div class="a-poll-description">
-                        <p><?php echo $poll->getDescription(); ?></p>
-                    </div>
-                <? endif; ?>
-
-            </div>
-
-            <div class="a-admin-form-container">
-
-                <?php include_stylesheets_for_form($poll_form) ?>
-                <?php include_javascripts_for_form($poll_form) ?>
-
-                <?php echo $poll_form->renderFormTag('aPollSlot/submitViewSlot', array('id' => 'a-admin-form')); ?>
-
-                <?php echo $poll_form; ?>
-
-                <ul class="a-ui a-controls">
-                    <li class="a-admin-action-save"> <?php echo a_anchor_submit_button(a_('Submit', array(), 'apostrophe'), array('a-save')); ?> </li>
-                </ul>
-                </form>
-            </div>
-
-
-        </div>
-    </div>   
 <?php endif; ?>

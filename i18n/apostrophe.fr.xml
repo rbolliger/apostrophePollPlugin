@@ -92,7 +92,15 @@
             </trans-unit>
             <trans-unit>
                 <source>Class %form% defined in %poll% does not extend aPollBaseForm.</source>
-                <target>La classe %form% ddéfinie dans %poll% ne surcharge pas aPollBaseForm.</target>
+                <target>La classe %form% définie dans %poll% ne surcharge pas aPollBaseForm.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>The partial "%partial%" defined in "view_template" field cannot be found.</source>
+                <target>Le partiel "%partial%" défini dans le champ "view_template" n'existe pas.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>The action "%action%" defined in the "submit_action" field cannot be found.</source>
+                <target>L'action "%action%" définie dans le champ "submit_action" n'existe pas.</target>
             </trans-unit>
             <trans-unit>
                 <source>Submit</source>

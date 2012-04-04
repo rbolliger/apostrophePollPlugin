@@ -6,31 +6,31 @@
           product-name="apostrophe">
         <header/>
         <body>
-            <trans-unit  id="1">
+            <trans-unit>
                 <source>Site Admin: Polls</source>
                 <target>Administration: Sondages</target>
             </trans-unit>
-            <trans-unit  id="2">
+            <trans-unit>
                 <source>Polls administration</source>
                 <target>Administration des sondages</target>
             </trans-unit>
-            <trans-unit  id="3">
+            <trans-unit>
                 <source>Site Admin: Polls</source>
                 <target>Administration: Sondages</target>
             </trans-unit>
-            <trans-unit  id="4">
+            <trans-unit>
                 <source>Name</source>
                 <target>Nom</target>
             </trans-unit>
-            <trans-unit  id="5">
+            <trans-unit>
                 <source>Type</source>
                 <target>Type</target>
             </trans-unit>
-            <trans-unit  id="6">
+            <trans-unit>
                 <source>Published from</source>
                 <target>Publié depuis</target>
             </trans-unit>
-            <trans-unit  id="7">
+            <trans-unit>
                 <source>Published to</source>
                 <target>Publié jusq'à</target>
             </trans-unit>
@@ -38,49 +38,61 @@
                 <source>Poll</source>
                 <target>Sondage</target>
             </trans-unit>
-            <trans-unit  id="9">
+            <trans-unit>
                 <source>Select a poll from the list. You can define new poll using the administration module.</source>
                 <target>Choisissez un sondage depuis la liste. De nouveaux sondages peuvent être définis à travers le module d'administration.</target>
             </trans-unit>
-            <trans-unit  id="10">
+            <trans-unit>
                 <source>Site Admin: Polls</source>
                 <target>Administration: Sondages</target>
             </trans-unit>
-            <trans-unit  id="11">
+            <trans-unit>
                 <source>Polls administration</source>
                 <target>Administration des sondages</target>
             </trans-unit>
-            <trans-unit  id="12">
+            <trans-unit>
                 <source>from</source>
                 <target>depuis</target>
             </trans-unit>
-            <trans-unit  id="13">
+            <trans-unit>
                 <source>to</source>
                 <target>jusqu'à</target>
             </trans-unit>
-            <trans-unit  id="14">
+            <trans-unit>
                 <source>is empty</source>
                 <target>est vide</target>
             </trans-unit>
-            <trans-unit  id="15">
+            <trans-unit>
                 <source>New Poll</source>
                 <target>Nouveau sondage</target>
             </trans-unit>
-            <trans-unit  id="16">
+            <trans-unit>
                 <source>Edit Poll</source>
                 <target>Modification du sondage</target>
             </trans-unit>
-            <trans-unit  id="16">
+            <trans-unit>
                 <source>Polls</source>
                 <target>Sondages</target>
             </trans-unit>
-            <trans-unit  id="17">
+            <trans-unit>
                 <source>Some problems have been detected in the poll definition:</source>
                 <target>Des problèmes ont été relevés dans la définition du sondage:</target>
             </trans-unit>
-            <trans-unit  id="18">
+            <trans-unit>
                 <source>Please, review your app.yml definition in order to display this poll.</source>
                 <target>Veuillez corriger le fichier app.yml afin de permettre l'affichage du sondage.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Field "form" is not defined in %poll%.</source>
+                <target>Le champ "form" n'est pas défini dans %poll%.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Class %form% defined in %poll% does not exist or is not autoloaded. Place it in a lib directory.</source>
+                <target>La classe %form% définie dans %poll% n'existe pas ou n'est pas chargée par symfony. Elle doit se trouver dans l'un des dossiers lib.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Class %form% defined in %poll% does not extend aPollBaseForm.</source>
+                <target>La classe %form% ddéfinie dans %poll% ne surcharge pas aPollBaseForm.</target>
             </trans-unit>
         </body>
     </file>

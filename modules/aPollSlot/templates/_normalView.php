@@ -2,18 +2,20 @@
 
 <?php include_partial('a/simpleEditWithVariants', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
 
-<?php if (!$poll_form->isValid()) : ?>
+
+<?php // Checking if the values retrieved from app_aPoll_available_polls are valid. ?>
+<?php if (!$poll_validation->isValid()) : ?>
     <div class="a-form-row">
-        
+
         <p><?php echo a_("Some problems have been detected in the poll definition:"); ?></p>
         <div class="a-form-errors">
-            
+
             <ul class="a-ui a-error-list error_list">
-                <?php if ($poll_form->hasGlobalErrors()) : ?>
-                    <?php $poll_form->renderGlobalErrors(); ?>
+                <?php if ($poll_validation->hasGlobalErrors()) : ?>
+                    <?php $poll_validation->renderGlobalErrors(); ?>
                 <? endif; ?>
 
-                <?php foreach ($poll_form as $field) : ?>
+                <?php foreach ($poll_validation as $field) : ?>
 
                     <?php if ($field->hasError()) : ?>
                         <li><?php echo $field->renderError(); ?></li>

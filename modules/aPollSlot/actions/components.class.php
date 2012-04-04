@@ -19,9 +19,8 @@ class aPollSlotComponents extends aSlotComponents
     $this->values = $this->slot->getArrayValue();
     
     $this->poll = $this->slot->getPoll(); 
-    
-    $this->poll_form = new PluginPollSlotViewForm($this->id);
-    $this->poll_form->bind(array('poll' => $this->poll->getType()));
+    $this->poll_validation = new PluginPollSlotViewForm($this->id);
+    $this->poll_validation->bind(array('poll' => $this->poll->getType()));
     
 
     

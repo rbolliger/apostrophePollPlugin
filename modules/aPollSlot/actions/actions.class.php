@@ -52,9 +52,9 @@ class aPollSlotActions extends aSlotActions {
         $this->slot = $this->page->getSlot(
                 $values['slot_name'], $values['permid']);
 
-         $type = $this->poll->getType();
+        $type = $this->poll->getType();
 
-        $partial_vars =  array(
+        $partial_vars = array(
             "name" => $values['slot_name'],
             "type" => 'aPoll',
             "permid" => $values['permid'],
@@ -86,9 +86,9 @@ class aPollSlotActions extends aSlotActions {
 
             if ($this->poll_form->isValid()) {
 
-                //$a_poll_poll = $form->save();
+                $this->poll_form->save();
 
-                return $this->renderPartial($this->getModuleName().'/submit_success', array_merge($partial_vars, array('template' => aPollToolkit::getPollSubmitSuccessTemplate($type))));
+                return $this->renderPartial($this->getModuleName() . '/submit_success', array_merge($partial_vars, array('template' => aPollToolkit::getPollSubmitSuccessTemplate($type))));
             }
         }
 

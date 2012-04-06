@@ -43,7 +43,6 @@
 
             <ul class="a-ui a-controls">
                 <li class="a-admin-action-save"> <?php echo a_submit_button(a_('Submit', array(), 'apostrophe'), array('a-save')); ?> </li>
-                <li><input type="submit" /></li>
             </ul>
             </form>
         </div>

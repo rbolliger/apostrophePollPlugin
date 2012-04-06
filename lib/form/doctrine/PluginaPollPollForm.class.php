@@ -58,6 +58,7 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         foreach ($languages as $key => $value) {
             $this->widgetSchema->setLabel($key, ucfirst($value));
         }
+        
     }
 
 }

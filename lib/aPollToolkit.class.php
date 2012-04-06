@@ -88,6 +88,22 @@ class aPollToolkit {
         
         return $conf[$name];
     }
+    
+    
+    static function getPollSubmitSuccessTemplate($name) {
+        
+        $conf = self::getPollConfiguration($name);
+        
+         if (isset($conf['submit_success_template'])) {
+            $template = $conf['submit_success_template'];
+        } else {
+            $template = sfConfig::get('app_aPoll_view_default_submit_success_template', 'aPollSlot/default_submit_success');
+        }
+
+        return $template;
+        
+        
+    }
 
 }
 

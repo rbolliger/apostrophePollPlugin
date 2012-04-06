@@ -44,14 +44,34 @@ class aPollSlotActions extends aSlotActions {
         // validating app_aPoll_available_polls entry
         $this->poll_validation = aPollToolkit::checkPollConfiguration($this->poll->getType());
 
+        // Creation of variables needed to render the partials
+        $values = $request->getParameter('a-poll-form');
 
-        $type = $this->poll->getType();
+        $this->page = aPageTable::retrieveByIdWithSlots($values['pageid']);
+
+        $this->slot = $this->page->getSlot(
+                $values['slot_name'], $values['permid']);
+
+         $type = $this->poll->getType();
+
+        $partial_vars =  array(
+            "name" => $values['slot_name'],
+            "type" => 'aPoll',
+            "permid" => $values['permid'],
+            "pageid" => $values['pageid'],
+            "slot" => $this->slot,
+            "updating" => $this->updating,
+            "options" => $this->options,
+            "poll_validation" => $this->poll_validation,
+            "form_view_template" => aPollToolkit::getPollViewTemplate($type),
+            "submit_action" => aPollToolkit::getPollSubmitAction($type),
+            "poll" => $this->poll,
+            "poll_form" => $this->poll_form,
+        );
+
 
 
         if ($this->poll_validation->isValid()) {
-
-
-
 
             $form_name = aPollToolkit::getPollFormName($type);
 
@@ -68,30 +88,18 @@ class aPollSlotActions extends aSlotActions {
 
                 //$a_poll_poll = $form->save();
 
-                return 'Success';
+                return $this->renderPartial($this->getModuleName().'/submit_success', array_merge($partial_vars, array('template' => aPollToolkit::getPollSubmitSuccessTemplate($type))));
             }
         }
 
 
-        $this->page = aPageTable::retrieveByIdWithSlots($values['pageid']);
 
-        $this->slot = $this->page->getSlot(
-                $values['slot_name'], $values['permid']);
 
-        return $this->renderPartial($this->getModuleName() . '/normalView', array(
-                    "name" => $values['slot_name'],
-                    "type" => 'aPoll',
-                    "permid" => $values['permid'],
-                    "pageid" => $values['pageid'],
-                    "slot" => $this->slot,
-                    "updating" => $this->updating,
-                    "options" => $this->options,
-                    "poll_validation" => $this->poll_validation,
-                    "form_view_template" => aPollToolkit::getPollViewTemplate($type),
-                    "submit_action" => aPollToolkit::getPollSubmitAction($type),
-                    "poll" => $this->poll,
-                    "poll_form" => $this->poll_form,
-                ));
+        return $this->renderPartial($this->getModuleName() . '/normalView', $partial_vars);
+    }
+
+    protected function getVariablesForSlot(sfRequest $request, aPollPoll $poll) {
+        
     }
 
 }

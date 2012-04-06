@@ -34,6 +34,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('form_extends', 'Class %form% defined in %poll% does not extend aPollBaseForm.');
         $this->addMessage('view_template', 'The partial "%partial%" defined in "view_template" field cannot be found.');
         $this->addMessage('submit_action', 'The action "%action%" defined in the "submit_action" field cannot be found.');
+        $this->addMessage('submit_success_template', 'The template "%template%" defined in the "submit_success_template" field cannot be found.');
     }
 
     /**
@@ -74,16 +75,8 @@ class aPollValidatorPollItem extends sfValidatorBase {
         // checks if view_template has been defined and if the file exist
         if (isset($poll['view_template'])) {
 
-            $templateName = $poll['view_template'];
-
-            $list = $this->getModuleAndAction($templateName);
-
-            $template = '_'.$list['action'] . '.php';
-            
-            $directory = sfContext::getInstance()->getConfiguration()->getTemplateDir($list['module'], $template);
-           
-            if (!is_readable($directory . '/' . $template)) {
-                throw new sfValidatorError($this, 'view_template', array('partial' => $templateName));
+            if (!$this->checkTemplate($poll, 'view_template')) {
+                throw new sfValidatorError($this, 'view_template', array('partial' => $poll['view_template']));
             }
         }
 
@@ -93,9 +86,17 @@ class aPollValidatorPollItem extends sfValidatorBase {
             $list = $this->getModuleAndAction($poll['submit_action']);
 
             $controller = sfContext::getInstance()->getController();
-            
+
             if (!$controller->actionExists($list['module'], $list['action'])) {
                 throw new sfValidatorError($this, 'submit_action', array('action' => $poll['submit_action']));
+            }
+        }
+        
+        // checks if view_template has been defined and if the file exist
+        if (isset($poll['submit_success_template'])) {
+
+            if (!$this->checkTemplate($poll, 'submit_success_template')) {
+                throw new sfValidatorError($this, 'submit_success_template', array('template' => $poll['submit_success_template']));
             }
         }
 
@@ -112,9 +113,22 @@ class aPollValidatorPollItem extends sfValidatorBase {
             $moduleName = 'aPollSlot';
             $templateName = $ref;
         }
-        
+
 
         return array('module' => $moduleName, 'action' => $templateName);
+    }
+
+    protected function checkTemplate($conf, $field) {
+
+        $templateName = $conf[$field];
+
+        $list = $this->getModuleAndAction($templateName);
+
+        $template = '_' . $list['action'] . '.php';
+
+        $directory = sfContext::getInstance()->getConfiguration()->getTemplateDir($list['module'], $template);
+
+        return is_readable($directory . '/' . $template);
     }
 
 }

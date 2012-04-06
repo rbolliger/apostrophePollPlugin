@@ -1,6 +1,6 @@
-<?php use_helper('a') ?>
+<?php use_helper('a', 'jQuery') ?>
 
-<div class="a-poll-slot-<?php echo $poll->getSlug(); ?>">
+<div id="a-poll-slot-<?php echo $poll->getSlug(); ?>" class="a-poll-slot-<?php echo $poll->getSlug(); ?>">
     <div class="a-ui a-poll-slot-container">
 
         <div class="a-poll-intro">
@@ -21,12 +21,29 @@
             <?php include_stylesheets_for_form($form) ?>
             <?php include_javascripts_for_form($form) ?>
 
-            <?php echo $form->renderFormTag(url_for($action), array('id' => 'a-admin-form')); ?>
+            <?php
+            echo jq_form_remote_tag(array(
+                "url" => url_for($action),
+                "update" => 'a-poll-slot-' . $poll->getSlug(),
+                    ), array('id' => 'a-admin-form-'.$poll->getId())
+            );
+            ?>
+            
+            <?php //echo $form->renderFormTag(url_for($action)) ?>
 
-            <?php echo $form; ?>
+            <?php echo $form->renderHiddenFields() ?>
+
+            <?php if ($form->hasGlobalErrors()): ?>
+                <?php echo $form->renderGlobalErrors() ?>
+            <?php endif; ?>
+
+            <?php foreach ($form as $row) : ?>
+                <?php echo $row->isHidden() ? '' : $row->renderRow(); ?>
+            <?php endforeach; ?>
 
             <ul class="a-ui a-controls">
-                <li class="a-admin-action-save"> <?php echo a_anchor_submit_button(a_('Submit', array(), 'apostrophe'), array('a-save')); ?> </li>
+                <li class="a-admin-action-save"> <?php echo a_submit_button(a_('Submit', array(), 'apostrophe'), array('a-save')); ?> </li>
+                <li><input type="submit" /></li>
             </ul>
             </form>
         </div>

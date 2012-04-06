@@ -4,7 +4,7 @@
 
 
 <?php // Checking if the values retrieved from app_aPoll_available_polls are valid. ?>
-<?php if (!$poll_validation->isValid()) : ?>
+<?php if (!$poll_validation->isValid() && $poll_validation->getValue('poll') != '') : ?>
     <div class="a-form-row">
 
         <p><?php echo a_("Some problems have been detected in the poll definition:"); ?></p>

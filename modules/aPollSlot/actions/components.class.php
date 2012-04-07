@@ -18,6 +18,14 @@ class aPollSlotComponents extends aSlotComponents {
 
         $this->poll = $this->slot->getPoll();
         $type = $this->poll->getType();
+        
+        
+        if (!$this->show_poll = aPollToolkit::checkIfShowPoll($this->getRequest(), $this->poll)) {
+         
+            return 'Success';
+            
+        }
+        
 
         // validating app_aPoll_available_polls entry
         $this->poll_validation = aPollToolkit::checkPollConfiguration($type);
@@ -35,8 +43,6 @@ class aPollSlotComponents extends aSlotComponents {
                         'pageid' => $this->pageid,
                     ));
             
-            $conf = sfConfig::get('app_aPoll_available_polls');
-            $poll_conf = $conf[$type];
 
             // Getting view template partial to display the form.
             // The template can be defined in two ways:

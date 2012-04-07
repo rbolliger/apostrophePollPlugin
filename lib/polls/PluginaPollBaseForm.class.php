@@ -80,6 +80,13 @@ class PluginaPollBaseForm extends BaseForm {
             $con = $this->getConnection();
         }
 
+        $request = sfContext::getInstance()->getRequest();
+        $response = sfContext::getInstance()->getResponse();
+        $actual_cookie = aPollToolkit::getCookieContent($request);
+        $poll = Doctrine_Core::getTable('aPollPoll')->findOneById($this->getValue('poll_id'));
+
+        aPollToolkit::setShowPollToCookie($request, $response, $poll, aPollToolkit::getPollAllowMultipleSubmissions($poll->getType()));
+
         try {
             $con->beginTransaction();
 
@@ -87,11 +94,13 @@ class PluginaPollBaseForm extends BaseForm {
 
             $con->commit();
         } catch (Exception $e) {
+
+            $response->setCookie($actual_cookie);
+
             $con->rollBack();
 
             throw $e;
         }
-
     }
 
     protected function doSave($con) {
@@ -141,7 +150,6 @@ class PluginaPollBaseForm extends BaseForm {
         if (count($answer_fields)) {
             $answer_fields->save();
         }
-
     }
 
     public function getFieldsToSave() {

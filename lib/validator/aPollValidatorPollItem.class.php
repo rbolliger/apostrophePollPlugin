@@ -35,6 +35,9 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('view_template', 'The partial "%partial%" defined in "view_template" field cannot be found.');
         $this->addMessage('submit_action', 'The action "%action%" defined in the "submit_action" field cannot be found.');
         $this->addMessage('submit_success_template', 'The template "%template%" defined in the "submit_success_template" field cannot be found.');
+        $this->addMessage('multiple_submissions', 'Field "allow_multiple_submissions" only accepts "true" and "false" as values.');    
+        $this->addMessage('cookie_lifetime', '"cookie_lifetime" must be a valid number, in seconds.');
+        
     }
 
     /**
@@ -98,6 +101,28 @@ class aPollValidatorPollItem extends sfValidatorBase {
             if (!$this->checkTemplate($poll, 'submit_success_template')) {
                 throw new sfValidatorError($this, 'submit_success_template', array('template' => $poll['submit_success_template']));
             }
+        }
+        
+        
+        // checks if allow_multiple_submissions is defined and if the values are right
+        if (isset($poll['allow_multiple_submissions'])) {
+
+            if ( !($poll['allow_multiple_submissions'] === true) || ($poll['allow_multiple_submissions'] === false) ) {
+                throw new sfValidatorError($this, 'multiple_submissions');
+            }
+        }
+        
+        // checks if cookie_lifetime is well defined
+        if (isset($poll['cookie_lifetime'])) {
+
+            $val = new sfValidatorNumber(array('min' => 0));
+            
+            try {
+                $val->clean($poll['cookie_lifetime']);
+            } catch (Exception $exc) {
+                throw new sfValidatorError($this, 'cookie_lifetime');
+            }
+                    
         }
 
 

@@ -54,6 +54,18 @@ class aPollSlotActions extends aSlotActions {
 
         $type = $this->poll->getType();
 
+        $show_poll = aPollToolkit::checkIfShowPoll($request, $this->poll);
+
+
+        $form_name = aPollToolkit::getPollFormName($type);
+
+        $this->poll_form = new $form_name(array(
+                    'poll_id' => $values['poll_id'],
+                    'slot_name' => $values['slot_name'],
+                    'permid' => $values['permid'],
+                    'pageid' => $values['pageid'],
+                ));
+
         $partial_vars = array(
             "name" => $values['slot_name'],
             "type" => 'aPoll',
@@ -67,20 +79,11 @@ class aPollSlotActions extends aSlotActions {
             "submit_action" => aPollToolkit::getPollSubmitAction($type),
             "poll" => $this->poll,
             "poll_form" => $this->poll_form,
+            "show_poll" => $show_poll,
         );
 
 
-
         if ($this->poll_validation->isValid()) {
-
-            $form_name = aPollToolkit::getPollFormName($type);
-
-            $this->poll_form = new $form_name(array(
-                        'poll_id' => $values['poll_id'],
-                        'slot_name' => $values['slot_name'],
-                        'permid' => $values['permid'],
-                        'pageid' => $values['pageid'],
-                    ));
 
             $this->poll_form->bind($values);
 
@@ -90,12 +93,10 @@ class aPollSlotActions extends aSlotActions {
 
                 return $this->renderPartial($this->getModuleName() . '/submit_success', array_merge($partial_vars, array('template' => aPollToolkit::getPollSubmitSuccessTemplate($type))));
             }
+
+
+            return $this->renderPartial($this->getModuleName() . '/normalView', $partial_vars);
         }
-
-
-
-
-        return $this->renderPartial($this->getModuleName() . '/normalView', $partial_vars);
     }
 
     protected function getVariablesForSlot(sfRequest $request, aPollPoll $poll) {

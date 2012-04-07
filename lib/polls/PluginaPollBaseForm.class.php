@@ -92,7 +92,6 @@ class PluginaPollBaseForm extends BaseForm {
             throw $e;
         }
 
-        return $this->getObject();
     }
 
     protected function doSave($con) {
@@ -143,13 +142,11 @@ class PluginaPollBaseForm extends BaseForm {
             $answer_fields->save();
         }
 
-
-        return $answer;
     }
 
     public function getFieldsToSave() {
 
-        return $this->fieldsToSave;
+        return $this->fields_to_save;
     }
 
     public function setFieldsToSave($fields = null) {

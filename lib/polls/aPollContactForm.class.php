@@ -36,6 +36,8 @@ class aPollContactForm extends aPollBaseForm {
         'message' =>    "Message",
         ));
     
+    $this->setFieldsToSave(array('author_email', 'author_name', 'object', 'message'));
+    
 
   }
  

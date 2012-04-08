@@ -36,7 +36,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('submit_action', 'The action "%action%" defined in the "submit_action" field cannot be found.');
         $this->addMessage('submit_success_template', 'The template "%template%" defined in the "submit_success_template" field cannot be found.');
         $this->addMessage('multiple_submissions', 'Field "allow_multiple_submissions" only accepts "true" and "false" as values.');    
-        $this->addMessage('cookie_lifetime', '"cookie_lifetime" must be a valid number, in seconds.');
+        $this->addMessage('cookie_lifetime', 'The content of "cookie_lifetime" must be a valid number, in seconds.');
         
     }
 

@@ -103,8 +103,24 @@
                 <target>L'action "%action%" définie dans le champ "submit_action" n'existe pas.</target>
             </trans-unit>
             <trans-unit>
+                <source>The template "%template%" defined in the "submit_success_template" field cannot be found.</source>
+                <target>Le template "%template%" défini dans le champ "submit_success_template" n'existe pas.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Field "allow_multiple_submissions" only accepts "true" and "false" as values.</source>
+                <target>Le champ "allow_multiple_submissions" accepte uniquement les valeurs "true" et "false".</target>
+            </trans-unit>
+            <trans-unit>
+                <source>The content of "cookie_lifetime" must be a valid number, in seconds.</source>
+                <target>La valeur de "cookie_lifetime" doint être une valeur numérique, exprimée en secondes.</target>
+            </trans-unit>
+            <trans-unit>
                 <source>Submit</source>
                 <target>Soumettre</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Thank you for submitting your answer!</source>
+                <target>Merci pour avoir soumis votre réponse!</target>
             </trans-unit>
         </body>
     </file>

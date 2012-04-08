@@ -2,6 +2,16 @@
 
 <?php include_partial('a/simpleEditWithVariants', array('pageid' => $pageid, 'name' => $name, 'permid' => $permid, 'slot' => $slot)) ?>
 
+<?php if (!$show_poll && $editable) : ?>
+    <div class="a-poll-nodisplay-help">
+        <?php echo a_('The poll is not visible for two possible reasons:'); ?>
+        <ul>
+            <li><?php echo a_('Publication dates: see parameters set in polls admin'); ?></li>
+            <li><?php echo a_('You already submitted an answer and the poll is configured to not display twice. (see app.yml)'); ?></li>
+        </ul>
+    </div>
+<?php endif; ?>
+
 <?php if ($show_poll) : ?>
 
     <?php // Checking if the values retrieved from app_aPoll_available_polls are valid. ?>

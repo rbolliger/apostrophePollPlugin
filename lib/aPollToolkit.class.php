@@ -41,7 +41,6 @@ class aPollToolkit {
     static function getPollViewTemplate($name) {
 
         return self::getValueFromConf($name, 'view_template', 'app_aPoll_view', 'default_template', 'aPollSlot/default_form_view');
-
     }
 
     /**
@@ -149,7 +148,21 @@ class aPollToolkit {
     static protected function checkIfShowPollByDates(aPollPoll $poll, sfWebRequest $request) {
 
 
-        // TODO
+        $now = time();
+
+        $start = strtotime($poll->getPublishedFrom());
+        $end = strtotime($poll->getPublishedTo());
+
+        // if $end is defined and the publication end is old, we don't display
+        if (null != $end  &&  $now > $end) {
+            return false;
+        }
+        
+        // if $start is defined and we are toot early, we don't display
+        if (null != $start  &&  $now < $start) {
+            return false;
+        }
+
         return true;
     }
 
@@ -173,7 +186,7 @@ class aPollToolkit {
     static function getCookieName() {
 
         $conf = sfConfig::get('app_aPoll_submission');
-        
+
         return isset($conf['cookie_name']) ? $conf['cookie_name'] : 'aPoll_submission';
     }
 

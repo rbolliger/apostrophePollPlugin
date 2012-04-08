@@ -93,7 +93,7 @@ class PluginaPollBaseForm extends BaseForm {
         try {
             $con->beginTransaction();
 
-            $this->doSave($con);
+            $answer = $this->doSave($con);
 
             $con->commit();
         } catch (Exception $e) {
@@ -104,6 +104,8 @@ class PluginaPollBaseForm extends BaseForm {
 
             throw $e;
         }
+        
+        return $answer;
     }
 
     protected function doSave($con) {
@@ -154,6 +156,8 @@ class PluginaPollBaseForm extends BaseForm {
         if (count($answer_fields)) {
             $answer_fields->save();
         }
+        
+        return $answer;
     }
 
     public function getFieldsToSave() {

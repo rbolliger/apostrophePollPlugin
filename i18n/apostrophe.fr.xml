@@ -115,6 +115,14 @@
                 <target>La valeur de "cookie_lifetime" doint être une valeur numérique, exprimée en secondes.</target>
             </trans-unit>
             <trans-unit>
+                <source>Fields "send_notification"  and "do_send" only accepts "true" and "false".</source>
+                <target>Les champs "send_notification" et "do_send" acceptent uniquement "true" et "false".</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Fields "%field%" and "%global_field%" must define a valid email or a valid user.</source>
+                <target>Les champs "%field%" et "%global_field%" doivent définir une adresse email ou un nom d'utilisateur valides.</target>
+            </trans-unit>
+            <trans-unit>
                 <source>Submit</source>
                 <target>Soumettre</target>
             </trans-unit>

@@ -22,6 +22,12 @@ class aPollToolkit {
         return $form;
     }
 
+    /**
+     * Returns the name of the form to render for poll $name
+     * 
+     * @param type $name    Name of the poll, as defined in app_aPoll_available_polls
+     * @return strung       The name of the form 
+     */
     static function getPollFormName($name) {
 
         $conf = self::getPollConfiguration($name);
@@ -88,16 +94,79 @@ class aPollToolkit {
         return self::getValueFromConf($name, 'submit_success_template', 'app_aPoll_view', 'default_submit_success_template', 'aPollSlot/default_submit_success');
     }
 
+    /**
+     * Tells if a poll shall be displayed after that a user has already submitted 
+     * an answer. This option is linked to a timeout.
+     * 
+     * @param type $name   The poll identifier as defined in app_aPoll_available_polls
+     * @return bool         
+     * @see getCookieLifetime()
+     */
     static function getPollAllowMultipleSubmissions($name) {
 
         return self::getValueFromConf($name, 'allow_multiple_submissions', 'app_aPoll_submission', 'allow_multiple', false);
     }
 
+    /**
+     * Returns the lifetime of the multiple submission option expressed in seconds.
+     * 
+     * @param type $name   The poll identifier as defined in app_aPoll_available_polls
+     * @return integer     Lifetime of the multiple submission option, in seconds 
+     * @see getPollAllowMultipleSubmissions()
+     */
     static function getCookieLifetime($name) {
 
         return self::getValueFromConf($name, 'cookie_lifetime', 'app_aPoll_submission', 'cookie_lifetime', 86400);
     }
 
+    /**
+     * Tells if a notification must be sent to an email address after that a user has submitted a poll answer.
+     * 
+     * @param type $name
+     * @return bool
+     */
+    static function getSendNotification($name) {
+
+        return self::getValueFromConf($name, 'send_notification', 'app_aPoll_notifications', 'do_send', true);
+    }
+
+    /**
+     * Returns the email address where the submission notification is sent to.
+     * 
+     * @param type $name
+     * @return type 
+     */
+    static function getNotificationEmailTo($name) {
+
+        return self::getValueFromConf($name, 'send_to', 'app_aPoll_notifications', 'to', 'admin');
+    }
+
+    static function getNotificationEmailFrom($name) {
+
+        return self::getValueFromConf($name, 'send_from', 'app_aPoll_notifications', 'from', 'admin');
+    }
+
+    static function getNotificationEmailTitlePartial($name) {
+        return self::getValueFromConf($name, 'email_title_partial', 'app_aPoll_notifications', 'title_partial', 'aPollSlot/email_title');
+    }
+
+    static function getNotificationEmailBodyPartial($name) {
+        return self::getValueFromConf($name, 'email_body_partial', 'app_aPoll_notifications', 'body_partial', 'aPollSlot/email_body');
+    }
+
+    /**
+     * Returns the value of a given option defined for poll $name. The function looks 
+     * for a setting in the poll configuration, then in the global configuration and
+     * finally, sends a default value.
+     * 
+     * @param type $name            The poll identifier as defined in app_aPoll_available_polls
+     * @param type $local_field     Name of the options defined in the poll configuration
+     * @param type $global_root     Name of the root field (e.g. app_aPoll_submissions) defined in 
+     *                              the global configuration
+     * @param type $global_field    Name of the options defined in the global configuration
+     * @param type $default         Default value, if nothing else found
+     * @return mixed                The value of the requested option    
+     */
     static protected function getValueFromConf($name, $local_field, $global_root, $global_field, $default) {
 
         $conf = self::getPollConfiguration($name);
@@ -127,6 +196,14 @@ class aPollToolkit {
         return self::checkIfShowPollByCookie($poll, $request) && self::checkIfShowPollByDates($poll, $request);
     }
 
+    /**
+     *  Checks if a poll shall be displayed by looking if a cookie has been saved.
+     *  If the cookie exist, the function returns its value.
+     * 
+     * @param aPollPoll $poll       The poll instance
+     * @param sfWebRequest $request The web request
+     * @return boolean 
+     */
     static protected function checkIfShowPollByCookie(aPollPoll $poll, sfWebRequest $request) {
 
         $slug = $poll->getSlug();
@@ -145,6 +222,14 @@ class aPollToolkit {
         }
     }
 
+    /**
+     * Checks if a poll shall be displayed by comparing the actual date with the
+     * poll's publication dates.
+     * 
+     * @param aPollPoll $poll
+     * @param sfWebRequest $request
+     * @return boolean 
+     */
     static protected function checkIfShowPollByDates(aPollPoll $poll, sfWebRequest $request) {
 
 
@@ -154,18 +239,27 @@ class aPollToolkit {
         $end = strtotime($poll->getPublishedTo());
 
         // if $end is defined and the publication end is old, we don't display
-        if (null != $end  &&  $now > $end) {
+        if (null != $end && $now > $end) {
             return false;
         }
-        
+
         // if $start is defined and we are toot early, we don't display
-        if (null != $start  &&  $now < $start) {
+        if (null != $start && $now < $start) {
             return false;
         }
 
         return true;
     }
 
+    /**
+     *  Saves the visibility option of a poll in a cookie.
+     * 
+     * @param sfWebRequest $request
+     * @param sfWebResponse $response
+     * @param aPollPoll $poll
+     * @param type $value
+     * @throws sfException 
+     */
     static function setShowPollToCookie(sfWebRequest $request, sfWebResponse $response, aPollPoll $poll, $value) {
 
         $slug = $poll->getSlug();
@@ -183,6 +277,11 @@ class aPollToolkit {
         $response->setCookie(self::getCookieName(), self::encodeForCookie($cookie), time() + self::getCookieLifetime($type));
     }
 
+    /**
+     * Returns the name of the cookie used to store poll's visibility.
+     * 
+     * @return type 
+     */
     static function getCookieName() {
 
         $conf = sfConfig::get('app_aPoll_submission');
@@ -190,6 +289,12 @@ class aPollToolkit {
         return isset($conf['cookie_name']) ? $conf['cookie_name'] : 'aPoll_submission';
     }
 
+    /**
+     * Reads the poll's visibility cookie and returns its value.
+     * 
+     * @param sfWebRequest $request
+     * @return type 
+     */
     static function getCookieContent(sfWebRequest $request) {
 
         $cookie = $request->getCookie(self::getCookieName());
@@ -197,6 +302,12 @@ class aPollToolkit {
         return (null !== $cookie) ? self::decodeFromCookie($cookie) : array();
     }
 
+    /**
+     * Encodes an array in order to be saved ina cookie, which only accepts strings
+     * 
+     * @param type $array
+     * @return string 
+     */
     static protected function encodeForCookie($array) {
 
         $cookie = '';
@@ -209,6 +320,12 @@ class aPollToolkit {
         return $cookie;
     }
 
+    /**
+     * Decodes a cookie content and returns an array
+     * 
+     * @param type $cookie
+     * @return type 
+     */
     static protected function decodeFromCookie($cookie) {
 
 
@@ -229,6 +346,82 @@ class aPollToolkit {
         }
 
         return $array;
+    }
+
+    /**
+     * Checks if $value is a valid email or if is a valid user. Returns null if none of them.
+     * 
+     * @param type $value
+     * @return null|string 
+     */
+    static function isUserOrEmail($value, $returnEmail = false) {
+
+        $val = new sfValidatorEmail();
+
+        try {
+
+            $val->clean($value);
+
+            return $returnEmail ? $value : 'email';
+        } catch (Exception $exc) {
+
+            $val = new sfValidatorDoctrineChoice(array('model' => 'sfGuardUser', 'column' => 'username'));
+
+            try {
+
+                $val->clean($value);
+
+                if ($returnEmail) {
+                    $user = Doctrine_Core::getTable('sfGuardUser')->findOneByUsername($value);
+
+                    return $user->getEmailAddress();
+                }
+
+                return 'user';
+            } catch (Exception $exc) {
+
+                return false;
+            }
+        }
+    }
+
+    static function sendNotificationEmail($name, sfMailer $mailer, aPollPoll $poll, aPollAnswer $answer) {
+
+        if (!self::getSendNotification($name)) {
+            return false;
+        }
+
+
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
+
+        $from = self::isUserOrEmail(self::getNotificationEmailFrom($name), true);
+        $to = self::isUserOrEmail(self::getNotificationEmailTo($name), true);
+        
+        if (is_null($to)) {
+            throw new sfException('No email defined. Cannot send a notification.');
+        }
+
+        $arguments = array(
+            'poll' => $poll,
+            'answer' => $answer,
+        );
+
+
+        $message = $mailer->compose(
+                $from, $to);
+        
+        $message->setContentType("text/html");
+
+
+        $message->setSubject(get_partial(self::getNotificationEmailTitlePartial($name), $arguments));
+
+
+
+        $message->setBody(get_partial(self::getNotificationEmailBodyPartial($name), $arguments));
+
+        $mailer->send($message);
+
+        return true;
     }
 
 }

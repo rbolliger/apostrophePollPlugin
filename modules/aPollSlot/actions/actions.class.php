@@ -90,7 +90,10 @@ class aPollSlotActions extends aSlotActions {
 
             if ($this->poll_form->isValid()) {
 
-                $this->poll_form->save();
+                $answer = $this->poll_form->save();
+                
+                // sends a notification email
+                aPollToolkit::sendNotificationEmail($type, $this->getMailer(), $this->poll, $answer);
 
                 return $this->renderPartial($this->getModuleName() . '/submit_success', array_merge($partial_vars, array('template' => aPollToolkit::getPollSubmitSuccessTemplate($type))));
             }

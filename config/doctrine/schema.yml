@@ -105,6 +105,7 @@ aPollAnswer:
       primary: true
       autoincrement: true
     poll_id: {type: integer, notnull: true}
+    remote_address: string(255)
     
     
   relations:

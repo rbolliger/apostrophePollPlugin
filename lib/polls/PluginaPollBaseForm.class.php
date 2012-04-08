@@ -48,6 +48,9 @@ class PluginaPollBaseForm extends BaseForm {
                     'choices' => array($this->getDefault('pageid')),
                     'empty_value' => array($this->getDefault('pageid')),
                 )));
+        
+        $this->setWidget('remote_address', new sfWidgetFormInputHidden());
+        $this->setValidator('remote_address', new sfValidatorString());
 
 
         $this->widgetSchema->setNameFormat('a-poll-form[%s]');
@@ -115,6 +118,7 @@ class PluginaPollBaseForm extends BaseForm {
         // creating a new answer
         $answer = new aPollAnswer();
         $answer->setPollId($pollid);
+        $answer->setRemoteAddress($this->getValue('remote_address'));
         $answer->save();
 
         $aid = $answer->getId();

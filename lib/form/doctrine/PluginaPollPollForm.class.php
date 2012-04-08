@@ -17,7 +17,7 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         unset(
                 $this['created_at'], $this['updated_at']
         );
-           
+
 
 
         // checking that some polls are available
@@ -44,21 +44,45 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
                         array('halt_on_error' => true)
         );
 
+        $culture = sfContext::getInstance()->getUser()->getCulture(); 
+        
+        $date_options = array(
+                        'image' => '/apostrophePlugin/images/a-icon-datepicker.png',
+                        'culture' => $culture,
+                        'config' => '{changeMonth: true,changeYear: true}',
+                    );
+        
+        $time_attributes = array('twenty-four-hour' => true, 'minutes-increment' => 30);
+        
+        $this->setWidget('published_from', new aWidgetFormJQueryDateTime(array(
+                    'date' => $date_options,
+                        ), array(
+                    'time' => $time_attributes,
+                )));
+
+
+        $this->setWidget('published_to', new aWidgetFormJQueryDateTime(array(
+                    'date' => $date_options,
+                        ), array(
+                    'time' => $time_attributes,
+                )));
+
+
+
 
         // setting translation catalogue
         $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-        
-        
+
+
         // embedding i18n fields
         $culture = sfContext::getInstance()->getUser()->getCulture();
         $languages = sfCultureInfo::getInstance($culture)->getLanguages(sfConfig::get('app_a_i18n_languages'));
-        
-        
+
+
         $this->embedI18n(array_keys($languages));
         foreach ($languages as $key => $value) {
             $this->widgetSchema->setLabel($key, ucfirst($value));
         }
-        
     }
 
 }

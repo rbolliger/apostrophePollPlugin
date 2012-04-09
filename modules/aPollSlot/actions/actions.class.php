@@ -65,6 +65,7 @@ class aPollSlotActions extends aSlotActions {
                     'permid' => $values['permid'],
                     'pageid' => $values['pageid'],
                     'remote_address' => $this->getRequest()->getRemoteAddress(),
+                    'culture' => $this->getUser()->getCulture(),
                 ));
 
         $partial_vars = array(

@@ -42,6 +42,7 @@ class aPollSlotComponents extends aSlotComponents {
                         'permid' => $this->permid,
                         'pageid' => $this->pageid,
                         'remote_address' => $this->getRequest()->getRemoteAddress(),
+                        'culture' => $this->getUser()->getCulture(),
                     ));
             
 

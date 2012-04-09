@@ -50,7 +50,10 @@ class PluginaPollBaseForm extends BaseForm {
                 )));
         
         $this->setWidget('remote_address', new sfWidgetFormInputHidden());
-        $this->setValidator('remote_address', new sfValidatorString());
+        $this->setValidator('remote_address', new sfValidatorChoice(array('choices' => array($this->getDefault('remote_address')))));
+        
+        $this->setWidget('culture', new sfWidgetFormInputHidden());
+        $this->setValidator('culture', new sfValidatorChoice(array('choices' => array($this->getDefault('culture')))));
 
 
         $this->widgetSchema->setNameFormat('a-poll-form[%s]');
@@ -121,6 +124,7 @@ class PluginaPollBaseForm extends BaseForm {
         $answer = new aPollAnswer();
         $answer->setPollId($pollid);
         $answer->setRemoteAddress($this->getValue('remote_address'));
+        $answer->setCulture($this->getValue('culture'));
         $answer->save();
 
         $aid = $answer->getId();

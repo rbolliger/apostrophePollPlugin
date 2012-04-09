@@ -48,10 +48,10 @@ class PluginaPollBaseForm extends BaseForm {
                     'choices' => array($this->getDefault('pageid')),
                     'empty_value' => array($this->getDefault('pageid')),
                 )));
-        
+
         $this->setWidget('remote_address', new sfWidgetFormInputHidden());
         $this->setValidator('remote_address', new sfValidatorChoice(array('choices' => array($this->getDefault('remote_address')))));
-        
+
         $this->setWidget('culture', new sfWidgetFormInputHidden());
         $this->setValidator('culture', new sfValidatorChoice(array('choices' => array($this->getDefault('culture')))));
 
@@ -107,7 +107,7 @@ class PluginaPollBaseForm extends BaseForm {
 
             throw $e;
         }
-        
+
         return $answer;
     }
 
@@ -144,23 +144,27 @@ class PluginaPollBaseForm extends BaseForm {
         // (and obviously to the poll)
         foreach ($fields_to_save as $field) {
 
-            if (null !== $this->getValue($field)) {
+            $v = $this->getValue($field);
+            
+            if (is_null($v) || '' === $v ) {
 
-                $af = new aPollAnswerField();
-                $af->setPollId($pollid);
-                $af->setAnswerId($aid);
-                $af->setName($field);
-                $af->setValue($this->getValue($field));
-
-                $answer_fields->add($af);
+                continue;
             }
+
+            $af = new aPollAnswerField();
+            $af->setPollId($pollid);
+            $af->setAnswerId($aid);
+            $af->setName($field);
+            $af->setValue($this->getValue($field));
+
+            $answer_fields->add($af);
         }
 
         // Once all fields set, we save all of them
         if (count($answer_fields)) {
             $answer_fields->save();
         }
-        
+
         return $answer;
     }
 

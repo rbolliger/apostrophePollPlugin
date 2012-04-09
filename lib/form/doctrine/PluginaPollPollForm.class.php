@@ -44,16 +44,16 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
                         array('halt_on_error' => true)
         );
 
-        $culture = sfContext::getInstance()->getUser()->getCulture(); 
-        
+        $culture = sfContext::getInstance()->getUser()->getCulture();
+
         $date_options = array(
-                        'image' => '/apostrophePlugin/images/a-icon-datepicker.png',
-                        'culture' => $culture,
-                        'config' => '{changeMonth: true,changeYear: true}',
-                    );
-        
+            'image' => '/apostrophePlugin/images/a-icon-datepicker.png',
+            'culture' => $culture,
+            'config' => '{changeMonth: true,changeYear: true}',
+        );
+
         $time_attributes = array('twenty-four-hour' => true, 'minutes-increment' => 30);
-        
+
         $this->setWidget('published_from', new aWidgetFormJQueryDateTime(array(
                     'date' => $date_options,
                         ), array(
@@ -68,6 +68,9 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
                 )));
 
 
+        $this->validatorSchema->setPostValidator(
+                new sfValidatorCallback(array('callback' => array($this, 'validateEndDate')))
+        );
 
 
         // setting translation catalogue
@@ -83,6 +86,18 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         foreach ($languages as $key => $value) {
             $this->widgetSchema->setLabel($key, ucfirst($value));
         }
+    }
+
+    public function validateEndDate($validator, $values) {
+        $start = $values['published_from'];
+        $end = $values['published_to'];
+        if ($end < $start) {
+            // Technically the problem might be the date but we show them on one row
+            // anyway so always attach the error to the time which is easier to style
+            $error = new sfValidatorError($validator, 'Ends before it begins!');
+            throw new sfValidatorErrorSchema($validator, array('end_date' => $error));
+        }
+        return $values;
     }
 
 }

@@ -1,6 +1,3 @@
 default:  
   metas:
       title: "Site Admin: Polls"
-
-  javascripts:
-    - /apostrophePollPlugin/js/jquery.ui.datepicker-fr.js

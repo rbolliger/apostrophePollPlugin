@@ -4,3 +4,4 @@ all:
 
   javascripts:
     - /apostrophePollPlugin/js/aPoll.js: { data-asset-group: global }   
+    - /apostrophePollPlugin/js/jquery.ui.datepicker-fr.js: { data-asset-group: global } 

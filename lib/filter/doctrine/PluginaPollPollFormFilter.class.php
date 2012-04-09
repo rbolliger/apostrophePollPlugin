@@ -29,9 +29,27 @@ abstract class PluginaPollPollFormFilter extends BaseaPollPollFormFilter {
         $this->widgetSchema['type'] = new sfWidgetFormChoice(array('choices' => $choiches, 'multiple' => true, 'expanded' => true));
 
         
+        $culture = sfContext::getInstance()->getUser()->getCulture(); 
+        $date_options = array(
+                        'image' => '/apostrophePlugin/images/a-icon-datepicker.png',
+                        'culture' => $culture,
+                        'config' => '{changeMonth: true,changeYear: true}',
+                    );
+        
+
+        $this->setWidget('published_from', new sfWidgetFormFilterDate(array(
+            'from_date' => new aWidgetFormJQueryDate($date_options),
+            'to_date' => new aWidgetFormJQueryDate($date_options),
+            )));
+
+        $this->setWidget('published_to', new sfWidgetFormFilterDate(array(
+            'from_date' => new aWidgetFormJQueryDate($date_options),
+            'to_date' => new aWidgetFormJQueryDate($date_options),
+            )));
+
+
         // setting translation catalogue
         $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
-        
     }
 
 }

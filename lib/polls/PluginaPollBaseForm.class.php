@@ -55,6 +55,25 @@ class PluginaPollBaseForm extends BaseForm {
         $this->setWidget('culture', new sfWidgetFormInputHidden());
         $this->setValidator('culture', new sfValidatorChoice(array('choices' => array($this->getDefault('culture')))));
 
+        $this->setWidget('captcha', new aPollWidgetFormReCaptcha(array(
+                    'public_key' => sfConfig::get('app_recaptcha_public_key'),
+                    'culture' => $this->getDefault('culture'),
+                    
+                ),
+                array('context' => 'ajax',)));
+        
+        $this->widgetSchema['captcha']->setLabel('Anti-spam check');
+        
+        $this->setValidator('captcha', new sfValidatorReCaptcha(array(
+                    'private_key' => sfConfig::get('app_recaptcha_private_key')
+                )));
+
+//        $this->setWidget('captcha', new sfAnotherWidgetFormReCaptcha());
+//
+//        $this->mergePostValidator(
+//                new sfAnotherValidatorSchemaReCaptcha($this, 'captcha')
+//        );
+
 
         $this->widgetSchema->setNameFormat('a-poll-form[%s]');
 
@@ -145,8 +164,8 @@ class PluginaPollBaseForm extends BaseForm {
         foreach ($fields_to_save as $field) {
 
             $v = $this->getValue($field);
-            
-            if (is_null($v) || '' === $v ) {
+
+            if (is_null($v) || '' === $v) {
 
                 continue;
             }

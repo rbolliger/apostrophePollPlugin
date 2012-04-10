@@ -130,6 +130,10 @@
                 <source>Thank you for submitting your answer!</source>
                 <target>Merci pour avoir soumis votre réponse!</target>
             </trans-unit>
+            <trans-unit>
+                <source>Anti-spam check</source>
+                <target>Vérification anti-spam</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

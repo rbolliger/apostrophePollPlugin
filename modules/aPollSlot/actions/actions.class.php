@@ -37,7 +37,13 @@ class aPollSlotActions extends aSlotActions {
 
         $values = $request->getParameter('a-poll-form');
 
-
+        $captcha = array(
+            'recaptcha_challenge_field' => $request->getParameter('recaptcha_challenge_field'),
+            'recaptcha_response_field' => $request->getParameter('recaptcha_response_field'),
+        );
+        
+        $values = array_merge($values, array('captcha' => $captcha));
+        
         $this->poll = Doctrine_Core::getTable('aPollPoll')->findOneById($values['poll_id']);
         $this->forward404Unless($this->poll);
 
@@ -45,8 +51,6 @@ class aPollSlotActions extends aSlotActions {
         $this->poll_validation = aPollToolkit::checkPollConfiguration($this->poll->getType());
 
         // Creation of variables needed to render the partials
-        $values = $request->getParameter('a-poll-form');
-
         $this->page = aPageTable::retrieveByIdWithSlots($values['pageid']);
 
         $this->slot = $this->page->getSlot(
@@ -92,7 +96,7 @@ class aPollSlotActions extends aSlotActions {
             if ($this->poll_form->isValid()) {
 
                 $answer = $this->poll_form->save();
-                
+
                 // sends a notification email
                 aPollToolkit::sendNotificationEmail($type, $this->getMailer(), $this->poll, $answer);
 

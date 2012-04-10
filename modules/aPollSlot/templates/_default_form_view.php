@@ -23,13 +23,15 @@
 
             <?php
             echo jq_form_remote_tag(array(
-                "url" => url_for($action),
-                "update" => 'a-poll-slot-' . $poll->getSlug(),
-                    ), array('id' => 'a-admin-form-'.$poll->getId())
+                'url' => url_for($action),
+                //'update' => 'a-poll-slot-' . $poll->getSlug(),
+                'update' => 'a-slot-content-'.$pageid.'-'.$name.'-'.$permid,
+                'script' => true,
+                    ), array('id' => 'a-poll-form-' . $poll->getId())
             );
             ?>
-            
-            <?php //echo $form->renderFormTag(url_for($action)) ?>
+
+            <?php //echo $form->renderFormTag(url_for($action))  ?>
 
             <?php echo $form->renderHiddenFields() ?>
 
@@ -42,9 +44,12 @@
             <?php endforeach; ?>
 
             <ul class="a-ui a-controls">
+                <li><?php //echo a_anchor_submit_button(a_('Submit'), array('a-save','a-show-busy'), null, 'a-poll-form-submit-'.$poll->getId()) ?></li>
                 <li class="a-admin-action-save"> <?php echo a_submit_button(a_('Submit', array(), 'apostrophe'), array('a-save')); ?> </li>
             </ul>
             </form>
+            
+            <?php //a_js_call('aPollSubmitPollForm(?)', array('slot-form' => '#a-poll-form-' . $poll->getId(), 'slot-content' => '#a-slot-content-'.$pageid.'-'.$name.'-'.$permid, 'url' => url_for($action))) ?>
         </div>
 
     </div>

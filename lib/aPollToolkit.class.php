@@ -398,8 +398,9 @@ class aPollToolkit {
         $to = self::isUserOrEmail(self::getNotificationEmailTo($name), true);
         
         if (is_null($to)) {
-            throw new sfException('No email defined. Cannot send a notification.');
+            throw new sfException('No destination email defined. Cannot send a notification.');
         }
+
 
         $arguments = array(
             'poll' => $poll,

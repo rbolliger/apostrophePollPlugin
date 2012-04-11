@@ -43,7 +43,7 @@ class aPollSlotActions extends aSlotActions {
         );
         
         $values = array_merge($values, array('captcha' => $captcha));
-        
+
         $this->poll = Doctrine_Core::getTable('aPollPoll')->findOneById($values['poll_id']);
         $this->forward404Unless($this->poll);
 

@@ -1,3 +1,4 @@
-<script type="text/javascript">
-  window.location.href = <?php echo json_encode($postUrl) ?>;
-</script>
+<?php use_helper('JavascriptBase'); ?>
+
+<?php echo javascript_tag('window.location.href = '.json_encode($postUrl)); ?>
+

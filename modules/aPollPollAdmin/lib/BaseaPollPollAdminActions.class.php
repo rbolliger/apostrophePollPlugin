@@ -22,7 +22,7 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions
   // Doctrine collection routes make it a pain to change the settings
   // of the standard routes fundamentally, so we provide another route
   public function executeNewWithTitle(sfWebRequest $request)
-  {
+  { 
     $this->form = new aPollPollNewForm();
     $this->form->bind($request->getParameter('a_poll_poll_new'));
     if ($this->form->isValid())

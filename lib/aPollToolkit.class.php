@@ -104,7 +104,7 @@ class aPollToolkit {
      */
     static function getPollAllowMultipleSubmissions($name) {
 
-        return self::getValueFromConf($name, 'allow_multiple_submissions', 'app_aPoll_submission', 'allow_multiple', false);
+        return self::getValueFromConf($name, 'allow_multiple_submissions', 'app_aPoll_submissions', 'allow_multiple', false);
     }
 
     /**
@@ -116,7 +116,7 @@ class aPollToolkit {
      */
     static function getCookieLifetime($name) {
 
-        return self::getValueFromConf($name, 'cookie_lifetime', 'app_aPoll_submission', 'cookie_lifetime', 86400);
+        return self::getValueFromConf($name, 'cookie_lifetime', 'app_aPoll_submissions', 'cookie_lifetime', 86400);
     }
 
     /**
@@ -152,6 +152,10 @@ class aPollToolkit {
 
     static function getNotificationEmailBodyPartial($name) {
         return self::getValueFromConf($name, 'email_body_partial', 'app_aPoll_notifications', 'body_partial', 'aPollSlot/email_body');
+    }
+
+    static function getCaptchaDoDisplay($name) {
+        return self::getValueFromConf($name, 'captcha_do_display', 'app_aPoll_captcha', 'do_display', true);
     }
 
     /**
@@ -272,7 +276,8 @@ class aPollToolkit {
             throw new sfException(__FUNCTION__ . ' only accepts "true" and "false" as values.');
         }
 
-        $cookie = array_merge($cookie, array($slug => array('show' => $value, 'timeout' => time() + sfConfig::get('app_aPoll_submission_cookie_lifetime', 86400))));
+
+        $cookie = array_merge($cookie, array($slug => array('show' => $value, 'timeout' => time() + self::getCookieLifetime($type))));
 
         $response->setCookie(self::getCookieName(), self::encodeForCookie($cookie), time() + self::getCookieLifetime($type));
     }
@@ -396,7 +401,7 @@ class aPollToolkit {
 
         $from = self::isUserOrEmail(self::getNotificationEmailFrom($name), true);
         $to = self::isUserOrEmail(self::getNotificationEmailTo($name), true);
-        
+
         if (is_null($to)) {
             throw new sfException('No destination email defined. Cannot send a notification.');
         }
@@ -410,7 +415,7 @@ class aPollToolkit {
 
         $message = $mailer->compose(
                 $from, $to);
-        
+
         $message->setContentType("text/html");
 
 

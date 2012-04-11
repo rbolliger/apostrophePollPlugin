@@ -31,6 +31,12 @@ class PluginaPollBaseForm extends BaseForm {
                     'empty_value' => array($this->getDefault('poll_id')),
                 )));
 
+        $this->setWidget('poll_type', new sfWidgetFormInputHidden());
+        $this->setValidator('poll_type', new sfValidatorChoice(array(
+                    'choices' => array($this->getDefault('poll_type')),
+                    'empty_value' => array($this->getDefault('poll_type')),
+                )));
+
         $this->setWidget('slot_name', new sfWidgetFormInputHidden());
         $this->setValidator('slot_name', new sfValidatorChoice(array(
                     'choices' => array($this->getDefault('slot_name')),
@@ -55,24 +61,24 @@ class PluginaPollBaseForm extends BaseForm {
         $this->setWidget('culture', new sfWidgetFormInputHidden());
         $this->setValidator('culture', new sfValidatorChoice(array('choices' => array($this->getDefault('culture')))));
 
-        $this->setWidget('captcha', new aPollWidgetFormReCaptcha(array(
-                    'public_key' => sfConfig::get('app_recaptcha_public_key'),
-                    'culture' => $this->getDefault('culture'),
-                    
-                ),
-                array('context' => 'ajax',)));
-        
-        $this->widgetSchema['captcha']->setLabel('Anti-spam check');
-        
-        $this->setValidator('captcha', new sfValidatorReCaptcha(array(
-                    'private_key' => sfConfig::get('app_recaptcha_private_key')
-                )));
 
-//        $this->setWidget('captcha', new sfAnotherWidgetFormReCaptcha());
-//
-//        $this->mergePostValidator(
-//                new sfAnotherValidatorSchemaReCaptcha($this, 'captcha')
-//        );
+
+        if (!$this->getDefault('poll_type')) {
+            $captcha_display = true;
+        } else {
+            $captcha_display = aPollToolkit::getCaptchaDoDisplay($this->getDefault('poll_type'));
+        }
+
+        // add captcha widget and validator, if requested for this form
+        if ($captcha_display) {
+
+            $this->setWidget('captcha', $this->getCaptchaWidget());
+
+            $this->widgetSchema['captcha']->setLabel('Anti-spam check');
+
+            $this->setValidator('captcha', $this->getCaptchaValidator());
+        }
+
 
 
         $this->widgetSchema->setNameFormat('a-poll-form[%s]');
@@ -208,6 +214,42 @@ class PluginaPollBaseForm extends BaseForm {
 
     public function getConnection() {
         return Doctrine_Manager::connection();
+    }
+
+    protected function getCaptchaWidget() {
+
+        return new aPollWidgetFormReCaptcha(array(
+                    'public_key' => sfConfig::get('app_recaptcha_public_key'),
+                    'culture' => $this->getDefault('culture'),
+                        ),
+                        array('context' => 'ajax',));
+    }
+
+    protected function getCaptchaValidator() {
+
+        return new sfValidatorReCaptcha(array(
+                    'private_key' => sfConfig::get('app_recaptcha_private_key')
+                ));
+    }
+
+    public static function listenToRequestParametersFilterEvent(sfEvent $event, $value) { 
+        
+        $params = $event->getParameters();
+        
+        
+        
+        if(!aPollToolkit::getCaptchaDoDisplay($params['poll_type'])) {
+            return array();
+        }
+        
+        
+        
+        $captcha = array(
+            'recaptcha_challenge_field' => isset($value['recaptcha_challenge_field']) ? $value['recaptcha_challenge_field'] :  null,
+            'recaptcha_response_field' => isset($value['recaptcha_response_field']) ? $value['recaptcha_response_field'] : null,
+        );
+        
+        return array('captcha' => $captcha);
     }
 
 }

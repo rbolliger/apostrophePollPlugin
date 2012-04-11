@@ -30,6 +30,10 @@ class apostrophePollPluginConfiguration extends sfPluginConfiguration {
             // adding global button
              $this->dispatcher->connect('a.getGlobalButtons', array(get_class($this), 'getGlobalButtons'));
             
+             
+             // parsing request parameters when submitting a poll
+             $this->dispatcher->connect('apoll.filter_submit_poll_request_parameters', array('aPollBaseForm','listenToRequestParametersFilterEvent'));
+             
             self::$registered = true;
         }
     }

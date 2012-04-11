@@ -41,6 +41,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('send_email', 'Fields "%field%" and "%global_field%" must define a valid email or a valid user.');
         $this->addMessage('email_title', 'The partial "%partial%" defined in "email_title_template" field cannot be found.');
         $this->addMessage('email_body', 'The partial "%partial%" defined in "email_body_template" field cannot be found.');
+        $this->addMessage('captcha_display', 'Field "captcha_do_display" only accepts "true" and "false" as values.');
     }
 
     /**
@@ -176,6 +177,16 @@ class aPollValidatorPollItem extends sfValidatorBase {
                 throw new sfValidatorError($this, 'email_body', array('template' => $poll['email_body_partial']));
             }
         }
+        
+        // checks if allow_multiple_submissions is defined and if the values are right
+        if (isset($poll['captcha_do_display'])) {
+
+            if (!($poll['captcha_do_display'] === true) || ($poll['captcha_do_display'] === false)) {
+                throw new sfValidatorError($this, 'captcha_display');
+            }
+        }
+        
+        
 
 
         return $value;

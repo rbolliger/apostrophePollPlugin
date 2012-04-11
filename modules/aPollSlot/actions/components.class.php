@@ -43,6 +43,7 @@ class aPollSlotComponents extends aSlotComponents {
                         'pageid' => $this->pageid,
                         'remote_address' => $this->getRequest()->getRemoteAddress(),
                         'culture' => $this->getUser()->getCulture(),
+                        'poll_type' => $type,
                     ));
             
 

@@ -36,14 +36,7 @@ class aPollSlotActions extends aSlotActions {
     public function executeSubmitPollForm(sfRequest $request) {
 
         $values = $request->getParameter('a-poll-form');
-
-        $captcha = array(
-            'recaptcha_challenge_field' => $request->getParameter('recaptcha_challenge_field'),
-            'recaptcha_response_field' => $request->getParameter('recaptcha_response_field'),
-        );
-        
-        $values = array_merge($values, array('captcha' => $captcha));
-
+       
         $this->poll = Doctrine_Core::getTable('aPollPoll')->findOneById($values['poll_id']);
         $this->forward404Unless($this->poll);
 
@@ -62,6 +55,18 @@ class aPollSlotActions extends aSlotActions {
 
 
         $form_name = aPollToolkit::getPollFormName($type);
+        
+        // This is to allow parsing request parameters in order to add them to form inputs.
+        // This is useful for example to add recaptcha parameters, which are not defined directly
+        // in the main form.
+        $filtered = $this->getContext()->getEventDispatcher()->filter(
+                new sfEvent($this, 'apoll.filter_submit_poll_request_parameters',array('poll_type' => $type)),
+                $request->getParameterHolder()->getAll()
+                )->getReturnValue();
+        
+        
+        $values = array_merge($values, $filtered);
+        
 
         $this->poll_form = new $form_name(array(
                     'poll_id' => $values['poll_id'],
@@ -70,6 +75,7 @@ class aPollSlotActions extends aSlotActions {
                     'pageid' => $values['pageid'],
                     'remote_address' => $this->getRequest()->getRemoteAddress(),
                     'culture' => $this->getUser()->getCulture(),
+                    'poll_type' => $type,
                 ));
 
         $partial_vars = array(

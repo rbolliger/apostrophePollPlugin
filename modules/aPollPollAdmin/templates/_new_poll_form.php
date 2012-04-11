@@ -1,4 +1,4 @@
-<form class="a-poll-admin-new-form" method="post" action="<?php echo url_for('aPollPollAdmin/newWithTitle'); ?>" id="a-poll-admin-new-form">
+<form class="a-poll-admin-new-form" method="post" action="#" id="a-poll-admin-new-form">
     <div class="a-form-row a-hidden">
         <?php echo $form->renderHiddenFields() ?>
     </div>
@@ -16,6 +16,11 @@
     </div>
 </form>
 
-<?php a_js_call('aPollEnableNewForm()') ?>
+<?php a_js_call('aPollSubmitForm(?)', array(
+            'form' => '#a-poll-admin-new-form',
+            'container' => '#a-poll-admin-new-form-container',
+            'url' => url_for('aPollPollAdmin/newWithTitle'),
+        ));
+?>
 <?php a_js_call('apostrophe.menuToggle(?)', array('button' => '.a-poll-new-poll-button', 'classname' => 'a-options-open', 'overlay' => false, 'focus' => '#a_poll_new_poll_title')) ?>	
 <?php a_js_call('apostrophe.selfLabel(?)', array('selector' => '#a_poll_new_poll_title', 'title' => a_('Title'), 'persistentLabel' => true)) ?>

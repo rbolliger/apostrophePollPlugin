@@ -21,15 +21,6 @@
         <?php include_stylesheets_for_form($form) ?>
         <?php include_javascripts_for_form($form) ?>
 
-        <?php
-//            echo jq_form_remote_tag(array(
-//                'url' => url_for($action),
-//                //'update' => 'a-poll-slot-' . $poll->getSlug(),
-//                'update' => 'a-slot-content-'.$pageid.'-'.$name.'-'.$permid,
-//                'script' => true,
-//                    ), array('id' => 'a-poll-form-' . $poll->getId())
-//            );
-        ?>
 
         <form method="post" action="#" id="a-poll-form-<?php echo $poll->getId(); ?>">
 

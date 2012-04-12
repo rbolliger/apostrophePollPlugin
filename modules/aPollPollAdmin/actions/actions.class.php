@@ -12,7 +12,11 @@ require_once dirname(__FILE__).'/../lib/BaseaPollPollAdminActions.class.php';
 class aPollPollAdminActions extends BaseaPollPollAdminActions
 {
     
-    public function executePreviewPoll(sfRequest $request) {
+    public function executePreviewPoll(sfWebRequest $request) {
+        
+        $this->poll = $request->getParameter('a_poll_poll');
+        
+        print_r($this->poll);
         
     }
     

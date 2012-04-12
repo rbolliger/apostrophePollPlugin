@@ -28,7 +28,9 @@ function aPollPreviewPoll(options)
 {
     $(options['button']).click(function () {
         
-        $.post(options['url'],options['id'], function(data) {
+        var form = $(options['form']);
+        
+        $.post(options['url'],form.serialize(), function(data) {
             $(options['container']).html(data);
         },
         'html'

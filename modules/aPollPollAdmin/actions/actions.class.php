@@ -11,4 +11,9 @@ require_once dirname(__FILE__).'/../lib/BaseaPollPollAdminActions.class.php';
  */
 class aPollPollAdminActions extends BaseaPollPollAdminActions
 {
+    
+    public function executePreviewPoll(sfRequest $request) {
+        
+    }
+    
 }

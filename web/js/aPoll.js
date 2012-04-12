@@ -24,5 +24,18 @@ function aPollSubmitPollForm(options)
     aPollSubmitForm(options);
 }
 
-
+function aPollPreviewPoll(options)
+{
+    $(options['button']).click(function () {
+        
+        $.post(options['url'],options['id'], function(data) {
+            $(options['container']).html(data);
+        },
+        'html'
+        ); 
+    });
+    
+    
+    return false;
+}
 

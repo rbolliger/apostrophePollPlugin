@@ -32,6 +32,15 @@ class aPollRouting extends sfPatternRouting {
                         'model' => 'aPollPollNew',
                         'type' => 'object',
                     )));
+            
+            $r->prependRoute('a_poll_poll_admin_preview_poll', new sfDoctrineRoute('/admin/polls/preview/:id', array(
+                        'module' => 'aPollPollAdmin',
+                        'action' => 'previewPoll',
+                            ), array(
+                            ), array(
+                        'model' => 'aPollPoll',
+                        'type' => 'object',
+                    )));
         }
 
         if (isset($enabledModules['aPollSlot'])) {

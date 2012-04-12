@@ -14,7 +14,13 @@ class aPollPollAdminActions extends BaseaPollPollAdminActions
     
     public function executePreviewPoll(sfWebRequest $request) {
         
+        
         $this->poll = $request->getParameter('a_poll_poll');
+        
+        $name = $this->poll['type']; 
+        
+        $this->poll_validation = aPollToolkit::checkPollConfiguration($name);
+        
         
         print_r($this->poll);
         

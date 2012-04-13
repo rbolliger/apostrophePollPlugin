@@ -29,9 +29,10 @@ function aPollPreviewPoll(options)
     $(options['button']).click(function () {
         
         var form = $(options['form']);
+        var container = $(options['container']);
         
         $.post(options['url'],form.serialize(), function(data) {
-            $(options['container']).html(data);
+            container.html(data);
         },
         'html'
         ); 
@@ -39,5 +40,11 @@ function aPollPreviewPoll(options)
     
     
     return false;
+}
+
+function aPollPreviewHideSubmitButton(options)
+{
+    var button = $(options['button']);
+    button.remove();
 }
 

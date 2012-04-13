@@ -30,6 +30,8 @@ generator:
         submissions_delay:
           label: Submissions delay (hh:mm)
           help: How much time must wait a user willing to submit a new answer? This setting only applies if if consecutive submissions are not allowed.
+        slug:
+          help: This defines the identifier of the poll in URLs.
           
           
       list:    

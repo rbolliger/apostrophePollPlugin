@@ -73,6 +73,11 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         );
 
 
+        $this->setWidget('submissions_allow_multiple', new aWidgetFormChoice(array('choices' => array(true => 'Yes', false => 'No'))));
+        
+        $this->setWidget('submissions_delay', new aWidgetFormJQueryTime(array('hours' => self::generateTwoCharsRange(0, 120)), $time_attributes));
+
+
         // setting translation catalogue
         $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('apostrophe');
 
@@ -98,6 +103,14 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
             throw new sfValidatorErrorSchema($validator, array('end_date' => $error));
         }
         return $values;
+    }
+
+    static protected function generateTwoCharsRange($start, $stop) {
+        $results = array();
+        for ($i = $start; $i <= $stop; $i++) {
+            $results[$i] = sprintf('%02d', $i);
+        }
+        return $results;
     }
 
 }

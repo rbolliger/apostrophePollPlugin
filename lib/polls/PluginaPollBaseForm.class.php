@@ -116,7 +116,7 @@ class PluginaPollBaseForm extends BaseForm {
         $actual_cookie = aPollToolkit::getCookieContent($request);
         $poll = Doctrine_Core::getTable('aPollPoll')->findOneById($this->getValue('poll_id'));
 
-        aPollToolkit::setShowPollToCookie($request, $response, $poll, aPollToolkit::getPollAllowMultipleSubmissions($poll->getType()));
+        aPollToolkit::setShowPollToCookie($request, $response, $poll, aPollToolkit::getPollAllowMultipleSubmissions($poll));
 
         try {
             $con->beginTransaction();

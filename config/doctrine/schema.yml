@@ -57,6 +57,8 @@ aPollPoll:
       unique: true
       notnull: true
     description: clob
+    submissions_allow_multiple: boolean
+    submissions_delay: time
     
     # see available types in app_aPoll_available_types
     type: 

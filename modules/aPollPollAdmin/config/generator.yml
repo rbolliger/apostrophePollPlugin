@@ -14,17 +14,32 @@ generator:
 
     config:
       actions: ~
+      
       fields: 
+        type:
+          help: Select the type of poll you want to publish. They are defined in app.yml
         published_from: 
           label: Published from
+          help: Leave this value blank, if you don't want to limit publication start.
         published_to: 
           label: Published to
+          help: Leave this value blank, if you don't want to limit publication end.
+        submissions_allow_multiple:
+          label: Allow multiple submissions?
+          help: Can a user submit multiple answers, one after the other?
+        submissions_delay:
+          label: Submissions delay (hh:mm)
+          help: How much time must wait a user willing to submit a new answer? This setting only applies if if consecutive submissions are not allowed.
+          
+          
       list:    
         title:   Polls administration
         display: [=slug, title, description, type, published_from, published_to]
       filter:  
         display: [type, published_from, published_to]
+        
       form:    ~
+      
       edit:    
         title: Edit Poll
         actions:
@@ -32,6 +47,10 @@ generator:
           _list:         ~
           _delete:       ~
           previewPoll:   { label: Preview poll, action: previewPoll }
+        display:
+          General: [type, slug, published_from, published_to, submissions_allow_multiple, submissions_delay]
+          Translations: [<?php echo implode(', ',sfConfig::get('app_a_i18n_languages')) ?>]
+          
       new:     
         title: New Poll
         actions:

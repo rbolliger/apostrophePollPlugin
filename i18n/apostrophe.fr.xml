@@ -134,6 +134,46 @@
                 <source>Anti-spam check</source>
                 <target>Vérification anti-spam</target>
             </trans-unit>
+            <trans-unit>
+                <source>Select the type of poll you want to publish. They are defined in app.yml</source>
+                <target>Choisissez le type de sondage à publier. Les sontages sont définis dans app.yml</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Leave this value blank, if you don't want to limit publication start.</source>
+                <target>Laissez la valeur vide, si aucune limite ne doit être définie pour le début de la publication.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Leave this value blank, if you don't want to limit publication end.</source>
+                <target>Laissez la valeur vide, si aucune limite ne doit être définie pour la fin de la publication.</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Allow multiple submissions?</source>
+                <target>Autoriser les soumissions multiples?</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Can a user submit multiple answers, one after the other?</source>
+                <target>Un utilisateur peut-il soumettre plusieurs réponses à la suite?</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Submissions delay (hh:mm)</source>
+                <target>Délai de soumission (hh:mm)</target>
+            </trans-unit>
+            <trans-unit>
+                <source>How much time must wait a user willing to submit a new answer? This setting only applies if if consecutive submissions are not allowed.</source>
+                <target>Combien de temps doit attendre un utilisateur pour soumettre une nouvelle réponse? Ce paramètre est actif seulement si des sumissions consécutives ne sont pas admises. </target>
+            </trans-unit>
+            <trans-unit>
+                <source>General</source>
+                <target>Général</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Translations</source>
+                <target>Traductions</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Preview poll</source>
+                <target>Aperçu du sondage</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -102,9 +102,13 @@ class aPollToolkit {
      * @return bool         
      * @see getCookieLifetime()
      */
-    static function getPollAllowMultipleSubmissions($name) {
+    static function getPollAllowMultipleSubmissions(aPollPoll $poll) {
 
-        return self::getValueFromConf($name, 'allow_multiple_submissions', 'app_aPoll_submissions', 'allow_multiple', false);
+        if ((true === $poll->getSubmissionsAllowMultiple()) || (false === $poll->getSubmissionsAllowMultiple())) {
+            return $poll->getSubmissionsAllowMultiple();
+        }
+
+        return self::getValueFromGlobalConf('app_aPoll_submissions', 'allow_multiple', false);
     }
 
     /**
@@ -114,9 +118,16 @@ class aPollToolkit {
      * @return integer     Lifetime of the multiple submission option, in seconds 
      * @see getPollAllowMultipleSubmissions()
      */
-    static function getCookieLifetime($name) {
+    static function getCookieLifetime(aPollPoll $poll) {
 
-        return self::getValueFromConf($name, 'cookie_lifetime', 'app_aPoll_submissions', 'cookie_lifetime', 86400);
+        if ($poll->getSubmissionsDelay()) {
+            $delay = $poll->getDateTimeObject('submissions_delay');
+
+            list($h, $m, $s) = explode(':', $delay);
+            return ($h * 3600) + ($m * 60) + $s;
+        }
+
+        return self::getValueFromGlobalConf('app_aPoll_submissions', 'cookie_lifetime', 86400);
     }
 
     /**
@@ -179,12 +190,17 @@ class aPollToolkit {
             $answer = $conf[$local_field];
         } else {
 
-            $conf = sfConfig::get($global_root, array());
-
-            $answer = isset($conf[$global_field]) ? $conf[$global_field] : $default;
+            $answer = self::getValueFromGlobalConf($global_root, $global_field, $default);
         }
 
         return $answer;
+    }
+
+    static protected function getValueFromGlobalConf($root, $field, $default) {
+
+        $conf = sfConfig::get($root, array());
+
+        return isset($conf[$field]) ? $conf[$field] : $default;
     }
 
     /**
@@ -211,11 +227,10 @@ class aPollToolkit {
     static protected function checkIfShowPollByCookie(aPollPoll $poll, sfWebRequest $request) {
 
         $slug = $poll->getSlug();
-        $type = $poll->getType();
 
         $cookie = self::getCookieContent($request);
 
-        $content = (isset($cookie[$slug])) ? $cookie[$slug] : array('show' => true, 'timeout' => time() + self::getCookieLifetime($type));
+        $content = (isset($cookie[$slug])) ? $cookie[$slug] : array('show' => true, 'timeout' => time() + self::getCookieLifetime($poll));
 
         if (true === $content['show'] || time() > $content['timeout']) {
 
@@ -267,7 +282,6 @@ class aPollToolkit {
     static function setShowPollToCookie(sfWebRequest $request, sfWebResponse $response, aPollPoll $poll, $value) {
 
         $slug = $poll->getSlug();
-        $type = $poll->getType();
 
         $cookie = self::getCookieContent($request);
 
@@ -277,9 +291,9 @@ class aPollToolkit {
         }
 
 
-        $cookie = array_merge($cookie, array($slug => array('show' => $value, 'timeout' => time() + self::getCookieLifetime($type))));
+        $cookie = array_merge($cookie, array($slug => array('show' => $value, 'timeout' => time() + self::getCookieLifetime($poll))));
 
-        $response->setCookie(self::getCookieName(), self::encodeForCookie($cookie), time() + self::getCookieLifetime($type));
+        $response->setCookie(self::getCookieName(), self::encodeForCookie($cookie), time() + self::getCookieLifetime($poll));
     }
 
     /**

@@ -56,4 +56,10 @@ generator:
       new:     
         title: New Poll
         actions:
+          _save_and_list: ~
+          _list:         ~
+          _delete:       ~
           previewPoll:   { label: Preview poll, action: previewPoll }
+        display:
+          General: [type, slug, published_from, published_to, submissions_allow_multiple, submissions_delay]
+          Translations: [<?php echo implode(', ',sfConfig::get('app_a_i18n_languages')) ?>]

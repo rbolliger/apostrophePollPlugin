@@ -12,5 +12,10 @@
  */
 abstract class PluginaPollPoll extends BaseaPollPoll
 {
+    
+    public function __toString() {
+        
+        return $this->getTitle();
+    }
 
 }

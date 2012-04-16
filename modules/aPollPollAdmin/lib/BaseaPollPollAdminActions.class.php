@@ -84,4 +84,9 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions
         $this->permid = 1;
     }
     
+    public function executeListAnswers(sfWebRequest $request) {
+        
+        $this->redirect('@a_poll_answer_admin_list_by_poll?id='.$request->getParameter('id'));
+    }
+    
 }

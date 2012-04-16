@@ -178,6 +178,18 @@
                 <source>This defines the identifier of the poll in URLs.</source>
                 <target>Ceci définit l'identifiant du sundage dans les adresses URL.</target>
             </trans-unit>
+            <trans-unit>
+                <source>Posted from</source>
+                <target>Soumis depuis</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Submission language</source>
+                <target>Langue de soumission</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Submission date</source>
+                <target>Date de soumission</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

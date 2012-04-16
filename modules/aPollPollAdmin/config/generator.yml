@@ -37,6 +37,10 @@ generator:
       list:    
         title:   Polls administration
         display: [=slug, title, description, type, published_from, published_to]
+        object_actions:
+          _edit:         ~
+          _delete:       ~
+          listAnswers:   { label: List answers, action: listAnswers }
       filter:  
         display: [type, published_from, published_to]
         

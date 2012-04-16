@@ -1,0 +1,45 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           aPollAnswer
+    theme:                 aAdmin
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          a_poll_answer_admin
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    i18n_catalogue:        apostrophe
+
+    config:
+      actions: ~
+      
+      fields: 
+        remote_address:
+          label: Posted from
+        culture: 
+          label: Submission language
+        created_at: 
+          label: Submission date
+        
+          
+          
+      list:    
+        title:   Answers administration
+        display: [=id, remote_address, culture, created_at]
+        actions:
+          _new:          ~
+          backToPolls: { label: Back to Polls, action: backToPolls, params: {id = %%id%%} }
+        object_actions:
+          _delete: ~
+        sort:           [created_at, desc]
+      filter:  
+        display: [remote_address, culture, created_at]
+        
+      form:    ~
+      
+      edit:    ~
+    
+      new:     ~
+

@@ -13,16 +13,14 @@ require_once dirname(__FILE__) . '/../lib/aPollAnswerAdminGeneratorHelper.class.
 abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
 
     // You must create with at least a title
-    public function executeNew(sfWebRequest $request) {
+    public function executeEdit(sfWebRequest $request) {
         $this->forward404();
     }
     
     
-    public function executeIndex(sfWebRequest $request) {
+    public function executeShow(sfWebRequest $request) {
         
-        
-        
-        parent::executeIndex($request);
+        $this->answer = $this->getRoute()->getObject();
         
     }
 

@@ -53,7 +53,10 @@ class aPollRouting extends sfPatternRouting {
                         'module' => 'aPollAnswerAdmin',
                         'prefix_path' => 'admin/answers',
                         'column' => 'id',
-                        'with_wildcard_routes' => true)));
+                        'with_wildcard_routes' => true,
+                        'actions' => array('delete','list','edit','show'),  // edit must be left, otherwise the list won't be rendered
+                        'with_show' => true,
+                )));
 
             $r->prependRoute('a_poll_answer_admin_list_by_poll', new sfRoute('/admin/answers/poll/:id', array(
                         'module' => 'aPollAnswerAdmin',

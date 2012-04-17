@@ -22,6 +22,8 @@ generator:
           label: Submission language
         created_at: 
           label: Submission date
+        id:
+          renderer: [aPollAnswerAdminGeneratorHelper, linkToShow]
         
           
           
@@ -29,7 +31,6 @@ generator:
         title:   Answers administration
         display: [=id, remote_address, culture, created_at]
         actions:
-          _new:          ~
           backToPolls: { label: Back to Polls, action: backToPolls, params: {id = %%id%%} }
         object_actions:
           _delete: ~

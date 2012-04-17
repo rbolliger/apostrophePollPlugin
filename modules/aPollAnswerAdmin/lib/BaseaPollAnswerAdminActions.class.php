@@ -16,8 +16,21 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
     public function executeNew(sfWebRequest $request) {
         $this->forward404();
     }
+    
+    
+    public function executeIndex(sfWebRequest $request) {
+        
+        
+        
+        parent::executeIndex($request);
+        
+    }
+
+
 
     public function executeListByPoll(sfWebRequest $request) {
+   
+        $this->setFilters(array_merge($this->getFilters(),array('poll_id' => $request->getParameter('id'))));
 
         $this->dispatcher->connect('admin.build_query', array($this, 'listenToBuildQuery'));
 
@@ -25,6 +38,7 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
 
         $this->setTemplate('index');
     }
+    
 
     public static function listenToBuildQuery(sfEvent $event, Doctrine_Query $query) {
     
@@ -34,6 +48,33 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
         return $query->addWhere($root.'.poll_id = ?', $subject->getRequestParameter('id'));
         
     }
+    
+    public function executeFilter(sfWebRequest $request)
+  {
+    $this->setPage(1);
+
+    if ($request->hasParameter('_reset'))
+    {
+      $this->setFilters($this->configuration->getFilterDefaults());
+
+      $this->redirect('@a_poll_answer_admin_list_by_poll?id='.$this->filters->getValue('poll_id'));
+    }
+
+    $this->filters = $this->configuration->getFilterForm($this->getFilters());
+
+    $this->filters->bind($request->getParameter($this->filters->getName()));
+    if ($this->filters->isValid())
+    {
+      $this->setFilters($this->filters->getValues());
+
+      $this->redirect('@a_poll_answer_admin_list_by_poll?id='.$this->filters->getValue('poll_id'));
+    }
+
+    $this->pager = $this->getPager();
+    $this->sort = $this->getSort();
+
+    $this->setTemplate('index');
+  }
     
 
 }

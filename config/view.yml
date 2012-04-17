@@ -4,5 +4,4 @@ all:
 
   javascripts:
     - /apostrophePollPlugin/js/aPoll.js: { data-asset-group: global }   
-    - /apostrophePollPlugin/js/jquery.ui.datepicker-fr.js: { data-asset-group: global } 
     - http://www.google.com/recaptcha/api/js/recaptcha_ajax.js: { data-asset-group: global } 

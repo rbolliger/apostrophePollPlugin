@@ -13,6 +13,10 @@ class aPollAnswerAdminGeneratorHelper extends BaseaPollAnswerAdminGeneratorHelpe
     public function linkToBackToPolls($params) {
         return '<li class="a-admin-action-back-to-polls">' . link_to('<span class="icon"></span>' . __($params['label'], array(), 'apostrophe'), '@a_poll_poll_admin',array("class" => "a-btn icon big a-arrow-left")) . '</li>';
     }
+    
+    public function linkToBackToAnswers($params) {
+        return '<li class="a-admin-action-back-to-answers">' . link_to('<span class="icon"></span>' . __($params['label'], array(), 'apostrophe'), '@a_poll_answer_admin_list_by_poll?id='.$params['answer']->getPollId(),array("class" => "a-btn icon big a-arrow-left")) . '</li>';
+    }
 
     
     public static function linkToShow($field, $params = array()) {

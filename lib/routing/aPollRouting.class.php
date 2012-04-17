@@ -56,6 +56,9 @@ class aPollRouting extends sfPatternRouting {
                         'with_wildcard_routes' => true,
                         'actions' => array('delete','list','edit','show'),  // edit must be left, otherwise the list won't be rendered
                         'with_show' => true,
+                        'model_methods' => array(
+                            'object' => 'getByIdWithFieldsAndPoll'
+                        ),
                 )));
 
             $r->prependRoute('a_poll_answer_admin_list_by_poll', new sfRoute('/admin/answers/poll/:id', array(

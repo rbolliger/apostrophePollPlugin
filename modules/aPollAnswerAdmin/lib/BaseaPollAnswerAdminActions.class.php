@@ -27,7 +27,14 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
 
         $poll = $this->a_poll_answer->getPoll();
         $form_name = aPollToolkit::getPollFormName($poll->getType());
-        $this->form_poll = new $form_name();
+        
+        $fields = $this->a_poll_answer->getFields();
+        $values = array();
+        foreach ($fields as $field) {
+            $values = array_merge($values, array($field->getName() => $field->getValue())); 
+        }
+        
+        $this->form_poll = new $form_name($values);
     }
 
     public function executeListByPoll(sfWebRequest $request) {

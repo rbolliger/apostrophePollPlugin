@@ -9,7 +9,7 @@
         <div class="a-form-label"><?php echo $label ? $label : ($form->getWidget($name)->getLabel() ? $form->getWidget($name)->getLabel() : $name) ?></div>
 
         <div class="a-form-field">
-            <?php echo aPollToolkit::renderFieldValue($form, $field instanceof sfOutputEscaper ? $field->getRawValue() : $field, $form[$name]->getValue()); ?>
+            <?php echo aPollToolkit::renderAdminFieldValue($form, $field instanceof sfOutputEscaper ? $field->getRawValue() : $field, $form[$name]->getValue()); ?>
         </div>
     </div>
 

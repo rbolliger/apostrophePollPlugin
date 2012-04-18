@@ -13,3 +13,13 @@
 <?php endforeach; ?>
 
 
+<?php
+
+include_partial('aPollAnswerAdmin/show_answer_fields', array(
+    'a_poll_answer' => $a_poll_answer,
+    'form' => $form_poll,
+    'fieldset' => 'Answers',
+));
+?>
+
+

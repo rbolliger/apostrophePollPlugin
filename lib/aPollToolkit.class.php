@@ -445,27 +445,54 @@ class aPollToolkit {
     }
 
     /**
-     * Renders the value of a form field in function of its type. This function is 
+     * Renders the value of an admin-generator field in function of its type. This function is 
      * meant to render a "show" representation of a form field.
      * 
      * @param sfFormField $field: form field to render
      * @param mixed $value: the value to render
      * @return string 
      */
-    static public function renderFieldValue(sfForm $form ,sfModelGeneratorConfigurationField $field, $value = null) {
+    static public function renderAdminFieldValue(sfForm $form, sfModelGeneratorConfigurationField $field, $value = null) {
+
+        if (null === $value) {
+            return '';
+        }
+
+        if ($renderer = $field->getRenderer()) {
+            return call_user_func_array($renderer, array_merge(array($value), $field->getRendererArguments()));
+        }
+
+        $string = self::renderField($form, $field, $value, $field->getType());
+
+
+        return $string;
+    }
+
+    static function renderFormFieldValue(sfForm $form, sfFormField $field, $value = null) {
 
         if (null === $value) {
             return '';
         }
         
-        if ($renderer = $field->getRenderer()) {
-            return call_user_func_array($renderer, array_merge(array($value), $field->getRendererArguments()));    
+        if (true === $value || false === $value) {
+            $type = 'Boolean';
+        } elseif (false !== strtotime($value)) {
+            $type = 'Date';
+        } else {
+            $type = 'String';
         }
-        
+
+        $string = self::renderField($form, $field, $value, $type);
+
+
+        return $string;
+    }
+
+    static protected function renderField($form, $field, $value, $type) {
 
         sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
-
-        switch ($field->getType()) {
+        
+        switch ($type) {
             case 'Date':
                 $string = false !== strtotime($value) ? format_date($value, $field->getConfig('date_format', 'f')) : '&nbsp;';
                 break;
@@ -473,11 +500,11 @@ class aPollToolkit {
                 $string = get_partial('aPollAnswer/list_field_boolean', array('value' => $value));
                 break;
             case 'ForeignKey':
-                 $widget = $form[$field->getName()]->getWidget();
+                $widget = $form[$field->getName()]->getWidget();
 
                 if ($widget instanceof sfWidgetFormChoice) {
                     $choices = $widget->getChoices();
-                    
+
                     $string = $choices[$value];
                 } else {
                     $string = $value;
@@ -485,9 +512,9 @@ class aPollToolkit {
 
                 break;
             default:
-                $string =  $value;
+                $string = $value;
         }
-        
+
         return $string;
     }
 

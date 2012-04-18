@@ -20,11 +20,13 @@ generator:
           label: Posted from
         culture: 
           label: Submission language
+          renderer: [aPollAnswerAdminGeneratorHelper, renderCulture]
         created_at: 
           label: Submission date
         id:
           renderer: [aPollAnswerAdminGeneratorHelper, linkToShow]
-        
+        poll_id:
+          label: Poll
           
           
       list:    
@@ -38,7 +40,8 @@ generator:
       filter:  
         display: [remote_address, culture, created_at]
         
-      form:    ~
+      form:    
+        display: [poll_id, remote_address, culture, created_at]
       
       edit:    ~
     

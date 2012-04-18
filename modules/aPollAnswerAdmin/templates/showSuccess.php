@@ -13,7 +13,7 @@
 <?php slot('a-subnav') ?>
 <div class="a-ui a-subnav-wrapper admin">
     <div class="a-subnav-inner">
-        <?php include_partial('aPollAnswerAdmin/form_header', array('a_poll_answer' => $a_poll_answer, 'form' => $form, 'configuration' => $configuration)) ?>
+        <?php include_partial('aPollAnswerAdmin/form_header', array('a_poll_answer' => $a_poll_answer, 'form' => $form_answer, 'configuration' => $configuration)) ?>
     </div>	
 </div>
 <?php end_slot() ?>
@@ -23,11 +23,17 @@
 
     <div class="a-admin-content main">
         <?php include_partial('aPollAnswerAdmin/flashes') ?>
-        <?php include_partial('aPollAnswerAdmin/show', array('a_poll_answer' => $a_poll_answer, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper)) ?>
+        <?php include_partial('aPollAnswerAdmin/show', array(
+            'a_poll_answer' => $a_poll_answer,
+            'form_answer' => $form_answer,
+            'form_poll' => $form_poll,
+            'configuration' => $configuration,
+            'helper' => $helper,
+            )) ?>
     </div>
 
     <div class="a-admin-footer">
-        <?php include_partial('aPollAnswerAdmin/form_footer', array('a_poll_answer' => $a_poll_answer, 'form' => $form, 'configuration' => $configuration)) ?>
+        <?php include_partial('aPollAnswerAdmin/form_footer', array('a_poll_answer' => $a_poll_answer, 'form' => $form_answer, 'configuration' => $configuration)) ?>
     </div>
 
 </div>

@@ -1,7 +1,15 @@
-<?php
+<?php foreach ($configuration->getFormFields($form_answer, $form_answer->isNew() ? 'new' : 'edit') as $fieldset => $fields): ?>
+    <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+    include_partial('aPollAnswerAdmin/show_answer', array(
+        'a_poll_answer' => $a_poll_answer,
+        'form' => $form_answer,
+        'configuration' => $configuration,
+        'helper' => $helper,
+        'fieldset' => 'Submission',
+        'fields' => $fields,
+    ));
+    ?>
+<?php endforeach; ?>
+
+

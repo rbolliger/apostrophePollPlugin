@@ -257,12 +257,12 @@ class aPollToolkit {
         $start = strtotime($poll->getPublishedFrom());
         $end = strtotime($poll->getPublishedTo());
 
-        // if $end is defined and the publication end is old, we don't display
+// if $end is defined and the publication end is old, we don't display
         if (null != $end && $now > $end) {
             return false;
         }
 
-        // if $start is defined and we are toot early, we don't display
+// if $start is defined and we are toot early, we don't display
         if (null != $start && $now < $start) {
             return false;
         }
@@ -442,6 +442,53 @@ class aPollToolkit {
         $mailer->send($message);
 
         return true;
+    }
+
+    /**
+     * Renders the value of a form field in function of its type. This function is 
+     * meant to render a "show" representation of a form field.
+     * 
+     * @param sfFormField $field: form field to render
+     * @param mixed $value: the value to render
+     * @return string 
+     */
+    static public function renderFieldValue(sfForm $form ,sfModelGeneratorConfigurationField $field, $value = null) {
+
+        if (null === $value) {
+            return '';
+        }
+        
+        if ($renderer = $field->getRenderer()) {
+            return call_user_func_array($renderer, array_merge(array($value), $field->getRendererArguments()));    
+        }
+        
+
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+
+        switch ($field->getType()) {
+            case 'Date':
+                $string = false !== strtotime($value) ? format_date($value, $field->getConfig('date_format', 'f')) : '&nbsp;';
+                break;
+            case 'Boolean':
+                $string = get_partial('aPollAnswer/list_field_boolean', array('value' => $value));
+                break;
+            case 'ForeignKey':
+                 $widget = $form[$field->getName()]->getWidget();
+
+                if ($widget instanceof sfWidgetFormChoice) {
+                    $choices = $widget->getChoices();
+                    
+                    $string = $choices[$value];
+                } else {
+                    $string = $value;
+                }
+
+                break;
+            default:
+                $string =  $value;
+        }
+        
+        return $string;
     }
 
 }

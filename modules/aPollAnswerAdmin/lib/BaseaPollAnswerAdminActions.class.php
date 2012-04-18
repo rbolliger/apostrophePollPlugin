@@ -20,12 +20,14 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
     public function executeShow(sfWebRequest $request) {
 
         $this->a_poll_answer = $this->getRoute()->getObject();
-        
+
+
+
+        $this->form_answer = $this->configuration->getForm($this->a_poll_answer);
+
         $poll = $this->a_poll_answer->getPoll();
-        
         $form_name = aPollToolkit::getPollFormName($poll->getType());
-        
-        $this->form = new $form_name();
+        $this->form_poll = new $form_name();
     }
 
     public function executeListByPoll(sfWebRequest $request) {

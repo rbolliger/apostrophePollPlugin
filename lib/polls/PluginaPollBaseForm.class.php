@@ -180,7 +180,11 @@ class PluginaPollBaseForm extends BaseForm {
             $af->setPollId($pollid);
             $af->setAnswerId($aid);
             $af->setName($field);
-            $af->setValue($this->getValue($field));
+
+            if (is_array($v)) {
+                $v = serialize($v);
+            }
+            $af->setValue($v);
 
             $answer_fields->add($af);
         }
@@ -232,23 +236,23 @@ class PluginaPollBaseForm extends BaseForm {
                 ));
     }
 
-    public static function listenToRequestParametersFilterEvent(sfEvent $event, $value) { 
-        
+    public static function listenToRequestParametersFilterEvent(sfEvent $event, $value) {
+
         $params = $event->getParameters();
-        
-        
-        
-        if(!aPollToolkit::getCaptchaDoDisplay($params['poll_type'])) {
+
+
+
+        if (!aPollToolkit::getCaptchaDoDisplay($params['poll_type'])) {
             return array();
         }
-        
-        
-        
+
+
+
         $captcha = array(
-            'recaptcha_challenge_field' => isset($value['recaptcha_challenge_field']) ? $value['recaptcha_challenge_field'] :  null,
+            'recaptcha_challenge_field' => isset($value['recaptcha_challenge_field']) ? $value['recaptcha_challenge_field'] : null,
             'recaptcha_response_field' => isset($value['recaptcha_response_field']) ? $value['recaptcha_response_field'] : null,
         );
-        
+
         return array('captcha' => $captcha);
     }
 

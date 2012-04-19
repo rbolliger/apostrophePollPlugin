@@ -12,5 +12,6 @@
  */
 abstract class PluginaPollAnswerField extends BaseaPollAnswerField
 {
+    
 
 }

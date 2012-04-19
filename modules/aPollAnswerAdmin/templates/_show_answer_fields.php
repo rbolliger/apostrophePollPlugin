@@ -15,7 +15,11 @@
                 <div class="a-form-label"><?php echo $form->getWidget($name)->getLabel() ? $form->getWidget($name)->getLabel() : $name ?></div>
 
                 <div class="a-form-field">
-                    <?php echo aPollToolkit::renderFormFieldValue($form, $field instanceof sfOutputEscaper ? $field->getRawValue() : $field, $value); ?>
+                    <?php echo aPollToolkit::renderFormFieldValue(
+                            $form,
+                            $field instanceof sfOutputEscaper ? $field->getRawValue() : $field,
+                            aPollToolkit::is_serialized($value) ? implode(', ' ,unserialize($value)) : $value
+                            ); ?>
                 </div>
             </div>
         <?php endforeach; ?>

@@ -473,7 +473,7 @@ class aPollToolkit {
         if (null === $value) {
             return '';
         }
-        
+
         if (true === $value || false === $value) {
             $type = 'Boolean';
         } elseif (false !== strtotime($value)) {
@@ -491,7 +491,7 @@ class aPollToolkit {
     static protected function renderField($form, $field, $value, $type) {
 
         sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
-        
+
         switch ($type) {
             case 'Date':
                 $string = false !== strtotime($value) ? format_date($value, $field->getConfig('date_format', 'f')) : '&nbsp;';
@@ -516,6 +516,25 @@ class aPollToolkit {
         }
 
         return $string;
+    }
+
+    /**
+     * Checks if a value is serialized. Taken from http://www.cs278.org/blog/2009/10/23/php-function-is_serialized/
+     * 
+     * @param type $val
+     * @return boolean 
+     */
+    static public function is_serialized($val) {
+        if (!is_string($val)) {
+            return false;
+        }
+        if (trim($val) == "") {
+            return false;
+        }
+        if (preg_match("/^(i|s|a|o|d):(.*);/si", $val)) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -16,7 +16,7 @@
     <?php // we display the form ?>
     <?php if ($poll_validation->isValid()) : ?>
 
-        <div id="a-poll-slot-<?php echo $poll->getSlug(); ?>" class="a-poll-slot-<?php echo $poll->getSlug(); ?>">
+        <div id="a-poll-slot-<?php echo $poll->getSlug(); ?>" class="a-poll-slot-<?php echo $poll->getSlug(); ?> clearfix">
             <?php
             include_partial($form_view_template, array(
                 'poll' => $poll,

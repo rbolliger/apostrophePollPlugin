@@ -3,18 +3,16 @@
 
 <div class="a-ui a-poll-slot-container">
 
-    <div class="a-poll-intro">
-        <div class="a-poll-title-bar">
-            <h2 class="a-poll-title"><?php echo $poll->getTitle() ?></h2>
-        </div>
-
-        <?php if ($poll->getDescription()): ?>
-            <div class="a-poll-description">
-                <p><?php echo $poll->getDescription(); ?></p>
-            </div>
-        <? endif; ?>
-
+    <div class="a-poll-title-bar">
+        <h2 class="a-poll-title"><?php echo $poll->getTitle() ?></h2>
     </div>
+
+    <?php if ($poll->getDescription()): ?>
+        <div class="a-poll-description">
+            <p><?php echo $poll->getDescription(); ?></p>
+        </div>
+    <? endif; ?>
+
 
     <div class="a-admin-form-container">
 

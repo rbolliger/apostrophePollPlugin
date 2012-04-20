@@ -27,13 +27,13 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
 
         $poll = $this->a_poll_answer->getPoll();
         $form_name = aPollToolkit::getPollFormName($poll->getType());
-        
+
         $fields = $this->a_poll_answer->getFields();
         $values = array();
         foreach ($fields as $field) {
-            $values = array_merge($values, array($field->getName() => $field->getValue())); 
+            $values = array_merge($values, array($field->getName() => $field->getValue()));
         }
-        
+
         $this->form_poll = new $form_name($values);
     }
 
@@ -44,6 +44,32 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
         $this->dispatcher->connect('admin.build_query', array($this, 'listenToBuildQuery'));
 
         $this->executeIndex($request);
+
+
+        // There is no really great way to determine whether the filters differ from the defaults
+        // do it the tedious way
+        $this->filtersActive = false;
+
+        // Without this check we crash admin gen that has no filters
+        if ($this->configuration->hasFilterForm()) {
+            $defaults = $this->configuration->getFilterDefaults();
+            $filters = $this->getFilters();
+
+            foreach ($filters as $key => $val) {
+                
+                // we skip poll_id field, otherwise filters are always shown
+                if ('poll_id' == $key) { continue; }
+                
+                if (isset($defaults[$key])) {
+                    $this->filtersActive = true;
+                } else {
+                    if (!$this->isEmptyFilter($val)) {
+                        $this->filtersActive = true;
+                    }
+                }
+            }
+        }
+
 
         $this->setTemplate('index');
     }

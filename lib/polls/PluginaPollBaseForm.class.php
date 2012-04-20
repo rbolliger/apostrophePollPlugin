@@ -118,19 +118,14 @@ class PluginaPollBaseForm extends BaseForm {
 
         aPollToolkit::setShowPollToCookie($request, $response, $poll, aPollToolkit::getPollAllowMultipleSubmissions($poll));
 
+
         try {
-            $con->beginTransaction();
-
             $answer = $this->doSave($con);
-
-            $con->commit();
-        } catch (Exception $e) {
+        } catch (Exception $exc) {
 
             $response->setCookie($actual_cookie);
 
-            $con->rollBack();
-
-            throw $e;
+            throw $exc;
         }
 
         return $answer;
@@ -189,10 +184,20 @@ class PluginaPollBaseForm extends BaseForm {
             $answer_fields->add($af);
         }
 
-        // Once all fields set, we save all of them
-        if (count($answer_fields)) {
-            $answer_fields->save();
+
+        try {
+
+            // Once all fields set, we save all of them
+            if (count($answer_fields)) {
+                $answer_fields->save();
+            }
+        } catch (Exception $e) {
+
+            $answer->delete();
+
+            throw $e;
         }
+
 
         return $answer;
     }

@@ -9,7 +9,7 @@
 
     <?php if ($poll->getDescription()): ?>
         <div class="a-poll-description">
-            <p><?php echo $poll->getDescription(); ?></p>
+            <div><?php echo html_entity_decode($poll->getDescription()); ?></div>
         </div>
     <? endif; ?>
 

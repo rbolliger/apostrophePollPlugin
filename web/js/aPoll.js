@@ -1,8 +1,7 @@
 function aPollSubmitForm(options) 
 {
-    var newForm = $(options['form']);
-    newForm.submit(function() {
-        var container = $(options['container'])
+    $(options['form']).live('submit',function() {
+        var container = $(options['container']);
         $.post(options['url'], $(this).serialize(), function(data) { 
             container.html(data);
         },

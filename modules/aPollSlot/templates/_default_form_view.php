@@ -35,10 +35,10 @@
             <?php endforeach; ?>
 
             <ul class="a-ui a-controls">
-                <li  class="a-admin-action-save"><?php echo a_anchor_submit_button(a_('Submit'), array('a-show-busy')) ?></li>
+                <li class="a-admin-action-save"><input type="submit" value="<?php echo a_('Submit') ?>" class="a-btn a-show-busy"></li>
             </ul>
         </form>
-
+        
         <?php
         a_js_call('aPollSubmitPollForm(?)', array(
             'form' => '#a-poll-form-' . $poll->getId(),
@@ -46,7 +46,7 @@
             'url' => url_for($action),
         ));
         ?>
-        <?php include_partial('a/globalJavascripts') ?>
+
     </div>
 
 

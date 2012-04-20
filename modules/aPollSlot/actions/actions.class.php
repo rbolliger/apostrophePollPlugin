@@ -36,7 +36,7 @@ class aPollSlotActions extends aSlotActions {
     public function executeSubmitPollForm(sfRequest $request) {
 
         $values = $request->getParameter('a-poll-form');
-       
+
         $this->poll = Doctrine_Core::getTable('aPollPoll')->findOneById($values['poll_id']);
         $this->forward404Unless($this->poll);
 
@@ -55,18 +55,17 @@ class aPollSlotActions extends aSlotActions {
 
 
         $form_name = aPollToolkit::getPollFormName($type);
-        
+
         // This is to allow parsing request parameters in order to add them to form inputs.
         // This is useful for example to add recaptcha parameters, which are not defined directly
         // in the main form.
         $filtered = $this->getContext()->getEventDispatcher()->filter(
-                new sfEvent($this, 'apoll.filter_submit_poll_request_parameters',array('poll_type' => $type)),
-                $request->getParameterHolder()->getAll()
+                        new sfEvent($this, 'apoll.filter_submit_poll_request_parameters', array('poll_type' => $type)), $request->getParameterHolder()->getAll()
                 )->getReturnValue();
-        
-        
+
+
         $values = array_merge($values, $filtered);
-        
+
 
         $this->poll_form = new $form_name(array(
                     'poll_id' => $values['poll_id'],
@@ -107,10 +106,12 @@ class aPollSlotActions extends aSlotActions {
                 aPollToolkit::sendNotificationEmail($type, $this->getMailer(), $this->poll, $answer);
 
                 return $this->renderPartial($this->getModuleName() . '/submit_success', array_merge($partial_vars, array('template' => aPollToolkit::getPollSubmitSuccessTemplate($type))));
+            
+
+            } else {
+ 
+                return $this->renderPartial($this->getModuleName() . '/normalView', $partial_vars);
             }
-
-
-            return $this->renderPartial($this->getModuleName() . '/normalView', $partial_vars);
         }
     }
 

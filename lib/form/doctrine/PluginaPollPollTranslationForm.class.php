@@ -13,6 +13,9 @@ abstract class PluginaPollPollTranslationForm extends BaseaPollPollTranslationFo
     public function setup() {
 
         parent::setup();
+        
+        $this->setWidget('description', new aWidgetFormRichTextarea());
+        $this->setWidget('title', new sfWidgetFormInputText(array(),array('size' => 255)));
 
         $decorator = new sfWidgetFormSchemaFormatterAAdmin($this->widgetSchema);
         $this->widgetSchema->addFormFormatter('aAdmin', $decorator);

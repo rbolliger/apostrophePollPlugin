@@ -66,6 +66,8 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
                         ), array(
                     'time' => $time_attributes,
                 )));
+        
+        
 
 
         $this->validatorSchema->setPostValidator(
@@ -75,7 +77,7 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
 
         $this->setWidget('submissions_allow_multiple', new aWidgetFormChoice(array('choices' => array(true => 'Yes', false => 'No'))));
         
-        $this->setWidget('submissions_delay', new aWidgetFormJQueryTime(array('hours' => self::generateTwoCharsRange(0, 120)), $time_attributes));
+        $this->setWidget('submissions_delay', new sfWidgetFormTime(array('hours' => self::generateTwoCharsRange(0, 120)), $time_attributes));
 
 
         // setting translation catalogue

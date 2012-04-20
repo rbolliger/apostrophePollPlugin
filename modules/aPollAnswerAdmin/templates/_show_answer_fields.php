@@ -18,7 +18,7 @@
                     <?php echo aPollToolkit::renderFormFieldValue(
                             $form,
                             $field instanceof sfOutputEscaper ? $field->getRawValue() : $field,
-                            aPollToolkit::is_serialized($value) ? implode(', ' ,unserialize($value)) : $value
+                            $value
                             ); ?>
                 </div>
             </div>

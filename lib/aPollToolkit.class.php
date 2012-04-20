@@ -474,7 +474,9 @@ class aPollToolkit {
             return '';
         }
 
-        if (true === $value || false === $value) {
+        if ($field->getWidget() instanceof sfWidgetFormChoiceBase) {
+            $type = 'sfWidgetFormChoice';
+        } elseif (true === $value || false === $value) {
             $type = 'Boolean';
         } elseif (false !== strtotime($value)) {
             $type = 'Date';
@@ -490,16 +492,43 @@ class aPollToolkit {
 
     static protected function renderField($form, $field, $value, $type) {
 
-        sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+        if (self::is_serialized($value)) {
+            $value = unserialize($value);
+        }
+
+        if (is_array($value)) {
+            
+            $array = array();
+            foreach ($value as $v) {
+                $array[] = self::doRenderField($form, $field, $v, $type);
+            }
+            
+            $string = implode(', ',$array);
+            
+        } else {
+            $string = self::doRenderField($form, $field, $value, $type);
+        }
+        
+        return $string;
+    }
+
+    static protected function doRenderField($form, $field, $value, $type) {
+
 
         switch ($type) {
             case 'Date':
+
+                sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
+
                 $string = false !== strtotime($value) ? format_date($value, $field->getConfig('date_format', 'f')) : '&nbsp;';
                 break;
+
             case 'Boolean':
                 $string = get_partial('aPollAnswer/list_field_boolean', array('value' => $value));
                 break;
+
             case 'ForeignKey':
+            case 'sfWidgetFormChoice':
                 $widget = $form[$field->getName()]->getWidget();
 
                 if ($widget instanceof sfWidgetFormChoice) {
@@ -511,6 +540,7 @@ class aPollToolkit {
                 }
 
                 break;
+
             default:
                 $string = $value;
         }

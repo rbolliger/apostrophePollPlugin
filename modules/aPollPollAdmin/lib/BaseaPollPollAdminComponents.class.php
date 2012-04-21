@@ -14,4 +14,10 @@ abstract class BaseaPollPollAdminComponents extends sfComponents
   {
     $this->form = new aPollPollNewForm();
   }
+  
+  
+  public function executeExportAnswers(sfWebRequest $request)
+  {
+
+  }
 }

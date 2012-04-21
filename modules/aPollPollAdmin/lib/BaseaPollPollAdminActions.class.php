@@ -95,5 +95,10 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
         parent::executeUpdate($request);
     }
+    
+    public function executeExportAnswers(sfWebRequest $request) {
+
+        
+    }
 
 }

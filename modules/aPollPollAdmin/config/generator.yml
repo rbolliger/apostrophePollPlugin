@@ -41,6 +41,7 @@ generator:
           _edit:         ~
           _delete:       ~
           listAnswers:   { label: List answers, action: listAnswers }
+          exportAnswers: { label: Export answers, action exportAnswers }
       filter:  
         display: [type, published_from, published_to]
         

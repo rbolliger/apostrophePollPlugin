@@ -5,7 +5,7 @@
  *
  * @author Raffaele Bolliger <raffaele.bolliger at gmail.com>
  */
-class aPollToolkit {
+class BaseaPollToolkit {
 
     /**
      * Checks that the poll instance defined in app_aPoll_available_polls is correctly

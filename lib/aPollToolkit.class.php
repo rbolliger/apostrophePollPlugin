@@ -144,7 +144,7 @@ class aPollToolkit {
     /**
      * Returns the email address where the submission notification is sent to.
      * 
-     * @param type $name
+     * @param type $name The poll identifier as defined in app_aPoll_available_polls
      * @return type 
      */
     static function getNotificationEmailTo($name) {
@@ -167,6 +167,26 @@ class aPollToolkit {
 
     static function getCaptchaDoDisplay($name) {
         return self::getValueFromConf($name, 'captcha_do_display', 'app_aPoll_captcha', 'do_display', true);
+    }
+    
+    
+    /**
+     * Returns true if at least one report is available for this poll. Returns
+     * false if reports are explicitely disabled.
+     * 
+     * @param type $name The poll identifier as defined in app_aPoll_available_polls
+     * @return boolean 
+     */
+    static function hasReports($name) {
+       
+        $conf = self::getPollConfiguration($name);
+        
+        if (!isset($conf['reports'])) {
+            return true;
+        }
+        
+        return false == $conf['reports'] ? false : true;
+        
     }
 
     /**

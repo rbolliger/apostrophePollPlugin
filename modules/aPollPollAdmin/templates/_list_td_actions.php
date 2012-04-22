@@ -4,6 +4,8 @@
         <?php echo $helper->linkToDelete($a_poll_poll, array('params' => array(), 'confirm' => 'Are you sure?', 'class_suffix' => 'delete', 'label' => 'Delete',)) ?>
         <?php echo $helper->linkToListAnswers($a_poll_poll, array('params' => array())) ?>
 
+        <?php if(aPollToolkit::hasReports($a_poll_poll->getType())): ?>
+        
         <li class="a-admin-action-export-answers">
             <?php echo a_button(
                     '<span class="icon"></span>' . __('Reports', array(), 'apostrophe'),
@@ -15,5 +17,6 @@
                 <?php include_component('aPollPollAdmin', 'exportAnswers', array('poll_id' => $a_poll_poll->getId())) ?>
             </div>
         </li>
+        <?php endif; ?>
     </ul>
 </td>

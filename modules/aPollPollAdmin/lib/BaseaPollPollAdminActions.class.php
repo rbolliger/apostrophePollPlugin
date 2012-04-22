@@ -97,6 +97,10 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
     }
     
     public function executeExportToExcel(sfWebRequest $request) {
+        
+        
+        
+        
 
         $this->poll = $this->getRoute()->getObject();
         

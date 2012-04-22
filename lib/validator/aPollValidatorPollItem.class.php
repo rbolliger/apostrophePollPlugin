@@ -40,6 +40,8 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('email_title', 'The partial "%partial%" defined in "email_title_template" field cannot be found.');
         $this->addMessage('email_body', 'The partial "%partial%" defined in "email_body_template" field cannot be found.');
         $this->addMessage('captcha_display', 'Field "captcha_do_display" only accepts "true" and "false" as values.');
+        $this->addMessage('reports_error', 'Field "reports" is not correctly defined. It only accepts "false", an arraydefining available reports or a string defining a report.');
+        $this->addMessage('reports_items', 'Unknown reports "%reports%". Only reports defined in app_aPoll_reports can be defined here.');
     }
 
     /**
@@ -155,7 +157,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
                 throw new sfValidatorError($this, 'email_body', array('template' => $poll['email_body_partial']));
             }
         }
-        
+
         // checks if allow_multiple_submissions is defined and if the values are right
         if (isset($poll['captcha_do_display'])) {
 
@@ -163,8 +165,41 @@ class aPollValidatorPollItem extends sfValidatorBase {
                 throw new sfValidatorError($this, 'captcha_display');
             }
         }
-        
-        
+
+        // checks if reports is correctly defined
+        if (isset($poll['reports'])) {
+
+            $r = $poll['reports'];
+
+            // the definition is in the right format?
+            if (!(false === $r || is_array($r) || is_string($r))) {
+                throw new sfValidatorError($this, 'reports_error');
+            }
+
+            // if defined with a single string. ~ means default reports and is accepted without further checks
+            if (is_string($r) && '~' !== $r) {
+                if (false === aPollToolkit::getReportSettings($r)) {
+                    throw new sfValidatorError($this, 'reports_items', array('reports' => $r));
+                }
+            }
+
+            // if defined as an array of reports. ~ means default reports and is accepted without further checks
+            if (is_array($r)) {
+                $wrong = array();
+
+                foreach ($r as $report) {
+                    if ('~' !== $report && false === aPollToolkit::getReportSettings($report)) {
+                        $wrong[] = $report;
+                    }
+                }
+
+                if (count($wrong)) {
+                    throw new sfValidatorError($this, 'reports_items', array('reports' => implode(', ', $wrong)));
+                }
+            }
+        }
+
+
 
 
         return $value;

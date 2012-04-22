@@ -6,16 +6,16 @@
 
         <?php if(aPollToolkit::hasReports($a_poll_poll->getType())): ?>
         
-        <li class="a-admin-action-export-answers">
+        <li class="a-options-container a-admin-action-export-answers">
             <?php echo a_button(
                     '<span class="icon"></span>' . __('Reports', array(), 'apostrophe'),
                     '#',
-                    array('class' => 'icon no-label a-poll-export-answers'),
+                    array('class' => 'icon no-label a-options-button a-poll-export-answers'),
                     'a-poll-export-answers-'.$a_poll_poll->getId()
                     ) ?>
-            <div class="a-ui a-options a-poll-admin-export-answers-ajax dropshadow">
-                <?php include_component('aPollPollAdmin', 'exportAnswers', array('poll_id' => $a_poll_poll->getId())) ?>
-            </div>
+            <ul class="a-ui a-options a-poll-admin-export-answers-ajax dropshadow clearfix">
+                <?php include_component('aPollPollAdmin', 'exportAnswers', array('poll' => $a_poll_poll)) ?>
+            </ul>
         </li>
         <?php endif; ?>
     </ul>

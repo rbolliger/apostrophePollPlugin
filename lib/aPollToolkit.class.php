@@ -168,8 +168,7 @@ class aPollToolkit {
     static function getCaptchaDoDisplay($name) {
         return self::getValueFromConf($name, 'captcha_do_display', 'app_aPoll_captcha', 'do_display', true);
     }
-    
-    
+
     /**
      * Returns true if at least one report is available for this poll. Returns
      * false if reports are explicitely disabled.
@@ -178,15 +177,91 @@ class aPollToolkit {
      * @return boolean 
      */
     static function hasReports($name) {
-       
+
         $conf = self::getPollConfiguration($name);
-        
+
         if (!isset($conf['reports'])) {
             return true;
         }
-        
+
         return false == $conf['reports'] ? false : true;
-        
+    }
+
+    /**
+     * Returns an array containing the settings for a given report. If the report
+     * is not found in app_aPoll_reports, the function returns false.
+     * 
+     * @param type $report Identifier of the report
+     * @return array or false 
+     */
+    static function getReportSettings($report) {
+
+        return self::getValueFromGlobalConf('app_aPoll_reports', $report, false);
+    }
+
+    /**
+     * Retrieves all settings for all reports defined for a given poll.
+     * 
+     * 
+     * @param type $name The poll identifier as defined in app_aPoll_available_polls
+     * @return array Reports settigns 
+     */
+    static function getPollReports($name) {
+
+        // trying to get reorts defined in the poll configuration
+        $conf = self::getPollConfiguration($name);
+
+        $reports = isset($conf['reports']) ? $conf['reports'] : false;
+
+
+        // if nothing is defined, we return all the global reports available
+        if ($reports === false) {
+            return self::getGeneralReports();
+        }
+
+        // if any is defined, we parse them and recover all settings
+        $settings = array();
+
+        // ensuring that $reports is ana rray
+        if (is_string($reports)) {
+            $reports = array($reports);
+        }
+
+        // looping over all reports to recover their settings
+        foreach ($reports as $report) {
+
+            if ('~' === $report) {
+                $settings = array_merge($settings, self::getGeneralReports());
+            } else {
+                $settings = array_merge($settings, array($report => self::getReportSettings($report)));
+            }
+        }
+
+        return $settings;
+    }
+
+    static function getGeneralReports() {
+
+        // retrieving all reports
+        $conf = sfConfig::get('app_aPoll_reports', false);
+
+        if (false === $conf) {
+            return $false;
+        }
+
+        $general = array();
+
+        foreach ($conf as $key => $report) {
+
+            // if the report is specific to a particular poll (i.e. not generic), we skip it
+            if (isset($report['is_generic']) && !$report['is_generic']) {
+                continue;
+            }
+
+            $general = array_merge($general, array($key => $report));
+        }
+
+        return $general;
     }
 
     /**
@@ -517,18 +592,17 @@ class aPollToolkit {
         }
 
         if (is_array($value)) {
-            
+
             $array = array();
             foreach ($value as $v) {
                 $array[] = self::doRenderField($form, $field, $v, $type);
             }
-            
-            $string = implode(', ',$array);
-            
+
+            $string = implode(', ', $array);
         } else {
             $string = self::doRenderField($form, $field, $value, $type);
         }
-        
+
         return $string;
     }
 

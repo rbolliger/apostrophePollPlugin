@@ -16,4 +16,18 @@ class PluginaPollPollTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('PluginaPollPoll');
     }
+    
+    
+    public function getByIdWithAnswers($params) {
+        
+        
+        $q = $this->getInstance()->createQuery('p')
+                ->addWhere('p.id = ?',$params['id'])
+                ->leftJoin('p.Answers a')
+                ->leftJoin('a.Fields f');
+        
+        return $q->execute();
+        
+    }
+    
 }

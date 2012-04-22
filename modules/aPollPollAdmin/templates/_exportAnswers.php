@@ -3,7 +3,7 @@
 
 <?php foreach ($reports as $key => $report) : ?>
     <li class="a-options-item"><?php
-    echo a_button(__($report['label'], array(), 'apostrophe'), url_for($report['action'].'?poll_id='.$poll->getId()), array('class' => 'alt no-bg a-poll-export-' . $key)
+    echo a_button(__($report['label'], array(), 'apostrophe'), url_for($report['action'].'?id='.$poll->getId()), array('class' => 'alt no-bg a-poll-export-' . $key)
     )
     ?>
     </li>

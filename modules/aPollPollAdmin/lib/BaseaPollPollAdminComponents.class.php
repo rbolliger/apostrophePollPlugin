@@ -16,7 +16,7 @@ abstract class BaseaPollPollAdminComponents extends sfComponents
   }
   
   
-  public function executeExportAnswers(sfWebRequest $request)
+  public function executeExportAnswers()
   {
 
       $this->reports = aPollToolkit::getPollReports($this->poll->getType());

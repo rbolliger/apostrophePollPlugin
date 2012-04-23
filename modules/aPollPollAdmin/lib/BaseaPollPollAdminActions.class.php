@@ -99,7 +99,9 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
     public function executeExportToExcel(sfWebRequest $request) {
         
         
-        
+        if (!class_exists('PHPExcel')) {
+            throw new sfException('Cannot find PHPExcel. Did you install it? PHP excel is required to export poll answers to excel.');
+        }
         
 
         $this->poll = $this->getRoute()->getObject();

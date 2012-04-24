@@ -98,6 +98,33 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
     public function executeExportToExcel(sfWebRequest $request) {
 
+        $response = $this->prepareExport();
+
+
+        // generating file
+        $filename = $this->poll->getSlug() . '_answers_' . date('Y-m-d-H-i-s') . '.xls';
+        $response->setHttpHeader('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->addCacheControlHttpHeader('max-age=0');
+        $response->setContentType('application/vnd.ms-excel');
+
+        $this->writerFormat = 'Excel5';
+
+        $this->setTemplate('exportToExcel');
+    }
+
+    public function executeExportToCSV(sfWebRequest $request) {
+
+        $response = $this->prepareExport();
+
+        // generating file
+        $filename = $this->poll->getSlug() . '_answers_' . date('Y-m-d-H-i-s') . '.csv';
+        $response->setHttpHeader('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->addCacheControlHttpHeader('max-age=0');
+        $response->setContentType('text/csv');
+
+    }
+
+    protected function prepareExport() {
 
         if (!class_exists('PHPExcel')) {
             throw new sfException('Cannot find PHPExcel. Did you install it? PHP excel is required to export poll answers to excel.');
@@ -118,20 +145,8 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
         $this->setLayout(false);
         $response = $this->getResponse();
         $response->clearHttpHeaders();
-        $response->setContentType('application/vnd.ms-excel');
 
-
-
-        // generating file
-        $filename = $this->poll->getSlug() . '_answers_' . date('Y-m-d-H-i-s') . '.xls';
-        $response->setHttpHeader('Content-Disposition', 'attachment;filename="' . $filename . '"');
-        $response->addCacheControlHttpHeader('max-age=0');
-
-
-//
-//        $objWriter = PHPExcel_IOFactory::createWriter($this->report, 'Excel5');        
-//        $response->setContent($objWriter->save('php://output'));
-//        
+        return $response;
     }
 
     protected function fillExcel(PHPExcel $excel, aPollPoll $poll, aPollBaseForm $fields_form, aPollAnswerForm $answer_form) {
@@ -181,7 +196,7 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
         foreach ($fields_form->getFieldsToSave() as $field) {
 
             $cell = $column . $row;
-            
+
             $excel->getActiveSheet()->setCellValue($cell, $fields_form->getWidget($field)->getLabel());
             $excel->getActiveSheet()->getColumnDimension($column)->setAutoSize(true);
 
@@ -207,13 +222,13 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
             $column = 'A';
             $row++;
-            
-            
+
+
 
             foreach ($answer_fields_to_report as $field) {
-                
+
                 $cell = $column . $row;
-                
+
                 $excel->getActiveSheet()->setCellValue($cell, aPollToolkit::renderFormFieldValue($answer_form, $answer_form[$field], $answer->get($field)));
 
                 $excel->getActiveSheet()->getStyle($cell)->getFont()->setName($font);
@@ -234,7 +249,7 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
             foreach ($fields_form->getFieldsToSave() as $name) {
 
                 $cell = $column . $row;
-                
+
                 if (isset($fields[$name])) {
 
                     $fields_form_field = $fields_form[$name];

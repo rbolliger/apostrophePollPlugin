@@ -87,7 +87,7 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
         $this->a_poll_poll = $this->getRoute()->getObject();
         $this->form = $this->configuration->getForm($this->a_poll_poll);
-        
+
         $params = $request->getParameter($this->form->getName());
 
         // updating cookie to ensure thath changes done in multiple submissions choice are applied
@@ -95,17 +95,111 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
         parent::executeUpdate($request);
     }
-    
+
     public function executeExportToExcel(sfWebRequest $request) {
-        
-        
+
+
         if (!class_exists('PHPExcel')) {
             throw new sfException('Cannot find PHPExcel. Did you install it? PHP excel is required to export poll answers to excel.');
         }
-        
 
+        // Poll's form
         $this->poll = $this->getRoute()->getObject();
+        $form_name = aPollToolkit::getPollFormName($this->poll->getType());
+
+        // Answer form
+        $answer_form = new aPollAnswerForm();
         
+        // generating report content
+        $this->report = $this->fillExcel(new PHPExcel(), $this->poll, new $form_name(), $answer_form);
+
+        
+        // setting decoration and headers
+        $this->setLayout(false);
+        $response = $this->getResponse();
+        $response->clearHttpHeaders();
+        $response->setContentType('application/vnd.ms-excel');
+
+
+
+        // generating file
+        $filename = $this->poll->getSlug() . '_answers_' . date('Y-m-d-H-i-s') . '.xls';
+        $response->setHttpHeader('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->addCacheControlHttpHeader('max-age=0');
+
+
+//
+//        $objWriter = PHPExcel_IOFactory::createWriter($this->report, 'Excel5');        
+//        $response->setContent($objWriter->save('php://output'));
+//        
+    }
+
+    protected function fillExcel(PHPExcel $excel, aPollPoll $poll, aPollBaseForm $fields_form, aPollAnswerForm $answer_form) {
+
+        // loading helpers
+        sfContext::getInstance()->getConfiguration()->loadHelpers('a');
+
+        // file properties
+        $excel->getProperties()->setCreator("Buddies Sàrl")
+                ->setLastModifiedBy($this->getUser()->getGuardUser()->getName())
+                ->setTitle(sprintf('Poll %s answers export', $this->poll->getTitle()))
+                ->setSubject(sprintf('Poll %s answers export', $this->poll->getTitle()))
+                ->setDescription('Export generated at ' . date('l d F Y H:i:s'));
+
+
+        // Header
+        $excel->setActiveSheetIndex(0);
+        $excel->getActiveSheet()->setCellValue('A1', a_('Id'));
+        $excel->getActiveSheet()->setCellValue('B1', a_('Posted from'));
+        $excel->getActiveSheet()->setCellValue('C1', a_('Submission language'));
+        $excel->getActiveSheet()->setCellValue('D1', a_('Submission date'));
+
+        $column = 'D';
+        foreach ($fields_form->getFieldsToSave() as $field) {
+            $column++;
+            $excel->getActiveSheet()->setCellValue($column . '1', $fields_form->getWidget($field)->getLabel());
+        }
+
+        // answers
+        $row = 1;
+        foreach ($poll->getAnswers() as $answer) {
+
+            $row++;
+
+            $excel->getActiveSheet()->setCellValue('A' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['id'],$answer->getId()));
+            $excel->getActiveSheet()->setCellValue('B' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['remote_address'],$answer->getRemoteAddress()));
+            $excel->getActiveSheet()->setCellValue('C' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['culture'],$answer->getCulture()));
+            $excel->getActiveSheet()->setCellValue('D' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['created_at'],$answer->getCreatedAt()));
+
+            // building array of answer fields
+            $answer_fields = $answer->getFields();
+            $fields = array();
+            foreach ($answer_fields as $field) {
+
+                $fields[$field->getName()] = $field->getValue();
+            }
+
+
+            $column = 'D';
+            foreach ($fields_form->getFieldsToSave() as $name) {
+                $column++;
+
+                if (isset($fields[$name])) {
+
+                    $fields_form_field = $fields_form[$name];
+
+                    $excel->getActiveSheet()->setCellValue(
+                            $column . $row,
+                            aPollToolkit::renderFormFieldValue($fields_form, $fields_form_field, $fields[$name])
+                    );
+                }
+            }
+        }
+
+        $excel->setActiveSheetIndex(0);
+
+
+        return $excel;
     }
 
 }

@@ -588,7 +588,9 @@ class BaseaPollToolkit {
     static protected function renderField($form, $field, $value, $type) {
 
         if (self::is_serialized($value)) {
-            $value = unserialize($value);
+
+            $value = @unserialize($value);
+
         }
 
         if (is_array($value)) {
@@ -614,7 +616,9 @@ class BaseaPollToolkit {
 
                 sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
 
-                $string = false !== strtotime($value) ? format_date($value, $field->getConfig('date_format', 'f')) : '&nbsp;';
+                $format = $field instanceof sfModelGeneratorConfigurationField ? $field->getConfig('date_format', 'f') : 'f';
+                
+                $string = false !== strtotime($value) ? format_date($value, $format) : '&nbsp;';
                 break;
 
             case 'Boolean':

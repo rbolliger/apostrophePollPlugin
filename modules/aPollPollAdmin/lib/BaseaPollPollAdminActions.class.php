@@ -109,11 +109,11 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
         // Answer form
         $answer_form = new aPollAnswerForm();
-        
+
         // generating report content
         $this->report = $this->fillExcel(new PHPExcel(), $this->poll, new $form_name(), $answer_form);
 
-        
+
         // setting decoration and headers
         $this->setLayout(false);
         $response = $this->getResponse();
@@ -148,28 +148,79 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
 
         // Header
-        $excel->setActiveSheetIndex(0);
-        $excel->getActiveSheet()->setCellValue('A1', a_('Id'));
-        $excel->getActiveSheet()->setCellValue('B1', a_('Posted from'));
-        $excel->getActiveSheet()->setCellValue('C1', a_('Submission language'));
-        $excel->getActiveSheet()->setCellValue('D1', a_('Submission date'));
+        $names = array(
+            a_('Id'),
+            a_('Posted from'),
+            a_('Submission language'),
+            a_('Submission date'),
+        );
 
-        $column = 'D';
-        foreach ($fields_form->getFieldsToSave() as $field) {
+
+        $excel->setActiveSheetIndex(0);
+        $column = 'A';
+        $row = 1;
+        $font = 'Arial';
+        $font_size = 10;
+
+        // aPollAnswer fields
+        foreach ($names as $name) {
+
+            $cell = $column . $row;
+
+            $excel->getActiveSheet()->setCellValue($cell, $name);
+            $excel->getActiveSheet()->getColumnDimension($column)->setAutoSize(true);
+
+            $excel->getActiveSheet()->getStyle($cell)->getFont()->setName($font);
+            $excel->getActiveSheet()->getStyle($cell)->getFont()->setSize($font_size);
+            $excel->getActiveSheet()->getStyle($cell)->getFont()->setBold(true);
+
             $column++;
-            $excel->getActiveSheet()->setCellValue($column . '1', $fields_form->getWidget($field)->getLabel());
+        }
+
+        // aPollAnswerField fields
+        foreach ($fields_form->getFieldsToSave() as $field) {
+
+            $cell = $column . $row;
+            
+            $excel->getActiveSheet()->setCellValue($cell, $fields_form->getWidget($field)->getLabel());
+            $excel->getActiveSheet()->getColumnDimension($column)->setAutoSize(true);
+
+            $excel->getActiveSheet()->getStyle($cell)->getFont()->setName($font);
+            $excel->getActiveSheet()->getStyle($cell)->getFont()->setSize($font_size);
+            $excel->getActiveSheet()->getStyle($cell)->getFont()->setBold(true);
+
+            $column++;
         }
 
         // answers
+        $answer_fields_to_report = array(
+            'id',
+            'remote_address',
+            'culture',
+            'created_at',
+        );
+
+
         $row = 1;
         foreach ($poll->getAnswers() as $answer) {
 
-            $row++;
 
-            $excel->getActiveSheet()->setCellValue('A' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['id'],$answer->getId()));
-            $excel->getActiveSheet()->setCellValue('B' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['remote_address'],$answer->getRemoteAddress()));
-            $excel->getActiveSheet()->setCellValue('C' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['culture'],$answer->getCulture()));
-            $excel->getActiveSheet()->setCellValue('D' . $row, aPollToolkit::renderFormFieldValue($answer_form, $answer_form['created_at'],$answer->getCreatedAt()));
+            $column = 'A';
+            $row++;
+            
+            
+
+            foreach ($answer_fields_to_report as $field) {
+                
+                $cell = $column . $row;
+                
+                $excel->getActiveSheet()->setCellValue($cell, aPollToolkit::renderFormFieldValue($answer_form, $answer_form[$field], $answer->get($field)));
+
+                $excel->getActiveSheet()->getStyle($cell)->getFont()->setName($font);
+                $excel->getActiveSheet()->getStyle($cell)->getFont()->setSize($font_size);
+
+                $column++;
+            }
 
             // building array of answer fields
             $answer_fields = $answer->getFields();
@@ -179,20 +230,24 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
                 $fields[$field->getName()] = $field->getValue();
             }
 
-
-            $column = 'D';
+            // writing values to excel
             foreach ($fields_form->getFieldsToSave() as $name) {
-                $column++;
 
+                $cell = $column . $row;
+                
                 if (isset($fields[$name])) {
 
                     $fields_form_field = $fields_form[$name];
 
                     $excel->getActiveSheet()->setCellValue(
-                            $column . $row,
-                            aPollToolkit::renderFormFieldValue($fields_form, $fields_form_field, $fields[$name])
+                            $cell, aPollToolkit::renderFormFieldValue($fields_form, $fields_form_field, $fields[$name])
                     );
+
+                    $excel->getActiveSheet()->getStyle($cell)->getFont()->setName($font);
+                    $excel->getActiveSheet()->getStyle($cell)->getFont()->setSize($font_size);
                 }
+
+                $column++;
             }
         }
 

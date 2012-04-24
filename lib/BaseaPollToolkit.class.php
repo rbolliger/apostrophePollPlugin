@@ -121,7 +121,7 @@ class BaseaPollToolkit {
     static function getCookieLifetime(aPollPoll $poll) {
 
         if ($poll->getSubmissionsDelay()) {
-            $delay = $poll->getDateTimeObject('submissions_delay');
+            $delay = $poll->getSubmissionsDelay(); 
 
             list($h, $m, $s) = explode(':', $delay);
             return ($h * 3600) + ($m * 60) + $s;

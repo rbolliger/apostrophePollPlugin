@@ -1,0 +1,3 @@
+# How apostrophePollPlugin works #
+
+

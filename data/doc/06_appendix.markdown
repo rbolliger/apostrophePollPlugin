@@ -1,1 +1,0 @@
-# Installation of PHPExcel classes

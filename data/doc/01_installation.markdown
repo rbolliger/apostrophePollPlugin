@@ -8,7 +8,7 @@ To work properly, the pluzgin requires the following plugins to be installed:
 
 sfFormExtraPlugin is required only if you plan to display a captcha to secure forms submissions. In aprcitluar, sfFormExtraPlugin provides a wrapper to display [recaptcha](http://www.google.com/recaptcha "reCaptcha"). You can also provide your own captcha widget, as described in chapter 3.
 
-apostrpohePollPlugin allows to export answers submitted by users as excel ans CSV files. To enable this feature, you have to install [PHPExcel](http://phpexcel.codeplex.com/). A symfony plugin exists, but PHPExcel code is outdates. For a manual installation, see the appendix.
+apostrpohePollPlugin allows to export answers submitted by users as excel ans CSV files. To enable this feature, you have to install [PHPExcel](http://phpexcel.codeplex.com/). A symfony [plugin](http://trac.symfony-project.org/browser/plugins/sfPhpExcelPlugin/ "sfPhpExcelPlugin") exists, but PHPExcel code might be outdated. To get the latest version, it might be useful to download it as a vendor package (using svn externals) and then load it using an autoload.yml configuration file (see [symfony documentation](http://www.symfony-project.org/reference/1_4/en/14-Other-Configuration-Files#chapter_14_autoload_yml "autoload.yml").
 
 ## Installation
 

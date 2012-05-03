@@ -19,7 +19,7 @@ The plugin has three modules:
 
 The plugin itself doesn't provide tools to create forms directly online. Some powerful tools already exist for this purpose (see [Wufoo](http://wufoo.com/ "Wufoo") for example, which can be already integrated into Apostrpohe websites). 
 
-In apostrophePollPlugin, we take advantage of symfony's form framework. A form must be created manually, by defining its widgets and validators. Then it can be declared as available for publishing using a special configuration syntax, which will be described in chapter 3. The configuration syntax allows to fully customize the form handling and rendering.
+In apostrophePollPlugin, we take advantage of symfony's form framework. A form must be created manually, by defining its widgets and validators. Then it can be declared as available for publishing using a special configuration syntax, which will be described in chapter 4. The configuration syntax allows to fully customize the form handling and rendering.
 
 ## apostrophePollPlugin vs manual forms definition ##
 
@@ -30,8 +30,8 @@ So, the plugin takes care of the tedious work of programming data management and
 ## How data is stored ##
 
 apostrophePollPlugin takes inspiration from [sfDoctrinePollPlugin](http://www.symfony-project.org/plugins/sfDoctrinePollPlugin). Three tables are defined to store data:
-*   aPollPoll: this table contains data related to the publication of a given poll.
-*   aPollAnswer: this table contains the identifier of a set of user-submitted data. Each time a user submits a poll, a new aPollAnswer is created.
-*   aPollAnswerField: this table contains the real user-submitted data. The value set in each widget of a form is saved into a aPollAnswerField. Each item of this table is the related to a aPollAnswer, in order to allow the retrieval of the entire set of data submitted by the user.
+*   `aPollPoll`: this table contains data related to the publication of a given poll.
+*   `aPollAnswer`: this table contains the identifier of a set of user-submitted data. Each time a user submits a poll, a new `aPollAnswer` is created.
+*   `aPollAnswerField`: this table contains the real user-submitted data. The value set in each widget of a form is saved into a `aPollAnswerField`. Each item of this table is the related to a `aPollAnswer`, in order to allow the retrieval of the entire set of data submitted by the user.
 
-This structure is extremely flexible, because it doesn't require to create a new table for each form. Indeed, the association between a form widget and a aPollAnswerField object allows us to define forms with an unlimited number of fields.
+This structure is extremely flexible, because it doesn't require to create a new table for each form. Indeed, the association between a form widget and a `aPollAnswerField` object allows us to define forms with an unlimited number of fields. To know how to define which data shall be saved, look at chapter 3.

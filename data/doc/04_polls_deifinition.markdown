@@ -1,4 +1,4 @@
-# Chapter 3: polls definition
+# Chapter 4: polls definition
 
 ## Introduction
 

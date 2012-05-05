@@ -70,7 +70,7 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
 
 
         // generating file
-        $filename = $this->poll->getSlug() . '_answers_' . date('Y-m-d-H-i-s') . '.xls';
+        $filename = $this->poll->getId() . '_answers_' . date('Y-m-d-H-i-s') . '.xls';
         $response->setHttpHeader('Content-Disposition', 'attachment;filename="' . $filename . '"');
         $response->addCacheControlHttpHeader('max-age=0');
         $response->setContentType('application/vnd.ms-excel');
@@ -85,7 +85,7 @@ abstract class BaseaPollPollAdminActions extends autoaPollPollAdminActions {
         $response = $this->prepareExport();
 
         // generating file
-        $filename = $this->poll->getSlug() . '_answers_' . date('Y-m-d-H-i-s') . '.csv';
+        $filename = $this->poll->getId() . '_answers_' . date('Y-m-d-H-i-s') . '.csv';
         $response->setHttpHeader('Content-Disposition', 'attachment;filename="' . $filename . '"');
         $response->addCacheControlHttpHeader('max-age=0');
         $response->setContentType('text/csv');

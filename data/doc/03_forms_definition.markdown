@@ -43,4 +43,24 @@ By default, apostrophePollPlugin doesn't save any field. To tell the plugin whic
 	  
 The plugin will then save in the DB those fields which are not empty.
 
+## Translation of the form fields, help and error messages
 
+The symfony form framework is internationalizable by default. Look at the [documentation](http://www.symfony-project.org/forms/1_4/en/08-Internationalisation-and-Localisation "Form framework - chapter 8") to lear how this works.
+
+By default, translation strings are stored in the `apostrophe` xliff catalogue. To add new translation, it is possible to add new strings to `apps/frontend/i18n/apostrophe.XX.xml`, where `XX` is the culture.
+
+It is also possible to create a new xliff catalogue to store the translation of a given form, by redefining thee translation catalogue of the form:
+
+	class aPollContactForm extends aPollBaseForm {
+
+	  public function configure()
+	  {
+	  
+	  ...
+	  
+	  $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('newCatalogue');
+	  
+	  }
+	}
+
+Then, create the `newCatalogue.XX.xml` in the i18n directory. Instructions about internationalization management are given in the [symfony documentation](http://www.symfony-project.org/gentle-introduction/1_4/en/13-I18n-and-L10n "Symfonay documentation - chapter 13").

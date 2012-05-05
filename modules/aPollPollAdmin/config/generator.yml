@@ -17,6 +17,7 @@ generator:
       
       fields: 
         type:
+          label: Template
           help: Select the type of poll you want to publish. They are defined in app.yml
         published_from: 
           label: Published from
@@ -29,10 +30,7 @@ generator:
           help: Can a user submit multiple answers, one after the other?
         submissions_delay:
           label: Submissions delay (hh:mm)
-          help: How much time must wait a user willing to submit a new answer? This setting only applies if if consecutive submissions are not allowed.
-        slug:
-          help: This defines the identifier of the poll in URLs.
-          
+          help: How much time must wait a user willing to submit a new answer? This setting only applies if if consecutive submissions are not allowed.          
           
       list:    
         title:   Polls administration

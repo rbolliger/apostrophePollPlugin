@@ -27,7 +27,7 @@
         <div class="a-slots clearfix">
             <div class="a-slot a-normal aPoll clearfix">
                 <div class="a-slot-content clearfix" id="<?php echo sprintf('a-slot-content-%s-%s-%s', $pageid, $name, $permid); ?>">
-                    <div class="a-poll-slot-<?php echo $poll->getSlug(); ?>">
+                    <div class="a-poll-slot-<?php echo $poll->getId(); ?>">
                         <?php
                         include_partial($form_view_template, array(
                             'pageid' => $pageid,

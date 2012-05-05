@@ -12,7 +12,7 @@ The poll configuration parameters are based on a cascade architecture. When look
 
 So, one can define global parameters, valid for all polls published on the website and then override them with specific values for each poll. If nothing is defined for a given parameter, apostrophePollPlugin will provide a default value.
 
-Global and poll-spicific parameters are defined in app.yml. For a complete example, you can look at the app.yml.template file provided with the plugin. All the parameters available for the plugin are stored in the `aPoll` field.
+Global and poll-specific parameters are defined in app.yml. For a complete example, you can look at the app.yml.template file provided with the plugin. All the parameters available for the plugin are stored in the `aPoll` field.
 
 
 
@@ -122,6 +122,8 @@ Where:
 * **`form`** is the form class associated to the poll.
 
 `name` and `form` are required to define a poll. Other parameters allowing one to customize the form submissions and rendering, are described in the next section.
+
+In fact, this structure represents poll templates, which might or not be published in the website. Read more about poll publishing in chapter 5.
 
 ### Poll customization parameters
 

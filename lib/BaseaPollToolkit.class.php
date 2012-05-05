@@ -302,8 +302,8 @@ class BaseaPollToolkit {
      * Checks if a poll can be displayed. The function looks if the poll can be 
      * displayed with respect to publication dates and previous user submissions.
      * 
-     * @param type $slug
      * @param sfWebRequest $request
+     * @param aPollPoll $poll
      * @return type 
      */
     static function checkIfShowPoll(sfWebRequest $request, aPollPoll $poll) {
@@ -321,11 +321,11 @@ class BaseaPollToolkit {
      */
     static protected function checkIfShowPollByCookie(aPollPoll $poll, sfWebRequest $request) {
 
-        $slug = $poll->getSlug();
+        $id = $poll->getId();
 
         $cookie = self::getCookieContent($request);
 
-        $content = (isset($cookie[$slug])) ? $cookie[$slug] : array('show' => true, 'timeout' => time() + self::getCookieLifetime($poll));
+        $content = (isset($cookie[$id])) ? $cookie[$id] : array('show' => true, 'timeout' => time() + self::getCookieLifetime($poll));
 
         if (true === $content['show'] || time() > $content['timeout']) {
 
@@ -376,7 +376,7 @@ class BaseaPollToolkit {
      */
     static function setShowPollToCookie(sfWebRequest $request, sfWebResponse $response, aPollPoll $poll, $value) {
 
-        $slug = $poll->getSlug();
+        $id = $poll->getId();
 
         $cookie = self::getCookieContent($request);
 
@@ -386,7 +386,7 @@ class BaseaPollToolkit {
         }
 
 
-        $cookie = array_merge($cookie, array($slug => array('show' => $value, 'timeout' => time() + self::getCookieLifetime($poll))));
+        $cookie = array_merge($cookie, array($id => array('show' => $value, 'timeout' => time() + self::getCookieLifetime($poll))));
 
         $response->setCookie(self::getCookieName(), self::encodeForCookie($cookie), time() + self::getCookieLifetime($poll));
     }

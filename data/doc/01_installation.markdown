@@ -54,4 +54,17 @@ It the plugin is installed from git or manually, it must be enabled in your proj
 	.settings   
 	  enabled_modules: [..., aPollSlot, aPollPollAdmin, aPollAnswerAdmin](default,)
   
+## Adding a button in the top area
 
+apostrophePollPlugin provides a new button pointing to the `aPollPollAdmin` admin module. 
+
+If you installed Apostrophe from the sandbox or if you cannot see the button in the admin bar, you have to enable it in `app.yml`:
+
+	all:
+	    a:
+		global_button_order:
+		    ...
+		    - polls
+		    ...
+            
+To learn more about global buttons, have a look at the [Apostrophe documentation](http://trac.apostrophenow.org/wiki/ManualDevelopersGuide#ManagingGlobalAdminButtonstotheApostropheAdminMenu "Adding global buttons").

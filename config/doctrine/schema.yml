@@ -41,9 +41,6 @@ aPollPoll:
   tableName: a_poll_poll
   actAs:
     Timestampable: ~
-    Sluggable: 
-      options:
-        canUpdate: true
     I18n:
       fields: [title, description]
     
@@ -83,19 +80,6 @@ aPollPoll:
       foreignAlias: Answers
       type: many
     
-      
-# this one is to temporarily store new polls, in order to generate a slug and then
-# create the real poll in aPollPoll tablle
-aPollPollNew:
-  columns:
-    id:
-      type: integer
-      primary: true
-      autoincrement: true
-    title: 
-      type: string(255)
-      notnull: true
-      unique: true
     
 aPollAnswer:
   actAs:

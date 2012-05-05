@@ -9,13 +9,7 @@
  */
 abstract class BaseaPollPollAdminComponents extends sfComponents
 {
-  
-  public function executeNewPoll()
-  {
-    $this->form = new aPollPollNewForm();
-  }
-  
-  
+    
   public function executeExportAnswers()
   {
 

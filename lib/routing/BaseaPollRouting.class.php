@@ -24,15 +24,6 @@ class BaseaPollRouting extends sfPatternRouting {
                         'column' => 'id',
                         'with_wildcard_routes' => true)));
 
-            $r->prependRoute('a_poll_poll_admin_new_complete', new sfDoctrineRoute('/admin/polls/new_complete/:id', array(
-                        'module' => 'aPollPollAdmin',
-                        'action' => 'newComplete',
-                            ), array(
-                            ), array(
-                        'model' => 'aPollPollNew',
-                        'type' => 'object',
-                    )));
-
             $r->prependRoute('a_poll_poll_admin_preview_poll', new sfRoute('/admin/polls/preview/', array(
                         'module' => 'aPollPollAdmin',
                         'action' => 'previewPoll',

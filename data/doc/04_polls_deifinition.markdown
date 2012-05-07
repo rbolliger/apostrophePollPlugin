@@ -2,7 +2,7 @@
 
 ## Introduction
 
-As explained in chapter 2, a poll is a set of files. In particular, a poll is composed by a form class, plus some templates and actions. apostrophePollPlugin already provides default templates for rendering the form and to confirm a successful submission. Thanks to the configuration parameters, it is possible to customize them to fit the poll's specific needs.
+As explained in chapter 2, a poll is a set of files. In particular, a poll is composed by a form class and some templates and actions. apostrophePollPlugin already provides default templates for rendering the form and to confirm a successful submission. Thanks to the configuration parameters, it is possible to customize them to fit the poll's specific needs.
 
 The poll configuration parameters are based on a cascade architecture. When looking for a parameter, the plugin will look at:
 
@@ -18,7 +18,7 @@ Global and poll-specific parameters are defined in app.yml. For a complete examp
 
 ## Global parameters
 
-In this section, global parameters are presented. The values displayed in the exaple code are the default values provided by the plugin.
+In this section, global parameters are presented. The values displayed in the example code are the default values provided by the plugin.
 
 ### Form view
 
@@ -61,7 +61,7 @@ To avoid spamming and unwanted submissions, it is ofter useful to display a secu
 
 #### Custom Captcha
  
-To display reCaptcha, the plugin requires the installation of [sfFormExtraPlugin](http://www.symfony-project.org/plugins/sfFormExtraPlugin "sfFormExtra"). apostrophePollPlugin extends the widget provided by sfFormExtraPlugin in order to enable reCaptcha display in ajax-driven partials, which is the case for the aPollSlot.
+To display reCaptcha, the plugin requires the installation of [sfFormExtraPlugin](http://www.symfony-project.org/plugins/sfFormExtraPlugin "sfFormExtra"). apostrophePollPlugin extends the widget provided by sfFormExtraPlugin in order to enable reCaptcha display in Ajax-driven partials, which is the case for the aPollSlot.
 
 To use another captcha or any other security technique, it is possible to override the `getCaptchaWidget()` and `getCaptchaValidator()` functions provided by `PluginaPollBaseForm`. This can be done by customizing `aPollBaseForm`, if you want to replace reCaptcha in all polls, or directly in the poll's form class, to use a specific captcha for that particular case.
 
@@ -80,7 +80,7 @@ After a poll has been successfully submitted, it is possible to send an email no
 			title_partial: aPollSlot/email_title
 			body_partial: aPollSlot/email_body
 
-* **`do_send`**: defines if a notification shall be sent after a successufll poll submission.
+* **`do_send`**: defines if a notification shall be sent after a successful poll submission.
 * **`to`**: defines the email address or the username of the person who shall receive the notification.
 * **`from`**: defines the email address or the username of the person actually sending the notification.
 * **`title_partial`**: defines the partial rendering the email title.
@@ -89,7 +89,7 @@ After a poll has been successfully submitted, it is possible to send an email no
 
 ### Reports
 
-apostrpohePollPlugin allows one to export user's answers in various file formts. By default excel and CSV are available. Other export types may be added using the following configuration parameters. For example to define excel export format, we use these parameters:
+apostrophePollPlugin allows one to export user's answers in various file formats. By default excel and CSV are available. Other export types may be added using the following configuration parameters. For example to define excel export format, we use these parameters:
 
 ![export feature](images/export.png "Export feature")
 
@@ -109,13 +109,13 @@ where:
 * **`action`**: is the action which renders the report.
 * **`is_generic`**: defines if this report can be applied to any poll (true) or if it can only be applied to specific polls.
 
-The `is_generic` field is used to define which reports might be proposed by default to export data. If a report is poll-specific, it must be explicitely defined in the poll configuration (see below) in order to appear as export option.
+The `is_generic` field is used to define which reports might be proposed by default to export data. If a report is poll-specific, it must be explicitly defined in the poll configuration (see below) in order to appear as export option.
 
 ## Polls parameters
 
 ### Listing available polls
 
-As explained in chapter 2, polls are defined as a set of templates and a form class. To let apostrophePollPlugin know that they are available for publishing, they must be declared explicitely in app.yml using the following code:
+As explained in chapter 2, polls are defined as a set of templates and a form class. To let apostrophePollPlugin know that they are available for publishing, they must be declared explicitly in app.yml using the following code:
 
 	aPoll:
 	    available_polls:

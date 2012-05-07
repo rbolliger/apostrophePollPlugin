@@ -1,4 +1,4 @@
-# Chapter 1: Installation #
+# Chapter 1: Installation
 
 ## Requirements
 

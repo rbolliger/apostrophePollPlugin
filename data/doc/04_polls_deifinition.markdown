@@ -2,7 +2,7 @@
 
 ## Introduction
 
-As explained in chapter 2, a poll is a set of files. In particular, a poll is composed by a form class, plus some templates. apostrophePollPlugin already provides default templates for rendering the form and to confirm a successful submission. Thanks to the configuration parameters, it is possible to customize them to fit the poll's specific needs.
+As explained in chapter 2, a poll is a set of files. In particular, a poll is composed by a form class, plus some templates and actions. apostrophePollPlugin already provides default templates for rendering the form and to confirm a successful submission. Thanks to the configuration parameters, it is possible to customize them to fit the poll's specific needs.
 
 The poll configuration parameters are based on a cascade architecture. When looking for a parameter, the plugin will look at:
 

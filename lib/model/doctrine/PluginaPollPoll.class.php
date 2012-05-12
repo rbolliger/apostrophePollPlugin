@@ -17,5 +17,9 @@ abstract class PluginaPollPoll extends BaseaPollPoll
         
         return $this->getTitle();
     }
+    
+    public function getNbAnswers() {
+         return $this->getAnswers()->count();
+    }
 
 }

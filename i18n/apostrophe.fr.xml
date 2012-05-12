@@ -190,6 +190,10 @@
                 <source>Submission date</source>
                 <target>Date de soumission</target>
             </trans-unit>
+            <trans-unit>
+                <source>Answers count</source>
+                <target>N. réponses</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

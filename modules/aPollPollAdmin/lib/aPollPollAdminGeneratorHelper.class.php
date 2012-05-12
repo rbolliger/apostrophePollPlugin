@@ -16,7 +16,12 @@ class aPollPollAdminGeneratorHelper extends BaseaPollPollAdminGeneratorHelper {
     
      public function linkToListAnswers($object, $params) {
     
-        return '<li class="a-admin-action-list-answers">'.link_to('<span class="icon"></span>'.__('List answers', array(), 'apostrophe'), '@a_poll_answer_admin_list_by_poll?id='.$object->getId(), array('class'=>'a-btn icon no-label a-poll-list-answers')).'</li>';
+        return '<li class="a-admin-action-list-answers">'.link_to(
+                '<span class="icon"></span>'.__('List answers', array(), 'apostrophe'),
+                '@a_poll_answer_admin_list_by_poll?id='.$object->getId(),
+                array(
+                    'class'=>'a-btn icon no-label a-poll-list-answers',
+                    'title' => 'List answers')).'</li>';
   
     }
     

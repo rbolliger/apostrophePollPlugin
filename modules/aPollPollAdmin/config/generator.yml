@@ -31,10 +31,12 @@ generator:
         submissions_delay:
           label: Submissions delay (hh:mm)
           help: How much time must wait a user willing to submit a new answer? This setting only applies if if consecutive submissions are not allowed.          
+        nb_answers:
+          label: Answers count
           
       list:    
         title:   Polls administration
-        display: [=id, title, type, published_from, published_to, created_at ]
+        display: [=id, title, type, nb_answers, published_from, published_to, created_at ]
         object_actions:
           _edit:         ~
           _delete:       ~

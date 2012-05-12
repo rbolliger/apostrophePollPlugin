@@ -1,0 +1,84 @@
+all:
+  settings:
+    submissions:
+        # can a user submit the same poll several times
+        allow_multiple: false
+
+        #name of the cookie used to store polls submissions
+        cookie_name: aPoll_submission
+        cookie_lifetime: 86400
+
+    notifications:
+        # send notifications by email when a user submits an answer?
+        do_send: true
+        to: admin
+        from: admin
+        title_partial: aPollSlot/email_title
+        body_partial: aPollSlot/email_body
+
+    captcha:
+        do_display: true
+
+      # These parameters define the default actions and templates used to render the various polls phases. 
+      # They can be overridden for each poll by defining the appropriate fields in apoll_settings_available_polls.
+    view:
+        # Template used to render the poll
+        default_template: aPollSlot/default_form_view
+        # default action used to submit the poll
+        default_submit_action: '@a_poll_slot_submit_form'
+        # default template used to confirm the poll submission
+        default_submit_success_template: aPollSlot/default_submit_success
+
+      # Define here all available reports. Then you can define which ones are actually 
+      # available for each poll using the "reports" field, which is an array. If the field is not defined, 
+      # aPoll will enable all those set as generic. is_generic can be used to define
+      # those reports which may be applied to any kind of poll. This is to distinguish them from those who
+      # can be applied only to a particluar poll (e.g. some statistics based on particular answers).
+    reports:
+        excel:
+          label: Export to excel
+          action: aPollPollAdmin/exportToExcel
+          is_generic: true
+        csv:
+          label: Export as CSV
+          action: aPollPollAdmin/exportToCSV
+          is_generic: true
+
+      # Define here the available poll templates, which can be used to define a new poll 
+      # in the administration area.
+      # Required format:
+      #  * name: poll name
+      #  * form: name of the form to display. The form must extend aPollBaseForm and 
+      #        must be placed in a lib directory in order to be found by symfony
+      #  * view_template: defines the partial used to render the poll form
+      #  * submit_action: defines the action that handles the form submission
+      #  * submit_success_template: template used to confirm the poll submission
+      #  * send_notification: defines if a notification must be sent to an email address
+      #     when someone submits an answer
+      #  * send_to: email address or registered user who will receive the email notification
+      #  * send_from: defines the sender (email or user) of the notification
+      #  * email_title_partial: name of the partial to render to define email's title
+      #  * email_body_partial: name of the partial to render to define email's body
+      #  * captcha_do_display: shall a captcha be displayed in order to protect form submissions from spam?
+      #  * reports: list of available reports. To define them, use the keywords defiled in apoll_settings_reports. 
+      #     To enable all generic reports, use ~. You can then add poll-specific reports.
+    available_polls:
+        contact:
+            name: Contact form
+            form: aPollContactForm
+        interest:
+            name: Buddies capacity planning poll
+            form: buddiesInterestPollForm
+
+
+
+    recaptcha:
+      public_key: 6Le9DNASAAAAAE4z1iNEePvy1lySs41OAyGQo3nC 
+      private_key: 6Le9DNASAAAAANtzjLodCSebfGlf-uDA366MDhCf 
+
+
+
+dev:
+  settings:
+    submissions:
+        allow_multiple: true

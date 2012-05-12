@@ -21,11 +21,11 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
 
 
         // checking that some polls are available
-        if (false === sfConfig::get('app_aPoll_available_polls', false)) {
-            throw new sfException('Cannot find any poll item in app_aPoll_available_polls. Please, define some in app.yml');
+        if (false === aPollToolkit::getAvailablePolls(false)) {
+            throw new sfException('Cannot find any poll item in apoll_settings_available_polls. Please, define some in app.yml');
         }
 
-        $available_polls = sfConfig::get('app_aPoll_available_polls');
+        $available_polls = aPollToolkit::getAvailablePolls();
 
         $choices = array();
         $choices_keys = array();
@@ -39,7 +39,7 @@ abstract class PluginaPollPollForm extends BaseaPollPollForm {
         $this->validatorSchema['type'] = new sfValidatorAnd(
                         array(
                             new sfValidatorChoice(array('choices' => $choices_keys, 'required' => true)),
-                            new aPollValidatorPollItem(array('poll_items' => sfConfig::get('app_aPoll_available_polls'))),
+                            new aPollValidatorPollItem(array('poll_items' => aPollToolkit::getAvailablePolls())),
                         ),
                         array('halt_on_error' => true)
         );

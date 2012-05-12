@@ -8,10 +8,10 @@
 class BaseaPollToolkit {
 
     /**
-     * Checks that the poll instance defined in app_aPoll_available_polls is correctly
+     * Checks that the poll instance defined in apoll_settings_available_polls is correctly
      * defined.
      *
-     * @param type $name    Name of the app_aPoll_available_polls instance to check
+     * @param type $name    Name of the apoll_settings_available_polls instance to check
      * @return \PluginPollSlotViewForm 
      */
     static function checkPollConfiguration($name) {
@@ -25,7 +25,7 @@ class BaseaPollToolkit {
     /**
      * Returns the name of the form to render for poll $name
      * 
-     * @param type $name    Name of the poll, as defined in app_aPoll_available_polls
+     * @param type $name    Name of the poll, as defined in apoll_settings_available_polls
      * @return strung       The name of the form 
      */
     static function getPollFormName($name) {
@@ -34,48 +34,59 @@ class BaseaPollToolkit {
 
         return $conf['form'];
     }
+    
+    
+    /**
+     *
+     * @return array() The list of available polls
+     */
+    static function getAvailablePolls($default = false) {
+        
+        return sfConfig::get('apoll_settings_available_polls', $default);
+        
+    }
 
     /**
      * Returns the view template partial to display the poll form.
      *    The template can be defined in two ways:
-     *    - In app_aPoll_view_default_template, to set an overall template for all polls
-     *    - In In app_aPoll_available_polls_XXX_view_template, where XXX 
+     *    - In apoll_settings_view_default_template, to set an overall template for all polls
+     *    - In In apoll_settings_available_polls_XXX_view_template, where XXX 
      *      is the name of this poll, to override the default display template
      * 
-     * @param array() $poll  : the poll definition as defined in app_aPoll_available_polls
+     * @param array() $poll  : the poll definition as defined in apoll_settings_available_polls
      */
     static function getPollViewTemplate($name) {
 
-        return self::getValueFromConf($name, 'view_template', 'app_aPoll_view', 'default_template', 'aPollSlot/default_form_view');
+        return self::getValueFromConf($name, 'view_template', 'apoll_settings_view', 'default_template', 'aPollSlot/default_form_view');
     }
 
     /**
      * Returns the action treating the form sumbission of the given poll.
      *  The action can be defined in two ways:
-     *   - In app_aPoll_view_submit_action, to set an overall action for all polls
-     *   - In In app_aPoll_available_polls_XXX_submit_action, where XXX 
+     *   - In apoll_settings_view_submit_action, to set an overall action for all polls
+     *   - In In apoll_settings_available_polls_XXX_submit_action, where XXX 
      *     is the name of this poll, to override the default action
      * 
      * 
-     * @param array() $name : the poll identifier as defined in app_aPoll_available_polls
+     * @param array() $name : the poll identifier as defined in apoll_settings_available_polls
      */
     static function getPollSubmitAction($name) {
 
-        return self::getValueFromConf($name, 'submit_action', 'app_aPoll_view', 'default_submit_action', '@a_poll_slot_submit_form');
+        return self::getValueFromConf($name, 'submit_action', 'apoll_settings_view', 'default_submit_action', '@a_poll_slot_submit_form');
     }
 
     /**
-     * Returns the configuration of poll "$name" from app_aPoll_available_polls
+     * Returns the configuration of poll "$name" from apoll_settings_available_polls
      * 
-     * @param string $name  the poll identifier as defined in app_aPoll_available_polls
+     * @param string $name  the poll identifier as defined in apoll_settings_available_polls
      * @return array        Poll configuration array 
      */
     static function getPollConfiguration($name) {
 
-        $conf = sfConfig::get('app_aPoll_available_polls');
+        $conf = self::getAvailablePolls();
 
         if (!isset($conf[$name])) {
-            throw new sfException('No poll with identifier "' . $name . '" is defined in app_aPoll_available_polls.');
+            throw new sfException('No poll with identifier "' . $name . '" is defined in apoll_settings_available_polls.');
         }
 
 
@@ -86,19 +97,19 @@ class BaseaPollToolkit {
      * Returns the name of the template to be used to display a message after the poll
      * has been successfully submitted.
      * 
-     * @param type $name   The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name   The poll identifier as defined in apoll_settings_available_polls
      * @return string      The name of the template to render
      */
     static function getPollSubmitSuccessTemplate($name) {
 
-        return self::getValueFromConf($name, 'submit_success_template', 'app_aPoll_view', 'default_submit_success_template', 'aPollSlot/default_submit_success');
+        return self::getValueFromConf($name, 'submit_success_template', 'apoll_settings_view', 'default_submit_success_template', 'aPollSlot/default_submit_success');
     }
 
     /**
      * Tells if a poll shall be displayed after that a user has already submitted 
      * an answer. This option is linked to a timeout.
      * 
-     * @param type $name   The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name   The poll identifier as defined in apoll_settings_available_polls
      * @return bool         
      * @see getCookieLifetime()
      */
@@ -108,13 +119,13 @@ class BaseaPollToolkit {
             return $poll->getSubmissionsAllowMultiple();
         }
 
-        return self::getValueFromGlobalConf('app_aPoll_submissions', 'allow_multiple', false);
+        return self::getValueFromGlobalConf('apoll_settings_submissions', 'allow_multiple', false);
     }
 
     /**
      * Returns the lifetime of the multiple submission option expressed in seconds.
      * 
-     * @param type $name   The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name   The poll identifier as defined in apoll_settings_available_polls
      * @return integer     Lifetime of the multiple submission option, in seconds 
      * @see getPollAllowMultipleSubmissions()
      */
@@ -127,7 +138,7 @@ class BaseaPollToolkit {
             return ($h * 3600) + ($m * 60) + $s;
         }
 
-        return self::getValueFromGlobalConf('app_aPoll_submissions', 'cookie_lifetime', 86400);
+        return self::getValueFromGlobalConf('apoll_settings_submissions', 'cookie_lifetime', 86400);
     }
 
     /**
@@ -138,42 +149,42 @@ class BaseaPollToolkit {
      */
     static function getSendNotification($name) {
 
-        return self::getValueFromConf($name, 'send_notification', 'app_aPoll_notifications', 'do_send', true);
+        return self::getValueFromConf($name, 'send_notification', 'apoll_settings_notifications', 'do_send', true);
     }
 
     /**
      * Returns the email address where the submission notification is sent to.
      * 
-     * @param type $name The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name The poll identifier as defined in apoll_settings_available_polls
      * @return type 
      */
     static function getNotificationEmailTo($name) {
 
-        return self::getValueFromConf($name, 'send_to', 'app_aPoll_notifications', 'to', 'admin');
+        return self::getValueFromConf($name, 'send_to', 'apoll_settings_notifications', 'to', 'admin');
     }
 
     static function getNotificationEmailFrom($name) {
 
-        return self::getValueFromConf($name, 'send_from', 'app_aPoll_notifications', 'from', 'admin');
+        return self::getValueFromConf($name, 'send_from', 'apoll_settings_notifications', 'from', 'admin');
     }
 
     static function getNotificationEmailTitlePartial($name) {
-        return self::getValueFromConf($name, 'email_title_partial', 'app_aPoll_notifications', 'title_partial', 'aPollSlot/email_title');
+        return self::getValueFromConf($name, 'email_title_partial', 'apoll_settings_notifications', 'title_partial', 'aPollSlot/email_title');
     }
 
     static function getNotificationEmailBodyPartial($name) {
-        return self::getValueFromConf($name, 'email_body_partial', 'app_aPoll_notifications', 'body_partial', 'aPollSlot/email_body');
+        return self::getValueFromConf($name, 'email_body_partial', 'apoll_settings_notifications', 'body_partial', 'aPollSlot/email_body');
     }
 
     static function getCaptchaDoDisplay($name) {
-        return self::getValueFromConf($name, 'captcha_do_display', 'app_aPoll_captcha', 'do_display', true);
+        return self::getValueFromConf($name, 'captcha_do_display', 'apoll_settings_captcha', 'do_display', true);
     }
 
     /**
      * Returns true if at least one report is available for this poll. Returns
      * false if reports are explicitely disabled.
      * 
-     * @param type $name The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name The poll identifier as defined in apoll_settings_available_polls
      * @return boolean 
      */
     static function hasReports($name) {
@@ -189,21 +200,21 @@ class BaseaPollToolkit {
 
     /**
      * Returns an array containing the settings for a given report. If the report
-     * is not found in app_aPoll_reports, the function returns false.
+     * is not found in apoll_settings_reports, the function returns false.
      * 
      * @param type $report Identifier of the report
      * @return array or false 
      */
     static function getReportSettings($report) {
 
-        return self::getValueFromGlobalConf('app_aPoll_reports', $report, false);
+        return self::getValueFromGlobalConf('apoll_settings_reports', $report, false);
     }
 
     /**
      * Retrieves all settings for all reports defined for a given poll.
      * 
      * 
-     * @param type $name The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name The poll identifier as defined in apoll_settings_available_polls
      * @return array Reports settigns 
      */
     static function getPollReports($name) {
@@ -243,7 +254,7 @@ class BaseaPollToolkit {
     static function getGeneralReports() {
 
         // retrieving all reports
-        $conf = sfConfig::get('app_aPoll_reports', false);
+        $conf = sfConfig::get('apoll_settings_reports', false);
 
         if (false === $conf) {
             return $false;
@@ -269,9 +280,9 @@ class BaseaPollToolkit {
      * for a setting in the poll configuration, then in the global configuration and
      * finally, sends a default value.
      * 
-     * @param type $name            The poll identifier as defined in app_aPoll_available_polls
+     * @param type $name            The poll identifier as defined in apoll_settings_available_polls
      * @param type $local_field     Name of the options defined in the poll configuration
-     * @param type $global_root     Name of the root field (e.g. app_aPoll_submissions) defined in 
+     * @param type $global_root     Name of the root field (e.g. apoll_settings_submissions) defined in 
      *                              the global configuration
      * @param type $global_field    Name of the options defined in the global configuration
      * @param type $default         Default value, if nothing else found
@@ -398,7 +409,7 @@ class BaseaPollToolkit {
      */
     static function getCookieName() {
 
-        $conf = sfConfig::get('app_aPoll_submission');
+        $conf = sfConfig::get('apoll_settings_submission');
 
         return isset($conf['cookie_name']) ? $conf['cookie_name'] : 'aPoll_submission';
     }

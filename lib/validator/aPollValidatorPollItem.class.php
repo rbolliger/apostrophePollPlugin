@@ -41,7 +41,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('email_body', 'The partial "%partial%" defined in "email_body_template" field cannot be found.');
         $this->addMessage('captcha_display', 'Field "captcha_do_display" only accepts "true" and "false" as values.');
         $this->addMessage('reports_error', 'Field "reports" is not correctly defined. It only accepts "false", an arraydefining available reports or a string defining a report.');
-        $this->addMessage('reports_items', 'Unknown reports "%reports%". Only reports defined in app_aPoll_reports can be defined here.');
+        $this->addMessage('reports_items', 'Unknown reports "%reports%". Only reports defined in apoll_settings_reports can be defined here.');
     }
 
     /**
@@ -54,7 +54,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
     protected function doClean($value) {
 
         $polls = $this->getOption('poll_items');
-        $poll_app = 'app_aPoll_available_polls_' . $value;
+        $poll_app = 'apoll_settings_available_polls_' . $value;
 
         // checks that the item exists
         if (!isset($polls[$value])) {

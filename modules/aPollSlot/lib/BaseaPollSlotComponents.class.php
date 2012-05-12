@@ -27,7 +27,7 @@ class BaseaPollSlotComponents extends aSlotComponents {
         }
         
 
-        // validating app_aPoll_available_polls entry
+        // validating apoll_settings_available_polls entry
         $this->poll_validation = aPollToolkit::checkPollConfiguration($type);
 
 
@@ -49,16 +49,16 @@ class BaseaPollSlotComponents extends aSlotComponents {
 
             // Getting view template partial to display the form.
             // The template can be defined in two ways:
-            // - In app_aPoll_view_default_template, to set an overall template for all polls
-            // - In In app_aPoll_available_polls_XXX_view_template, where XXX 
+            // - In apoll_settings_view_default_template, to set an overall template for all polls
+            // - In In apoll_settings_available_polls_XXX_view_template, where XXX 
             //    is the name of this poll, to override the default display template
             $this->form_view_template = aPollToolkit::getPollViewTemplate($type);
 
 
             // Getting the action treating the form sumbission.
             // The action can be defined in two ways:
-            // - In app_aPoll_view_submit_action, to set an overall action for all polls
-            // - In In app_aPoll_available_polls_XXX_submit_action, where XXX 
+            // - In apoll_settings_view_submit_action, to set an overall action for all polls
+            // - In In apoll_settings_available_polls_XXX_submit_action, where XXX 
             //    is the name of this poll, to override the default action
             $this->submit_action = aPollToolkit::getPollSubmitAction($type);
         }

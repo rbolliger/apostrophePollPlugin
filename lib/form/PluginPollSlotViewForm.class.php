@@ -7,7 +7,7 @@ class PluginPollSlotViewForm extends BaseForm {
 
         $this->setWidgets(array('poll' => new sfWidgetFormInputText()));
 
-        $available_polls = sfConfig::get('app_aPoll_available_polls');
+        $available_polls = aPollToolkit::getAvailablePolls();
 
         $this->setValidators(array('poll' => new sfValidatorAnd(
                     array(

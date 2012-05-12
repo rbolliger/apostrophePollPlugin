@@ -40,7 +40,7 @@ class BaseaPollSlotActions extends aSlotActions {
         $this->poll = Doctrine_Core::getTable('aPollPoll')->findOneById($values['poll_id']);
         $this->forward404Unless($this->poll);
 
-        // validating app_aPoll_available_polls entry
+        // validating apoll_settings_available_polls entry
         $this->poll_validation = aPollToolkit::checkPollConfiguration($this->poll->getType());
 
         // Creation of variables needed to render the partials

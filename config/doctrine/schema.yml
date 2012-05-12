@@ -57,7 +57,7 @@ aPollPoll:
     submissions_allow_multiple: boolean
     submissions_delay: time
     
-    # see available types in app_aPoll_available_types
+    # see available types in apoll_settings_available_types
     type: 
       type: string(255)
       notnull: true

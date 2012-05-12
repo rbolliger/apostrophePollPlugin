@@ -8,7 +8,7 @@
 
 <?php if ($show_poll) : ?>
 
-    <?php // Checking if the values retrieved from app_aPoll_available_polls are valid. ?>
+    <?php // Checking if the values retrieved from apoll_settings_available_polls are valid. ?>
     <?php if (!$poll_validation->isValid() && $poll_validation->getValue('poll') != '') : ?>
         <?php include_partial('aPollSlot/poll_validation_debug', array('poll_validation' => $poll_validation)); ?>
     <?php endif; ?>

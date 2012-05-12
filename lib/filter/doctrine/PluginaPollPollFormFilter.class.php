@@ -15,11 +15,11 @@ abstract class PluginaPollPollFormFilter extends BaseaPollPollFormFilter {
         parent::setup();
 
         // checking that some polls are available
-        if (false === sfConfig::get('app_aPoll_available_polls', false)) {
-            throw new sfException('Cannot find any poll item in app_aPoll_available_polls. Please, define some in app.yml');
+        if (false === aPollToolkit::getAvailablePolls(false)) {
+            throw new sfException('Cannot find any poll item in apoll_settings_available_polls. Please, define some in app.yml');
         }
 
-        $available_polls = sfConfig::get('app_aPoll_available_polls');
+        $available_polls = aPollToolkit::getAvailablePolls();
 
         $choiches = array();
         foreach ($available_polls as $key => $poll) {

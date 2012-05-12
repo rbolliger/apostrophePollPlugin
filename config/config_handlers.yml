@@ -1,0 +1,4 @@
+config/aPoll.yml:
+  class:    sfDefineEnvironmentConfigHandler
+  param:
+    prefix: apoll_

@@ -22,18 +22,28 @@ class apostrophePollPluginConfiguration extends sfPluginConfiguration {
 
         if (!self::$registered) {
 
+
+
+            // loading aPoll.yml
+            if ($this->configuration instanceof sfApplicationConfiguration) {
+                $configCache = $this->configuration->getConfigCache();
+                if ($file = $configCache->checkConfig('config/aPoll.yml', true)) {
+                    include($file);
+                }
+            }
+
             // Routes for various admin modules
             if (sfConfig::get('app_a_admin_routes_register', true)) {
                 $this->dispatcher->connect('routing.load_configuration', array('aPollRouting', 'listenToRoutingAdminLoadConfigurationEvent'));
             }
 
             // adding global button
-             $this->dispatcher->connect('a.getGlobalButtons', array(get_class($this), 'getGlobalButtons'));
-            
-             
-             // parsing request parameters when submitting a poll
-             $this->dispatcher->connect('apoll.filter_submit_poll_request_parameters', array('aPollBaseForm','listenToRequestParametersFilterEvent'));
-             
+            $this->dispatcher->connect('a.getGlobalButtons', array(get_class($this), 'getGlobalButtons'));
+
+
+            // parsing request parameters when submitting a poll
+            $this->dispatcher->connect('apoll.filter_submit_poll_request_parameters', array('aPollBaseForm', 'listenToRequestParametersFilterEvent'));
+
             self::$registered = true;
         }
     }

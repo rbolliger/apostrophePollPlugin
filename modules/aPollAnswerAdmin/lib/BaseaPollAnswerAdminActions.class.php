@@ -58,10 +58,12 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
             $filters = $this->getFilters();
 
             foreach ($filters as $key => $val) {
-                
+
                 // we skip poll_id field, otherwise filters are always shown
-                if ('poll_id' == $key) { continue; }
-                
+                if ('poll_id' == $key) {
+                    continue;
+                }
+
                 if (isset($defaults[$key])) {
                     $this->filtersActive = true;
                 } else {
@@ -106,6 +108,68 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
         $this->sort = $this->getSort();
 
         $this->setTemplate('index');
+    }
+
+    protected function executeBatchSetRead(sfWebRequest $request) {
+        // TBB: use collection delete rather than a delete query. This ensures
+        // that the object's delete() method is called, which provides
+        // for checking userHasPrivileges()
+
+        $ids = $request->getParameter('ids');
+
+        $items = Doctrine_Query::create()
+                ->from('aPollAnswer')
+                ->whereIn('id', $ids)
+                ->execute();
+        $count = count($items);
+        $error = false;
+
+        foreach ($items as $item) {
+
+            try {
+                $item->setIsNew(false);
+                $item->save();
+            } catch (Exception $e) {
+                $error = true;
+            }
+        }
+
+
+        if (($count == count($ids)) && (!$error)) {
+            $this->getUser()->setFlash('notice', 'The selected items have been successfully set as read.');
+        } else {
+            $this->getUser()->setFlash('error', 'An error occurred while setting as read the selected items.');
+        }
+
+        $this->redirect('@a_poll_answer_admin');
+    }
+
+    public function executeIndex(sfWebRequest $request) {
+
+        parent::executeIndex($request);
+
+
+// Without this check we crash admin gen that has no filters
+        if ($this->configuration->hasFilterForm()) {
+            $defaults = $this->configuration->getFilterDefaults();
+            $filters = $this->getFilters();
+
+            $this->filtersActive = false;
+            
+            foreach ($filters as $key => $val) {
+                if ($key == 'poll_id') {
+                    continue;
+                }
+
+                if (isset($defaults[$key])) {
+                    $this->filtersActive = true;
+                } else {
+                    if (!$this->isEmptyFilter($val)) {
+                        $this->filtersActive = true;
+                    }
+                }
+            }
+        }
     }
 
 }

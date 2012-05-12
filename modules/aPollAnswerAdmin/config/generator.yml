@@ -36,6 +36,9 @@ generator:
           backToPolls: { label: Back to Polls, action: backToPolls, params: {id = %%id%%} }
         object_actions:
           _delete: ~
+        batch_actions:
+          _delete: ~
+          setRead:   { label: Set as read, action: setRead }
         sort:           [is_new, desc]
       filter:  
         display: [remote_address, culture, created_at]

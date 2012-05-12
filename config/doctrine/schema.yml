@@ -93,6 +93,7 @@ aPollAnswer:
     poll_id: {type: integer, notnull: true}
     remote_address: string(255)
     culture: string(8)
+    is_new: boolean
     
     
   relations:

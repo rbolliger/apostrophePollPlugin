@@ -31,12 +31,12 @@ generator:
           
       list:    
         title:   Answers administration
-        display: [=id, remote_address, culture, created_at]
+        display: [=id, is_new, remote_address, culture, created_at]
         actions:
           backToPolls: { label: Back to Polls, action: backToPolls, params: {id = %%id%%} }
         object_actions:
           _delete: ~
-        sort:           [created_at, desc]
+        sort:           [is_new, desc]
       filter:  
         display: [remote_address, culture, created_at]
         

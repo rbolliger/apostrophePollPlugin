@@ -21,7 +21,9 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
 
         $this->a_poll_answer = $this->getRoute()->getObject();
 
-
+        // Once shown, we consider that an answer is no more new
+        $this->a_poll_answer->setIsNew(false);
+        $this->a_poll_answer->save();
 
         $this->form_answer = $this->configuration->getForm($this->a_poll_answer);
 

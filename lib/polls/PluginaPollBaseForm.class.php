@@ -145,6 +145,7 @@ class PluginaPollBaseForm extends BaseForm {
         $answer->setPollId($pollid);
         $answer->setRemoteAddress($this->getValue('remote_address'));
         $answer->setCulture($this->getValue('culture'));
+        $answer->setIsNew(true);
         $answer->save();
 
         $aid = $answer->getId();

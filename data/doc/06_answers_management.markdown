@@ -26,16 +26,25 @@ Tanks to the symfony structure, it is very easy to provide new export types to a
 
 Reports must be declared with the following structure:
 
+	# app/frontend/config/aPoll.yml
 	all:
-	    aPoll:
+	    settings:
 		  reports:
+		    ...
 		    excel:
 		      label: Export to excel
 		      action: aPollPollAdmin/exportToExcel
 		      is_generic: true
+		    ...
 
 Where `excel` is the report identifier, `label` is the name of the report, `action` is the action that will render the report and `is_generic` defines if the report may be applied to any kind of poll. Exporting to excel and CSV may be applied to any poll. A statistical report will probably be very specific to a particular kind of poll.
 
 If `is_generic` is set to `false`, the report will be enabled only for those polls which explicitly require it (see chapter 4).
 
 To learn how excel exporting works, have a look at `plugins/apostrophePollPlugin/modules/aPollPollAdmin/actions/actions.class.php`.
+
+## Cascading configuration
+
+Reports may be defined in different locations. As explained in chapter 4, the cascading configuration is particulary useful to add new report types from externals sources like other plugins or from the project itself. Reports may be declared in the `aPoll.yml` file and will be collected in the `apoll_settings_reports` array by the configuration mechanism.
+
+

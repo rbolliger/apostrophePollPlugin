@@ -7,7 +7,7 @@ To work properly, the plugin requires the following plugins to be installed:
 * apostrophePlugin
 * sfFormExtraPlugin
 
-sfFormExtraPlugin is required only if you plan to display a captcha to secure forms submissions. In particular, sfFormExtraPlugin provides a wrapper to display [reCaptcha](http://www.google.com/recaptcha "reCaptcha"). You can also provide your own captcha widget, as described in chapter 4.
+sfFormExtraPlugin is optional and required only if you plan to display a captcha to secure forms submissions. In particular, sfFormExtraPlugin provides a wrapper to display [reCaptcha](http://www.google.com/recaptcha "reCaptcha"). You can also provide your own captcha widget, as described in chapter 4.
 
 apostrophePollPlugin allows to export answers submitted by users as excel ans CSV files. To enable this feature, you have to install [PHPExcel](http://phpexcel.codeplex.com/). A symfony [plugin](http://trac.symfony-project.org/browser/plugins/sfPhpExcelPlugin/ "sfPhpExcelPlugin") exists, but PHPExcel code might be outdated. To get the latest version, it might be useful to download it as a vendor package (using svn externals) and then load it using an autoload.yml configuration file (see the [symfony documentation](http://www.symfony-project.org/reference/1_4/en/14-Other-Configuration-Files#chapter_14_autoload_yml "autoload.yml") about this file.).
 
@@ -58,6 +58,8 @@ It the plugin is installed from git or manually, it must be enabled in your proj
 
 apostrophePollPlugin provides a new button pointing to the `aPollPollAdmin` admin module. 
 
+Apostrophe provides a mechanism which enables the button to be autoloaded and displayed (see [Apostrophe documentation](http://trac.apostrophenow.org/wiki/ManualDevelopersGuide#ManagingGlobalAdminButtonstotheApostropheAdminMenu "Adding global buttons")). But, depending on the configuration written in app.yml, it may sometimes be hidden, especially in the sandbox.
+
 If you installed Apostrophe from the sandbox or if you cannot see the button in the admin bar, you have to enable it in `app.yml`:
 
 	all:
@@ -67,4 +69,4 @@ If you installed Apostrophe from the sandbox or if you cannot see the button in 
 		    - polls
 		    ...
             
-To learn more about global buttons, have a look at the [Apostrophe documentation](http://trac.apostrophenow.org/wiki/ManualDevelopersGuide#ManagingGlobalAdminButtonstotheApostropheAdminMenu "Adding global buttons").
+

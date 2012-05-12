@@ -14,9 +14,13 @@ The poll configuration parameters are based on a cascade architecture. When look
 
 So, one can define global parameters, valid for all polls published on the website and then override them with specific values for each poll. If nothing is defined for a given parameter, apostrophePollPlugin will provide a default value.
 
-Global and poll-specific parameters are defined in app.yml. For a complete example, you can look at the app.yml.template file provided with the plugin. All the parameters available for the plugin are stored in the `aPoll` field.
+## Parameters storage
 
+Global and poll-specific parameters are defined in `config/aPoll.yml`. 
 
+The plugin already provides an `aPoll.yml` file in `plugins/apostrophePollPlugin/config`. You can add additional parameters or override some of the existing ones by creating a new `apps/frontend/config/aPoll.yml` file. 
+
+Notice that the file is loaded with a cascading strategy and is environment-aware, as explained in the [symfony reference book](http://www.symfony-project.org/reference/1_4/en/03-Configuration-Files-Principles "Symfony reference book - chapter 3").
 
 ## Global parameters
 
@@ -26,12 +30,13 @@ This section presents the global parameters. Values displayed in the example cod
 
 The `view` field defines parameters related to the form display and submission.
 	
-	# apps/frontend/config/app.yml
-	aPoll:
-	    view:
-		    default_template: aPollSlot/default_form_view
-		    default_submit_action: '@a_poll_slot_submit_form'
-		    default_submit_success_template: aPollSlot/default_submit_success
+	# apps/frontend/config/aPoll.yml
+	all:
+	    settings:
+	        view:
+		        default_template: aPollSlot/default_form_view
+		        default_submit_action: '@a_poll_slot_submit_form'
+		        default_submit_success_template: aPollSlot/default_submit_success
 
 
 * **`default_template`**: defines the partial template that renders the form. 
@@ -42,12 +47,13 @@ The `view` field defines parameters related to the form display and submission.
 
 This section defines if a poll may be submitted several consecutive times by the same user. 
 
-	# apps/frontend/config/app.yml
-	aPoll:
-	    submissions:
-			allow_multiple: false
-			cookie_name: aPoll_submissions
-			cookie_lifetime: 86400
+	# apps/frontend/config/aPoll.yml
+	all:
+		settings:
+		    submissions:
+				allow_multiple: false
+				cookie_name: aPoll_submissions
+				cookie_lifetime: 86400
 
 * **`allow_multiple`**: if set to `true`, the poll is displayed every time the user reloads the page. If set to `false`, the poll is not displayed for a given time delay (see next parameters).
 * **`cookie_name`**: a cookie is created in order to register user submissions. This parameter defines the name of the cookie.
@@ -57,10 +63,11 @@ This section defines if a poll may be submitted several consecutive times by the
 
 To avoid spamming and unwanted submissions, it is often useful to display a security mechanism. Captchas are a common solution. apostrophePollPlugin provides support for displaying [reCaptcha](http://www.google.com/recaptcha). A strategy to replace reCaptcha with another widget is explained below.
 
-	# apps/frontend/config/app.yml
-	aPoll:
-	    captcha:
-			do_display: true
+	# apps/frontend/config/aPoll.yml
+	all:
+		settings:
+		    captcha:
+				do_display: true
 
 * **`do_display`**: defines if a captcha shall be displayed with the form.
 
@@ -77,14 +84,15 @@ To use another captcha or any other security technique, it is possible to overri
 
 After a poll has been successfully submitted, it is possible to send an email notification to a give address, in order for the site administrator (or someone else) to know that something happens on the website.
 
-	# apps/frontend/config/app.yml
-	aPoll:
-	    notifications:
-			do_send: true
-			to: admin
-			from: admin
-			title_partial: aPollSlot/email_title
-			body_partial: aPollSlot/email_body
+	# apps/frontend/config/aPoll.yml
+	all:
+		settings:
+		    notifications:
+				do_send: true
+				to: admin
+				from: admin
+				title_partial: aPollSlot/email_title
+				body_partial: aPollSlot/email_body
 
 * **`do_send`**: defines if a notification shall be sent after a successful poll submission.
 * **`to`**: defines the email address or the username of the person who shall receive the notification.
@@ -102,14 +110,15 @@ This declaration represents a poll template, that might be used several times in
 
 The following code must be used to declare the poll:
 
-	# apps/frontend/config/app.yml
-	aPoll:
-	    available_polls:
-		   ...
-		   contact:
-		       name: Contact form
-		       form: aPollContactForm
-		   ...
+	# apps/frontend/config/aPoll.yml
+	all:
+		settings:
+		    available_polls:
+			   ...
+			   contact:
+			       name: Contact form
+			       form: aPollContactForm
+			   ...
 
 Where:
 
@@ -124,23 +133,24 @@ Where:
 
 The following code shows the complete set of parameters defining the poll rendering and the form handling. The values displayed are the default values set by apostrophePollPlugin.
 
-	# apps/frontend/config/app.yml
-	aPoll:
-	    available_polls:
-		contact:
-			name: (required, no default value)
-			form: (required, no default value)
-			view_template: aPollSlot/default_form_view
-			submit_action: '@a_poll_slot_submit_form'
-			submit_success_template: aPollSlot/default_submit_success
-			send_notification: true 
-			send_to: admin
-			send_from: admin 
-			email_title_partial: aPollSlot/email_title
-			email_body_partial: aPollSlot/email_body
-			captcha_do_display: true
-			reports: ~
-    
+	# apps/frontend/config/aPoll.yml
+	all:
+		settings:
+		    available_polls:
+			contact:
+				name: (required, no default value)
+				form: (required, no default value)
+				view_template: aPollSlot/default_form_view
+				submit_action: '@a_poll_slot_submit_form'
+				submit_success_template: aPollSlot/default_submit_success
+				send_notification: true 
+				send_to: admin
+				send_from: admin 
+				email_title_partial: aPollSlot/email_title
+				email_body_partial: aPollSlot/email_body
+				captcha_do_display: true
+				reports: ~
+	    
 
 Where:
 
@@ -156,3 +166,13 @@ Where:
 * **`email_body_partial`**: name of the partial rendering  the body of the email.
 * **`captcha_do_display`**: shall a captcha be displayed in order to protect form submissions from spam?
 * **`reports`**: list of available reports for this poll (see chapter 6). To define them, use the keywords defined in `app_aPoll_reports`. To enable all generic reports, use "`~`". You can also add poll-specific reports. Ex.: `[~, myReport, anotherReport]`. 
+
+### Adding polls from other plugins
+
+Thanks to the cascading configuration technique, it is possible to build the configuration of apostrophePollPlugin from multiple sources. This is particularly interesting for the definition of available polls. Indeed, this list may be built from multiple plugins and from the local project. 
+
+Addind new poll templates is as simple as defining the required form class and templates and by creating a `aPoll.yml` configuration file in the plugin or in the app config folder.
+
+A major advantage of the use of the `aPoll.yml` configuration file is that this allows to increase the number of poll templates shared with the community without needing to update the plugin content. This will speed up the release cycle of new polls and reduce the plugin's maintenance.
+
+

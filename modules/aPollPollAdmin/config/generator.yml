@@ -34,7 +34,7 @@ generator:
           
       list:    
         title:   Polls administration
-        display: [=id, title, description, type, published_from, published_to]
+        display: [=id, title, type, published_from, published_to, created_at ]
         object_actions:
           _edit:         ~
           _delete:       ~

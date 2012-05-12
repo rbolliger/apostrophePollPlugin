@@ -2,12 +2,12 @@
 <package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
   <name>apostrophePollPlugin</name>
   <channel>plugins.symfony-project.org</channel>
-  <summary>##SUMMARY##</summary>
-  <description>##SUMMARY##</description>
+  <summary>Raffaele Bolliger &amp;lt;raffaele.bolliger at gmail.com&amp;gt;</summary>
+  <description>Provides support for forms publication in Apostrophe CMS websites.</description>
   <lead>
-    <name>##LEAD_NAME##</name>
-    <user>##LEAD_USERNAME##</user>
-    <email>##LEAD_EMAIL##</email>
+    <name>Raffaele Bolliger &lt;raffaele.bolliger at gmail.com&gt;</name>
+    <user>rbo</user>
+    <email>raffaele.bolliger@gmail.com</email>
     <active>yes</active>
   </lead>
   <date>##CURRENT_DATE##</date>
@@ -39,8 +39,31 @@
         <max>2.0.0</max>
         <exclude>2.0.0</exclude>
       </package>
+      <package>
+  	<name>apostrophePlugin</name>
+	  <channel>plugins.symfony-project.org</channel>
+	  <min>1.5.0</min>
+	  <max>2.0.0</max>
+	  <exclude>2.0.0</exclude>
+      </package>
     </required>
   </dependencies>
   <phprelease></phprelease>
-  <changelog></changelog>
+  <changelog>
+  <release>
+    <version>
+      <release>##PLUGIN_VERSION##</release>
+      <api>##API_VERSION##</api>
+    </version>
+    <stability>
+      <release>##STABILITY##</release>
+      <api>##STABILITY##</api>
+    </stability>
+    <license uri="http://www.symfony-project.com/license">MIT license</license>
+    <date>##CURRENT_DATE##</date>
+    <notes>
+       * raffaele: First release of the plugin
+    </notes>
+  </release>
+  </changelog>
 </package>

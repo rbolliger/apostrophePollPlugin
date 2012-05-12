@@ -1,5 +1,8 @@
 all:
   settings:
+    
+    routes_register: true
+       
     submissions:
         # can a user submit the same poll several times
         allow_multiple: false

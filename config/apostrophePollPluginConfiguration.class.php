@@ -33,7 +33,7 @@ class apostrophePollPluginConfiguration extends sfPluginConfiguration {
             }
 
             // Routes for various admin modules
-            if (sfConfig::get('app_a_admin_routes_register', true)) {
+            if (sfConfig::get('apoll_settings_routes_register', true)) {
                 $this->dispatcher->connect('routing.load_configuration', array('aPollRouting', 'listenToRoutingAdminLoadConfigurationEvent'));
             }
 

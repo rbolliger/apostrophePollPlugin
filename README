@@ -1,6 +1,6 @@
 # apostrophePoll plugin #
 
-The `apostrophePollPlugin` is a symfony plugin that provides polls and forms management to [apostrophe](http://apostrophenow.org/ "Apostrophe")-based websites. 
+The `apostrophePollPlugin` is a symfony plugin that provides polls and forms integration to [apostrophe](http://apostrophenow.org/ "Apostrophe")-based websites. 
 
 The plugin is NOT designed to build forms online. Its purpose is to manage the workflow of forms submissions. Forms must be created manually, using symfony's form framework. For this reason, the plugin is intended for people having a minimal understanding of how synfony works.
 

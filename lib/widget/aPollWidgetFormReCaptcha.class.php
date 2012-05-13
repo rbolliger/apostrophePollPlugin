@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the apostrophePollPlugin package.
+ * (c) 2012 Raffaele Bolliger <raffaele.bolliger@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 /**
  * This solution is inspired from Mike Purcell's solution. 
  * See http://melikedev.com/2011/05/24/symfony-add-recaptcha-to-jquery-dialog-lightbox/ 

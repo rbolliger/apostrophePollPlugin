@@ -11,5 +11,5 @@ The plugin provides three modules:
  
  The plugin provides many ways to customize both forms appearance and submission management via configurable options.
  
- The plugin is fully documented on its [homepage](https://github.com/rbolliger/apostrophePollPlugin), hosted on GitHub. You can also find the documentation in the data/doc folder.
+ The plugin is fully documented on its [homepage](https://github.com/rbolliger/apostrophePollPlugin/wiki), hosted on GitHub. You can also find the documentation in the data/doc folder.
 

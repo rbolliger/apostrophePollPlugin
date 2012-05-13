@@ -1,0 +1,3 @@
+[submodule "data/doc"]
+	path = data/doc
+	url = git://github.com/rbolliger/apostrophePollPlugin.wiki.git

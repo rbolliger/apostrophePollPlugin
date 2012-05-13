@@ -1,4 +1,4 @@
-# apostrophePoll plugin #
+# apostrophePollPlugin #
 
 The `apostrophePollPlugin` is a symfony plugin that provides forms integration to [apostrophe](http://apostrophenow.org/ "Apostrophe CMS")-based websites. 
 

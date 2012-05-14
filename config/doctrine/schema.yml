@@ -51,7 +51,6 @@ aPollPoll:
       autoincrement: true
     title: 
       type: string(255)
-      unique: true
       notnull: true
     description: clob
     submissions_allow_multiple: boolean

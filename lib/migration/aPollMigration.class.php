@@ -32,7 +32,7 @@ class aPollMigration {
         }
 
         if (!$migrate->tableExists('a_poll_poll_translation')) {
-            $migrate->sql(array('CREATE TABLE a_poll_poll_translation (id BIGINT, title VARCHAR(255) NOT NULL UNIQUE, description LONGTEXT, lang CHAR(2), PRIMARY KEY(id, lang)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
+            $migrate->sql(array('CREATE TABLE a_poll_poll_translation (id BIGINT, title VARCHAR(255) NOT NULL, description LONGTEXT, lang CHAR(2), PRIMARY KEY(id, lang)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE = INNODB;'));
         }
 
         if (!$migrate->constraintExists('a_poll_answer','a_poll_answer_poll_id_a_poll_poll_id')) {

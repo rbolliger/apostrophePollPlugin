@@ -69,16 +69,6 @@ all:
         contact:
             name: Contact form
             form: aPollContactForm
-        interest:
-            name: Buddies capacity planning poll
-            form: buddiesInterestPollForm
-
-
-
-    recaptcha:
-      public_key: 6Le9DNASAAAAAE4z1iNEePvy1lySs41OAyGQo3nC 
-      private_key: 6Le9DNASAAAAANtzjLodCSebfGlf-uDA366MDhCf 
-
 
 
 dev:

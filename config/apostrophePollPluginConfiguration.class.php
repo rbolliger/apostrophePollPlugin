@@ -31,6 +31,8 @@ class apostrophePollPluginConfiguration extends sfPluginConfiguration {
         if (!self::$registered) {
 
 
+            // listening to migration task
+            $this->dispatcher->connect('a.migrateSchemaAdditions', array('aPollMigration', 'migrate'));
 
             // loading aPoll.yml
             if ($this->configuration instanceof sfApplicationConfiguration) {

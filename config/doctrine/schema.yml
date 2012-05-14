@@ -9,7 +9,7 @@ aPollSlot:
       filter: false
 
   columns:
-    poll_id: {type: integer}
+    poll_id: {type: integer, notnull: false}
     
       
   relations:

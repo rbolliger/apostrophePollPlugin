@@ -194,6 +194,30 @@
                 <source>Answers count</source>
                 <target>N. réponses</target>
             </trans-unit>
+            <trans-unit>
+                <source>Poll "%name%": new user submission</source>
+                <target>Sondage "%name%": nouvelle soumission</target>
+            </trans-unit>
+            <trans-unit>
+                <source>To administer the poll, click %url%</source>
+                <target>Pour gérer le sondage, cliquez %url%</target>
+            </trans-unit>
+            <trans-unit>
+                <source>To see the answer, click %url%</source>
+                <target>Pour consulter la réponse, cliquez %url%</target>
+            </trans-unit>
+            <trans-unit>
+                <source>New Poll submission</source>
+                <target>Nouvelle soumission pour le sondage</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Poll "%name%" has a new submission from IP address %ip% at %date%</source>
+                <target>Le sondage "%name%" a été soumis depuis l'adresse IP %ip% le %date%</target>
+            </trans-unit>
+            <trans-unit>
+                <source>here</source>
+                <target>ici</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

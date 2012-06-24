@@ -218,6 +218,10 @@
                 <source>here</source>
                 <target>ici</target>
             </trans-unit>
+            <trans-unit>
+                <source>The captcha is not valid (invalid captcha).</source>
+                <target>Le captcha n'est pas correct (invalid captcha).</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -31,6 +31,8 @@ all:
         default_submit_action: '@a_poll_slot_submit_form'
         # default template used to confirm the poll submission
         default_submit_success_template: aPollSlot/default_submit_success
+        #default poll heading
+        default_heading_tag: h3
 
       # Define here all available reports. Then you can define which ones are actually 
       # available for each poll using the "reports" field, which is an array. If the field is not defined, 

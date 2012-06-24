@@ -1,10 +1,10 @@
 <?php use_helper('a', 'JavascriptBase') ?>
 
 
-<div class="a-ui a-poll-slot-container">
+<div class="a-poll-slot-container">
 
     <div class="a-poll-title-bar">
-        <h2 class="a-poll-title"><?php echo $poll->getTitle() ?></h2>
+        <<?php echo $ht = aPollToolkit::getPollHeadingTag($poll->getType()); ?> class="a-poll-title"><?php echo $poll->getTitle() ?></<?php echo $ht; ?>>
     </div>
 
     <?php if ($poll->getDescription()): ?>

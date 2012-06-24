@@ -81,6 +81,17 @@ class BaseaPollToolkit {
 
         return self::getValueFromConf($name, 'submit_action', 'apoll_settings_view', 'default_submit_action', '@a_poll_slot_submit_form');
     }
+    
+    
+    /**
+     * Returns the html tag that renders the poll heading.
+     * 
+     * @param array() $name : the poll identifier as defined in apoll_settings_available_polls
+     */
+    static function getPollHeadingTag($name) {
+
+        return self::getValueFromConf($name, 'heading_tag', 'apoll_settings_view', 'default_heading_tag', 'h3');
+    }
 
     /**
      * Returns the configuration of poll "$name" from apoll_settings_available_polls

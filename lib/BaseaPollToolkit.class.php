@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the apostrophePollPlugin package.
  * (c) 2012 Raffaele Bolliger <raffaele.bolliger@gmail.com>
@@ -41,16 +42,14 @@ class BaseaPollToolkit {
 
         return $conf['form'];
     }
-    
-    
+
     /**
      *
      * @return array() The list of available polls
      */
     static function getAvailablePolls($default = false) {
-        
+
         return sfConfig::get('apoll_settings_available_polls', $default);
-        
     }
 
     /**
@@ -81,8 +80,7 @@ class BaseaPollToolkit {
 
         return self::getValueFromConf($name, 'submit_action', 'apoll_settings_view', 'default_submit_action', '@a_poll_slot_submit_form');
     }
-    
-    
+
     /**
      * Returns the html tag that renders the poll heading.
      * 
@@ -150,7 +148,7 @@ class BaseaPollToolkit {
     static function getCookieLifetime(aPollPoll $poll) {
 
         if ($poll->getSubmissionsDelay()) {
-            $delay = $poll->getSubmissionsDelay(); 
+            $delay = $poll->getSubmissionsDelay();
 
             list($h, $m, $s) = explode(':', $delay);
             return ($h * 3600) + ($m * 60) + $s;
@@ -546,12 +544,12 @@ class BaseaPollToolkit {
 
 
         $form_name = aPollToolkit::getPollFormName($poll->getType());
-        
-        
+
+
         $arguments = array(
             'poll' => $poll,
             'poll_form' => new $form_name($answer->getFieldsAsArray()),
-            'answer' => $answer,            
+            'answer' => $answer,
         );
 
 
@@ -563,13 +561,30 @@ class BaseaPollToolkit {
 
         $message->setSubject(get_partial(self::getNotificationEmailTitlePartial($name), $arguments));
 
+        $body = get_partial(self::getNotificationEmailBodyPartial($name), $arguments);
+        
+        $message
+                ->addPart(self::createPlainTextBody($body), 'text/plain')
+                ->addPart(self::createHtmlBody($body), 'text/html');
 
-
-        $message->setBody(get_partial(self::getNotificationEmailBodyPartial($name), $arguments));
 
         $mailer->send($message);
 
         return true;
+    }
+
+    public static function createPlainTextBody($body) {
+        $body = preg_replace('/\<br\s*\/?\>/i', "\n", $body); //replace all <br/s> with new lines
+        $body = preg_replace('/\<\/p\s*\>/i', "</p>\n\n", $body); //append 2 newlines to the end of each </p>
+        $body = preg_replace('/\<\/div\s*\>/i', "</div>\n\n", $body); //append 2 newlines to the end of each </div>
+        $body = strip_tags($body); //strip all tags from the body
+        return $body;
+    }
+    
+    public static function createHtmlBody($body) {
+        
+        
+        return $body;
     }
 
     /**
@@ -623,7 +638,6 @@ class BaseaPollToolkit {
         if (self::is_serialized($value)) {
 
             $value = @unserialize($value);
-
         }
 
         if (is_array($value)) {
@@ -650,7 +664,7 @@ class BaseaPollToolkit {
                 sfContext::getInstance()->getConfiguration()->loadHelpers('Date');
 
                 $format = $field instanceof sfModelGeneratorConfigurationField ? $field->getConfig('date_format', 'f') : 'f';
-                
+
                 $string = false !== strtotime($value) ? format_date($value, $format) : '&nbsp;';
                 break;
 

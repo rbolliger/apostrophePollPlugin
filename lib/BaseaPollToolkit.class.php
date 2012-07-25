@@ -545,9 +545,13 @@ class BaseaPollToolkit {
         }
 
 
+        $form_name = aPollToolkit::getPollFormName($poll->getType());
+        
+        
         $arguments = array(
             'poll' => $poll,
-            'answer' => $answer,
+            'poll_form' => new $form_name($answer->getFieldsAsArray()),
+            'answer' => $answer,            
         );
 
 

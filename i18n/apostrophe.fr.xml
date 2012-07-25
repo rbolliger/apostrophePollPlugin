@@ -199,12 +199,12 @@
                 <target>Sondage "%name%": nouvelle soumission</target>
             </trans-unit>
             <trans-unit>
-                <source>To administer the poll, click %url%</source>
-                <target>Pour gérer le sondage, cliquez %url%</target>
+                <source>To administer the poll, click %url%.</source>
+                <target>Pour gérer le sondage, cliquez %url%.</target>
             </trans-unit>
             <trans-unit>
-                <source>To see the answer, click %url%</source>
-                <target>Pour consulter la réponse, cliquez %url%</target>
+                <source>The submitted message can be seen below, but can also be checked online %url%.</source>
+                <target>Le message soumis est inclus ci-dessous, mais peut également être consulté en ligne %url%.</target>
             </trans-unit>
             <trans-unit>
                 <source>New Poll submission</source>
@@ -221,6 +221,10 @@
             <trans-unit>
                 <source>The captcha is not valid (invalid captcha).</source>
                 <target>Le captcha n'est pas correct (invalid captcha).</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Submission</source>
+                <target>Message soumis</target>
             </trans-unit>
         </body>
     </file>

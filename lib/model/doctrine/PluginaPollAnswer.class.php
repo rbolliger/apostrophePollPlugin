@@ -12,5 +12,17 @@
  */
 abstract class PluginaPollAnswer extends BaseaPollAnswer
 {
+    
+    function getFieldsAsArray() {
+        
+        $fields = $this->getFields();
+        $values = array();
+        foreach ($fields as $field) {
+            $values = array_merge($values, array($field->getName() => $field->getValue()));
+        }
+        
+        return $values;
+        
+    }
 
 }

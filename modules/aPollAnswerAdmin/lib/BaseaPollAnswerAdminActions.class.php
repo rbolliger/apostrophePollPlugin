@@ -36,11 +36,7 @@ abstract class BaseaPollAnswerAdminActions extends autoaPollAnswerAdminActions {
         $poll = $this->a_poll_answer->getPoll();
         $form_name = aPollToolkit::getPollFormName($poll->getType());
 
-        $fields = $this->a_poll_answer->getFields();
-        $values = array();
-        foreach ($fields as $field) {
-            $values = array_merge($values, array($field->getName() => $field->getValue()));
-        }
+        $values = $this->a_poll_answer->getFieldsAsArray();
 
         $this->form_poll = new $form_name($values);
     }

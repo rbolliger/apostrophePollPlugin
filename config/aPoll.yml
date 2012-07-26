@@ -18,6 +18,7 @@ all:
         from: admin
         title_partial: aPollSlot/email_title
         body_partial: aPollSlot/email_body
+        stylesheets: apostrophePollPlugin/css/aPoll_email.css
 
     captcha:
         do_display: true

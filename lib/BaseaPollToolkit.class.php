@@ -192,6 +192,32 @@ class BaseaPollToolkit {
         return self::getValueFromConf($name, 'email_body_partial', 'apoll_settings_notifications', 'body_partial', 'aPollSlot/email_body');
     }
 
+    static function getNotificationEmailStylesheets($name) {
+
+
+        $ss = self::getValueFromConf($name, 'email_stylesheets', 'apoll_settings_notifications', 'stylesheets', 'apostrophePollPlugin/css/aPoll_email.css');
+
+        if (is_array($ss)) {
+
+            return $ss;
+        } else {
+
+            return array($ss);
+        }
+    }
+
+    static function getStylesheetPath($css) {
+
+
+        $path = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $css;
+
+        if (file_exists($path)) {
+            return $path;
+        } else {
+            return false;
+        }
+    }
+
     static function getCaptchaDoDisplay($name) {
         return self::getValueFromConf($name, 'captcha_do_display', 'apoll_settings_captcha', 'do_display', true);
     }
@@ -556,16 +582,16 @@ class BaseaPollToolkit {
         $message = $mailer->compose(
                 $from, $to);
 
-        $message->setContentType("text/html");
+        //$message->setContentType("text/html");
 
 
         $message->setSubject(get_partial(self::getNotificationEmailTitlePartial($name), $arguments));
 
         $body = get_partial(self::getNotificationEmailBodyPartial($name), $arguments);
-        
-        $message
-                ->addPart(self::createPlainTextBody($body), 'text/plain')
-                ->addPart(self::createHtmlBody($body), 'text/html');
+
+        $message->addPart(self::createPlainTextBody($body), 'text/plain');
+
+        $message->addPart(self::createHtmlBody($poll->getType(), $body), 'text/html');
 
 
         $mailer->send($message);
@@ -580,10 +606,33 @@ class BaseaPollToolkit {
         $body = strip_tags($body); //strip all tags from the body
         return $body;
     }
-    
-    public static function createHtmlBody($body) {
-        
-        
+
+    public static function createHtmlBody($name, $body) {
+
+
+        $stylesheets = self::getNotificationEmailStylesheets($name);
+
+        $css = '';
+        $err = array();
+        foreach ($stylesheets as $stylesheet) {
+            $ss = file_get_contents(self::getStylesheetPath($stylesheet));
+
+            if (false === $ss) {
+                $err[] = $stylesheet;
+            } else {
+
+                $css .= $ss;
+            }
+        }
+
+        if (count($err)) {
+            throw new sfException('Cannot find following stylesheets: %s', implode(', ', $err));
+        }
+
+
+        $emog = new Emogrifier($body, $css);
+        $body = $emog->emogrify();
+
         return $body;
     }
 

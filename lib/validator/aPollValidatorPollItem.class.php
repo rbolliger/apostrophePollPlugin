@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the apostrophePollPlugin package.
  * (c) 2012 Raffaele Bolliger <raffaele.bolliger@gmail.com>
@@ -46,8 +47,10 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $this->addMessage('send_email', 'Fields "%field%" and "%global_field%" must define a valid email or a valid user.');
         $this->addMessage('email_title', 'The partial "%partial%" defined in "email_title_template" field cannot be found.');
         $this->addMessage('email_body', 'The partial "%partial%" defined in "email_body_template" field cannot be found.');
+        $this->addMessage('email_stylesheets_error', 'Field "email_stylesheets" is not correctly defined. It only accepts "false", an array defining available stylesheets or a string defining one single stylesheet.');
+        $this->addMessage('email_stylesheets_items', 'Cannot find stylesheets "%stylesheet%". Stylesheets must be places in a valid css folder.');
         $this->addMessage('captcha_display', 'Field "captcha_do_display" only accepts "true" and "false" as values.');
-        $this->addMessage('reports_error', 'Field "reports" is not correctly defined. It only accepts "false", an arraydefining available reports or a string defining a report.');
+        $this->addMessage('reports_error', 'Field "reports" is not correctly defined. It only accepts "false", an array defining available reports or a string defining a report.');
         $this->addMessage('reports_items', 'Unknown reports "%reports%". Only reports defined in apoll_settings_reports can be defined here.');
     }
 
@@ -63,30 +66,30 @@ class aPollValidatorPollItem extends sfValidatorBase {
         $polls = $this->getOption('poll_items');
         $poll_app = 'apoll_settings_available_polls_' . $value;
 
-        // checks that the item exists
+// checks that the item exists
         if (!isset($polls[$value])) {
             throw new sfValidatorError($this, 'form_field', array('poll' => $poll_app));
         }
         $poll = $polls[$value];
 
-        // checks if form field is defined
+// checks if form field is defined
         if (!isset($poll['form'])) {
             throw new sfValidatorError($this, 'form_field', array('poll' => $poll_app));
         }
         $form = $poll['form'];
 
-        // checks if form class is instantiated
+// checks if form class is instantiated
         if (!class_exists($form)) {
             throw new sfValidatorError($this, 'form_class', array('poll' => $poll_app, 'form' => $form));
         }
 
-        // checks if form class is based on aPollBaseForm
+// checks if form class is based on aPollBaseForm
         $object = new $form();
         if (!($object instanceof aPollBaseForm)) {
             throw new sfValidatorError($this, 'form_extends', array('poll' => $poll_app, 'form' => $form));
         }
 
-        // checks if view_template has been defined and if the file exist
+// checks if view_template has been defined and if the file exist
         if (isset($poll['view_template'])) {
 
             if (!$this->checkTemplate($poll, 'view_template')) {
@@ -94,7 +97,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
             }
         }
 
-        // checks if submit_action has been defined and if the action exist
+// checks if submit_action has been defined and if the action exist
         if (isset($poll['submit_action'])) {
 
             $list = $this->getModuleAndAction($poll['submit_action']);
@@ -106,7 +109,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
             }
         }
 
-        // checks if view_template has been defined and if the file exist
+// checks if view_template has been defined and if the file exist
         if (isset($poll['submit_success_template'])) {
 
             if (!$this->checkTemplate($poll, 'submit_success_template')) {
@@ -115,7 +118,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         }
 
 
-        // checks if the send_notification contains true or false
+// checks if the send_notification contains true or false
         if (isset($poll['send_notification'])) {
 
             $val = new sfValidatorBoolean();
@@ -128,7 +131,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         }
 
 
-        // checks if the send_to field defins a valid email or a valid user
+// checks if the send_to field defins a valid email or a valid user
         if (isset($poll['send_to'])) {
 
             $what = aPollToolkit::isUserOrEmail($poll['send_to']);
@@ -138,7 +141,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
             }
         }
 
-        // checks if the send_from field defins a valid email or a valid user
+// checks if the send_from field defins a valid email or a valid user
         if (isset($poll['send_from'])) {
 
             $what = aPollToolkit::isUserOrEmail($poll['send_from']);
@@ -149,7 +152,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
         }
 
 
-        // checks if email_title_partial has been defined and if the file exist
+// checks if email_title_partial has been defined and if the file exist
         if (isset($poll['email_title_partial'])) {
 
             if (!$this->checkTemplate($poll, 'email_title_partial')) {
@@ -157,7 +160,7 @@ class aPollValidatorPollItem extends sfValidatorBase {
             }
         }
 
-        // checks if email_body_partial has been defined and if the file exist
+// checks if email_body_partial has been defined and if the file exist
         if (isset($poll['email_body_partial'])) {
 
             if (!$this->checkTemplate($poll, 'email_body_partial')) {
@@ -165,7 +168,42 @@ class aPollValidatorPollItem extends sfValidatorBase {
             }
         }
 
-        // checks if allow_multiple_submissions is defined and if the values are right
+
+// checks if emil stylesheets are correctly defined
+        if (isset($poll['email_stylesheets'])) {
+
+            $ss = $poll['email_stylesheets'];
+
+// the definition is in the right format?
+            if (!(false === $ss || is_array($ss) || is_string($ss))) {
+                throw new sfValidatorError($this, 'email_stylesheets_error');
+            }
+
+// if defined with a single string.
+            if (is_string($ss)) {
+                if (false === aPollToolkit::getStylesheetPath($ss)) {
+                    throw new sfValidatorError($this, 'email_stylesheets_items', array('stylesheet' => $ss));
+                }
+            }
+
+// if defined as an array of reports. ~ means default reports and is accepted without further checks
+            if (is_array($ss)) {
+                $wrong = array();
+
+                foreach ($ss as $stylesheet) {
+                    if (false === aPollToolkit::getStylesheetPath($stylesheet)) {
+                        $wrong[] = $stylesheet;
+                    }
+                }
+
+                if (count($wrong)) {
+                    throw new sfValidatorError($this, 'email_stylesheets_items', array('stylesheet' => implode(', ', $wrong)));
+                }
+            }
+        }
+
+
+// checks if allow_multiple_submissions is defined and if the values are right
         if (isset($poll['captcha_do_display'])) {
 
             if (!($poll['captcha_do_display'] === true) || ($poll['captcha_do_display'] === false)) {
@@ -173,24 +211,24 @@ class aPollValidatorPollItem extends sfValidatorBase {
             }
         }
 
-        // checks if reports is correctly defined
+// checks if reports is correctly defined
         if (isset($poll['reports'])) {
 
             $r = $poll['reports'];
 
-            // the definition is in the right format?
+// the definition is in the right format?
             if (!(false === $r || is_array($r) || is_string($r))) {
                 throw new sfValidatorError($this, 'reports_error');
             }
 
-            // if defined with a single string. ~ means default reports and is accepted without further checks
+// if defined with a single string. ~ means default reports and is accepted without further checks
             if (is_string($r) && '~' !== $r) {
                 if (false === aPollToolkit::getReportSettings($r)) {
                     throw new sfValidatorError($this, 'reports_items', array('reports' => $r));
                 }
             }
 
-            // if defined as an array of reports. ~ means default reports and is accepted without further checks
+// if defined as an array of reports. ~ means default reports and is accepted without further checks
             if (is_array($r)) {
                 $wrong = array();
 

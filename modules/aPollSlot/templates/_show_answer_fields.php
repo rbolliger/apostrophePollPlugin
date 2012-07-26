@@ -5,25 +5,33 @@
         <?php endif; ?>
 
         <table>
-            <?php foreach ($form->getFieldsToSave() as $name): ?>
-
-                <?php $field = $form[$name]; ?>
-                <?php $value = $form[$name]->getValue(); ?>
-                <?php $type = gettype($value); ?>
-
-                <tr class="<?php echo 'a-form-row a-admin-' . strtolower($type) . ' a-admin-form-field-' . $name ?>">
-
-                    <td class="a-form-label"><?php echo $form->getWidget($name)->getLabel() ? $form->getWidget($name)->getLabel() : $name ?></td>
-
-                    <td class="a-form-field">
-                        <?php
-                        echo aPollToolkit::renderFormFieldValue(
-                                $form, $field instanceof sfOutputEscaper ? $field->getRawValue() : $field, $value
-                        );
-                        ?>
-                    </td>
+            <thead>
+                <tr>
+                    <th><?php echo a_('Field'); ?></th>
+                    <th><?php echo a_('Value'); ?></th>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
+            <tbody>
+                <?php foreach ($form->getFieldsToSave() as $name): ?>
+
+                    <?php $field = $form[$name]; ?>
+                    <?php $value = $form[$name]->getValue(); ?>
+                    <?php $type = gettype($value); ?>
+
+                    <tr class="<?php echo 'a-form-row a-admin-' . strtolower($type) . ' a-admin-form-field-' . $name ?>">
+
+                        <td class="a-form-label"><?php echo $form->getWidget($name)->getLabel() ? $form->getWidget($name)->getLabel() : $name ?></td>
+
+                        <td class="a-form-field">
+                            <?php
+                            echo aPollToolkit::renderFormFieldValue(
+                                    $form, $field instanceof sfOutputEscaper ? $field->getRawValue() : $field, $value
+                            );
+                            ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 </div>

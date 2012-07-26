@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 include(dirname(__FILE__) . '/../bootstrap/unit.php');
 
@@ -29,6 +29,9 @@ $pi = array(
     'email_title_ok' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'email_title_partial' => 'aPollSlot/email_title'),
     'email_body' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'email_body_partial' => 'aPollSlot/sdgdfg'),
     'email_body_ok' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'email_body_partial' => 'aPollSlot/email_body'),
+    'email_stylesheets_single_ok' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'email_stylesheets' => 'apostrophePollPlugin/css/aPoll_email.css'),
+    'email_stylesheets_array_ok' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'email_stylesheets' => array('apostrophePollPlugin/css/aPoll_email.css')),
+    'email_stylesheets_array' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'email_stylesheets' => array('asdfsd', 'apostrophePollPlugin/css/aPoll_email.css', 'eeee.css')),
     'captcha_do_display' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'captcha_do_display' => 'asdgsdfgsdf'),
     'captcha_do_display_ok' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'captcha_do_display' => true),
     'reports_true' => array('name' => 'sadfgsdf', 'form' => 'aPollContactForm', 'reports' => true),
@@ -47,7 +50,7 @@ class testForm extends sfForm {
 
 }
 
-$t = new lime_test(31);
+$t = new lime_test(34);
 
 
 
@@ -80,6 +83,11 @@ test_try($t, $v, 'email_title', '/"email_title_template" field cannot/', 'The va
 $t->is($v->clean('email_title_ok'), true, 'The validator accepts correct email_title_partial fields.');
 test_try($t, $v, 'email_body', '/"email_body_template" field cannot/', 'The validator checks the email_body_partial field.');
 $t->is($v->clean('email_body_ok'), true, 'The validator accepts correct email_body_partial fields.');
+
+test_try($t, $v, 'email_stylesheets_array', '/Cannot find stylesheets "asdfsd, eeee.css"./', 'The validator checks if stylesheetes are really defined.');
+$t->is($v->clean('email_stylesheets_single_ok'), true, 'The validator accepts strings in email_stylesheets field.');
+$t->is($v->clean('email_stylesheets_array_ok'), true, 'The validator accepts arrays in email_stylesheets field.');
+
 test_try($t, $v, 'captcha_do_display', '/"captcha_do_display" only accepts/', 'The validator checks the captcha_do_display field.');
 $t->is($v->clean('captcha_do_display_ok'), true, 'The validator accepts correct captcha_do_display fields.');
 test_try($t, $v, 'reports_true', '/"reports" is not correctly defined/', 'The validator checks the reports field.');

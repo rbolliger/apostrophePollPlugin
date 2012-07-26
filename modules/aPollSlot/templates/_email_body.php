@@ -4,7 +4,7 @@
 
 <p>
     <?php
-    echo a_('Poll "%name%" has a new submission from IP address %ip% at %date%', array(
+    echo a_('Poll "%name%" has a new submission from IP address %ip% at %date%.', array(
         '%name%' => $poll->getTitle(),
         '%ip%' => $answer->getRemoteAddress(),
         '%date%' => format_date($answer->getCreatedAt()),

@@ -211,8 +211,8 @@
                 <target>Nouvelle soumission pour le sondage</target>
             </trans-unit>
             <trans-unit>
-                <source>Poll "%name%" has a new submission from IP address %ip% at %date%</source>
-                <target>Le sondage "%name%" a été soumis depuis l'adresse IP %ip% le %date%</target>
+                <source>Poll "%name%" has a new submission from IP address %ip% at %date%.</source>
+                <target>Le sondage "%name%" a été soumis depuis l'adresse IP %ip% le %date%.</target>
             </trans-unit>
             <trans-unit>
                 <source>here</source>
@@ -225,6 +225,14 @@
             <trans-unit>
                 <source>Submission</source>
                 <target>Message soumis</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Field</source>
+                <target>Champ</target>
+            </trans-unit>
+            <trans-unit>
+                <source>Value</source>
+                <target>Valeur</target>
             </trans-unit>
         </body>
     </file>

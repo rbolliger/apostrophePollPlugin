@@ -11,7 +11,7 @@
         <div class="a-poll-description">
             <div><?php echo html_entity_decode($poll->getDescription()); ?></div>
         </div>
-    <? endif; ?>
+    <?php endif; ?>
 
 
     <div class="a-admin-form-container">
